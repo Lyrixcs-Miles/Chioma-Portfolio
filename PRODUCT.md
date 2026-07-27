@@ -29,7 +29,7 @@ Static site, no backend or build step, deployed via GitHub Pages at the custom d
 
 - Filterable portfolio grid with lightbox, no CMS — portfolio items are hand-added `<a>`/`<img>` entries per the commented example in `portfolio.html`.
 - Mobile nav toggle via `js/main.js`.
-- Contact mechanism is undecided — `contact.html` currently has no form, mailto link, or social links; how visitors actually reach Eullie is an open decision.
+- Contact mechanism: `contact.html` has a mailto link (Eullie@azhyre.co.za) and social links for Instagram (@eullee_n) and TikTok (@eullee_.n). A Facebook presence (Euleth A. Ngobeni) is named but its profile URL isn't confirmed yet, so that link is still a placeholder.
 - Brand pages (`brands/*.html`) are structurally scaffolded but have no real content per brand yet.
 
 ## Brand Commitments
