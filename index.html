@@ -4,11 +4,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lettie | Home</title>
+  <meta name="description" content="Lettie: fashion, beauty, and lifestyle model and content creator, brand ambassador for Azhyre Tech, Azhyre Fashion, and Serenq.">
   <link rel="icon" href="images/icons/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
+  <!--
+    THESIS: A personal brand front door reads as a fashion lookbook's opening
+    spread, not a template influencer landing page with a centered headshot
+    and a CTA button.
+    OWN-WORLD: Editorial lookbook/comp-card grammar — white/pearl ground,
+    whisper-lavender feature panels, royal plum ink and CTAs, soft orchid
+    secondary accent; oversized Cormorant Garamond cover-line display,
+    Manrope kickers/UI/body; thin plum hairline rules; duotone plum/orchid
+    clipped silhouette panels standing in for photography; asymmetric
+    bleed layout.
+    STORY: A visitor understands within seconds who Lettie is, sees proof
+    of an editorial eye, and is pulled toward Portfolio or Work With Me.
+    FIRST VIEWPORT: Asymmetric masthead — small kicker top-left, oversized
+    "Lettie" cover-line bleeding right behind a duotone silhouette panel,
+    tagline and dual CTA sit lower-left, off-center.
+    FORM: Lookbook-cover concept; brief-pinned world (palette/type/nav
+    dictated by the client, no concept roll); single homepage build.
+  -->
 
   <header>
     <nav class="site-nav container">
@@ -25,9 +47,115 @@
   </header>
 
   <main>
-    <section class="hero container">
-      <h1>Lettie</h1>
-      <p>Welcome to my portfolio.</p>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <p class="kicker">Model, Creator, Brand Ambassador</p>
+          <h1 class="hero-title">Letti<span>e</span></h1>
+          <p class="hero-tagline">
+            Fashion, beauty, and lifestyle work with an editorial eye.
+            Currently modeling and creating content as brand ambassador
+            for Azhyre Tech, Azhyre Fashion, and Serenq.
+          </p>
+          <div class="hero-actions">
+            <a href="portfolio.html" class="btn-primary">View the Portfolio</a>
+            <a href="contact.html" class="btn-secondary">Work With Me →</a>
+          </div>
+        </div>
+        <figure class="hero-visual reveal reveal-delay-1">
+          <div class="silhouette-frame">
+            <div class="silhouette silhouette-back"></div>
+            <div class="silhouette silhouette-front">
+              <span class="silhouette-label">Editorial, No. 01</span>
+            </div>
+          </div>
+          <figcaption>Placeholder composition. Real photography to come.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- About teaser -->
+    <section class="about-teaser">
+      <div class="container about-grid">
+        <div class="reveal">
+          <p class="section-kicker">About</p>
+          <h2>An emerging name, an established eye.</h2>
+        </div>
+        <div class="about-copy reveal">
+          <!-- Placeholder bio copy, written for Lettie to edit into her own words before launch -->
+          <p>
+            Lettie is a fashion, beauty, and lifestyle model and content
+            creator working from an unmistakable point of view — considered,
+            warm, and unafraid of color. She partners with brands that want
+            more than a face in frame: a sensibility carried through every
+            shoot, campaign, and collaboration.
+          </p>
+          <a href="about.html" class="text-link">Read the full story →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Portfolio teaser -->
+    <section class="work-teaser">
+      <div class="container">
+        <div class="work-intro">
+          <div class="reveal">
+            <p class="section-kicker">Selected Work</p>
+            <h2>A portfolio in progress.</h2>
+          </div>
+          <p class="reveal">
+            New work is added regularly across fashion, beauty, and
+            lifestyle. The full archive, filterable by category, lives
+            on the Portfolio page.
+          </p>
+        </div>
+        <div class="work-grid reveal">
+          <div class="work-panel work-panel--large">
+            <div class="swatch"></div>
+            <span class="work-tag">Fashion</span>
+          </div>
+          <div class="work-panel work-panel--a">
+            <div class="swatch"></div>
+            <span class="work-tag">Beauty</span>
+          </div>
+          <div class="work-panel work-panel--b">
+            <div class="swatch"></div>
+            <span class="work-tag">Lifestyle</span>
+          </div>
+        </div>
+        <p class="work-note reveal">Placeholder compositions shown above. Real photography to come.</p>
+        <p class="work-cta reveal">
+          <a href="portfolio.html" class="btn-secondary">View the full portfolio →</a>
+        </p>
+      </div>
+    </section>
+
+    <!-- Brand strip -->
+    <section class="brand-strip">
+      <div class="container reveal">
+        <p class="kicker">In Partnership With</p>
+        <div class="brand-row">
+          <a href="brands/azhyre-tech.html">Azhyre Tech</a>
+          <a href="brands/azhyre-fashion.html">Azhyre Fashion</a>
+          <a href="brands/serenq.html">Serenq</a>
+        </div>
+        <p class="work-cta">
+          <a href="brands/index.html" class="btn-secondary">Explore the Brands →</a>
+        </p>
+      </div>
+    </section>
+
+    <!-- Closing CTA -->
+    <section class="cta-close">
+      <div class="container reveal">
+        <h2>Let's create something with intention.</h2>
+        <p>
+          For bookings, collaborations, and brand partnerships, reach
+          out. I'd love to hear the vision.
+        </p>
+        <a href="contact.html" class="btn-primary-inverse">Work With Me</a>
+      </div>
     </section>
   </main>
 
