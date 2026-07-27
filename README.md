@@ -1,6 +1,6 @@
-# Lettie Portfolio
+# Eullie Portfolio
 
-Personal portfolio site for Lettie, hosted at [lettie.azhyre.co.za](https://lettie.azhyre.co.za).
+Personal portfolio site for Eullie, hosted at [eullie.azhyre.co.za](https://eullie.azhyre.co.za).
 
 ## Structure
 
