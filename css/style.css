@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Lettie — Main Stylesheet
+   Eullie — Main Stylesheet
    Palette: white / pearl / whisper lavender grounds, royal plum + soft
    orchid accents. Cormorant Garamond for display, Manrope for body/UI.
    ========================================================================== */
@@ -720,6 +720,15 @@ button:focus-visible {
   text-align: left;
 }
 
+.portfolio-item[hidden] {
+  /* Author styles always beat the UA [hidden] rule regardless of
+     specificity, so `.portfolio-item { display: block }` above silently
+     defeats `item.hidden = true` in main.js unless restated here with
+     higher specificity — otherwise filtered-out tiles stay in the grid
+     as invisible blank boxes instead of closing up. */
+  display: none;
+}
+
 .portfolio-item--wide {
   grid-column: span 2;
   aspect-ratio: 16 / 9;
@@ -1081,10 +1090,11 @@ button:focus-visible {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+  padding: 3.5rem 2rem 2rem;
   background: rgba(36, 21, 48, 0.82);
   opacity: 0;
   visibility: hidden;
+  overflow-y: auto;
   transition: opacity 0.35s var(--ease-out-expo), visibility 0s linear 0.35s;
 }
 
@@ -1095,8 +1105,12 @@ button:focus-visible {
 }
 
 .lightbox-content {
+  /* Width is capped by viewport height too (converted through the 4:5
+     panel ratio), not just viewport width, so the panel plus its close
+     button and caption never overflow a short viewport. */
   position: relative;
-  width: min(90vw, 720px);
+  width: min(90vw, 720px, calc((100vh - 6rem) * 4 / 5));
+  margin: auto;
   transform: scale(0.94);
   transition: transform 0.4s var(--ease-out-expo);
 }
@@ -1106,6 +1120,7 @@ button:focus-visible {
 }
 
 .lightbox-panel {
+  width: 100%;
   aspect-ratio: 4 / 5;
   border-radius: 2px;
   position: relative;

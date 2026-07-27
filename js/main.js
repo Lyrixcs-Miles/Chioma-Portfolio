@@ -1,4 +1,4 @@
-// Lettie Portfolio — Main JS
+// Eullie Portfolio — Main JS
 // Nav toggle, portfolio filters, lightbox, etc.
 
 document.addEventListener('DOMContentLoaded', () => {
