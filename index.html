@@ -35,14 +35,19 @@
   <header>
     <nav class="site-nav container">
       <a href="index.html" class="logo">Lettie</a>
-      <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="portfolio.html">Portfolio</a></li>
-        <li><a href="brands/index.html">Brands</a></li>
-        <li><a href="contact.html">Work With Me</a></li>
-      </ul>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <div class="nav-collapse">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="brands/index.html">Brands</a></li>
+          <li><a href="contact.html">Work With Me</a></li>
+        </ul>
+      </div>
     </nav>
   </header>
 
@@ -50,7 +55,7 @@
     <!-- Hero -->
     <section class="hero">
       <div class="container hero-grid">
-        <div class="hero-copy reveal">
+        <div class="hero-copy">
           <p class="kicker">Model, Creator, Brand Ambassador</p>
           <h1 class="hero-title">Letti<span>e</span></h1>
           <p class="hero-tagline">
@@ -63,7 +68,7 @@
             <a href="contact.html" class="btn-secondary">Work With Me →</a>
           </div>
         </div>
-        <figure class="hero-visual reveal reveal-delay-1">
+        <figure class="hero-visual">
           <div class="silhouette-frame">
             <div class="silhouette silhouette-back"></div>
             <div class="silhouette silhouette-front">

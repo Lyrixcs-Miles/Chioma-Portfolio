@@ -4,30 +4,128 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lettie | About</title>
+  <meta name="description" content="About Lettie: fashion, beauty, and lifestyle model and content creator, brand ambassador for Azhyre Tech, Azhyre Fashion, and Serenq.">
   <link rel="icon" href="images/icons/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
+  <!--
+    THESIS: An about page reads as the contributor page of a lookbook, not
+    a generic bio card with a headshot and a bullet list.
+    OWN-WORLD: inherited from index.html — same palette, type, kicker and
+    hairline-rule system, duotone silhouette panel motif reused at a
+    quieter, page-header scale (no masthead-scale overlap here; About is
+    Read-leaning, legibility outranks spectacle).
+    STORY: a visitor gets a fuller sense of who Lettie is and what she
+    focuses on, then is pointed toward Portfolio or Work With Me.
+    FIRST VIEWPORT: page-header masthead — kicker, serif heading, intro
+    paragraph, a smaller bleeding duotone panel on the right.
+    FORM: established-world extension, no concept roll.
+  -->
 
   <header>
     <nav class="site-nav container">
       <a href="index.html" class="logo">Lettie</a>
-      <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="portfolio.html">Portfolio</a></li>
-        <li><a href="brands/index.html">Brands</a></li>
-        <li><a href="contact.html">Work With Me</a></li>
-      </ul>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <div class="nav-collapse">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html" aria-current="page">About</a></li>
+          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="brands/index.html">Brands</a></li>
+          <li><a href="contact.html">Work With Me</a></li>
+        </ul>
+      </div>
     </nav>
   </header>
 
   <main>
-    <section class="container">
-      <h1>About</h1>
-      <p>A little about me goes here.</p>
+    <!-- Page header -->
+    <section class="page-header">
+      <div class="container page-header-grid">
+        <div>
+          <p class="kicker">About</p>
+          <h1>The story so far.</h1>
+          <p class="page-header-intro">
+            A fashion, beauty, and lifestyle model and content creator
+            building a body of work one shoot, campaign, and
+            collaboration at a time.
+          </p>
+        </div>
+        <figure class="page-header-visual">
+          <div class="silhouette-frame small">
+            <div class="silhouette silhouette-back"></div>
+            <div class="silhouette silhouette-front"></div>
+          </div>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Bio -->
+    <section class="bio-section">
+      <div class="container bio-grid">
+        <p class="section-kicker">Bio</p>
+        <div class="bio-copy">
+          <!-- Placeholder bio copy, written for Lettie to edit into her own words before launch -->
+          <p>
+            Lettie approaches every shoot with the same question: what
+            does this brand want to be remembered for? That editorial
+            instinct, considered, warm, and unafraid of color, is what
+            she brings to fashion, beauty, and lifestyle work alike.
+          </p>
+          <p>
+            Beyond modeling, she creates content and represents brands
+            as an ambassador, most recently across Azhyre Tech, Azhyre
+            Fashion, and Serenq, work spanning campaign imagery, social
+            content, and in-person appearances.
+          </p>
+          <p>
+            Off camera, she's building a portfolio that reflects range:
+            polished editorial one day, unscripted lifestyle content the
+            next, always with the same point of view.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Focus areas -->
+    <section class="focus-section">
+      <div class="container">
+        <p class="kicker">Where I Create</p>
+        <div class="focus-list">
+          <div class="focus-item">
+            <h3>Fashion</h3>
+            <p>Editorial and campaign work, from lookbooks to runway-adjacent content.</p>
+          </div>
+          <div class="focus-item">
+            <h3>Beauty</h3>
+            <p>Close-up beauty and skincare content built around texture, light, and color.</p>
+          </div>
+          <div class="focus-item">
+            <h3>Lifestyle</h3>
+            <p>Everyday content that carries the same editorial eye into real settings.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Closing CTA -->
+    <section class="cta-close">
+      <div class="container reveal">
+        <h2>Let's create something with intention.</h2>
+        <p>
+          For bookings, collaborations, and brand partnerships, reach
+          out. I'd love to hear the vision.
+        </p>
+        <a href="contact.html" class="btn-primary-inverse">Work With Me</a>
+      </div>
     </section>
   </main>
 

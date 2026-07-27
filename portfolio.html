@@ -4,43 +4,138 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lettie | Portfolio</title>
+  <meta name="description" content="Lettie's portfolio: fashion, beauty, and lifestyle work.">
   <link rel="icon" href="images/icons/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
+  <!--
+    THESIS: the portfolio reads as a magazine contact sheet, varied crop
+    and scale per frame, not a uniform photo-grid gallery.
+    OWN-WORLD: inherited from index.html.
+    STORY: a visitor filters by category and opens a frame to see it at
+    scale, exactly the browsing behaviour a real lookbook rewards.
+    FIRST VIEWPORT: page-header masthead, then filter pills, then the
+    asymmetric contact-sheet grid.
+    FORM: established-world extension, no concept roll.
+  -->
 
   <header>
     <nav class="site-nav container">
       <a href="index.html" class="logo">Lettie</a>
-      <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="portfolio.html">Portfolio</a></li>
-        <li><a href="brands/index.html">Brands</a></li>
-        <li><a href="contact.html">Work With Me</a></li>
-      </ul>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <div class="nav-collapse">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="portfolio.html" aria-current="page">Portfolio</a></li>
+          <li><a href="brands/index.html">Brands</a></li>
+          <li><a href="contact.html">Work With Me</a></li>
+        </ul>
+      </div>
     </nav>
   </header>
 
   <main>
-    <section class="container">
-      <h1>Portfolio</h1>
-
-      <div class="portfolio-filters">
-        <button data-filter="all" class="active">All</button>
-        <button data-filter="fashion">Fashion</button>
-        <button data-filter="beauty">Beauty</button>
-        <button data-filter="lifestyle">Lifestyle</button>
+    <!-- Page header -->
+    <section class="page-header">
+      <div class="container page-header-grid">
+        <div>
+          <p class="kicker">Portfolio</p>
+          <h1>A working contact sheet.</h1>
+          <p class="page-header-intro">
+            Fashion, beauty, and lifestyle work, filterable below. Every
+            frame here is a placeholder composition standing in for real
+            photography, shown at production scale so the page's real
+            rhythm is visible now.
+          </p>
+        </div>
+        <figure class="page-header-visual">
+          <div class="silhouette-frame small">
+            <div class="silhouette silhouette-back"></div>
+            <div class="silhouette silhouette-front"></div>
+          </div>
+        </figure>
       </div>
+    </section>
 
-      <div class="portfolio-grid">
-        <!-- Portfolio items go here, e.g.:
-        <a href="images/portfolio/fashion/example.jpg" data-lightbox data-category="fashion">
-          <img src="images/portfolio/fashion/example.jpg" alt="">
-        </a>
-        -->
+    <section class="portfolio-section">
+      <div class="container">
+        <div class="portfolio-filters">
+          <button data-filter="all" class="active">All</button>
+          <button data-filter="fashion">Fashion</button>
+          <button data-filter="beauty">Beauty</button>
+          <button data-filter="lifestyle">Lifestyle</button>
+        </div>
+
+        <div class="portfolio-grid">
+          <button type="button" class="portfolio-item portfolio-item--wide" data-lightbox data-category="fashion" data-label="Fashion" data-swatch="swatch-1">
+            <span class="swatch swatch-1"></span>
+            <span class="work-tag">Fashion</span>
+            <span class="portfolio-item-view">View</span>
+          </button>
+          <button type="button" class="portfolio-item" data-lightbox data-category="fashion" data-label="Fashion" data-swatch="swatch-2">
+            <span class="swatch swatch-2"></span>
+            <span class="work-tag">Fashion</span>
+            <span class="portfolio-item-view">View</span>
+          </button>
+          <button type="button" class="portfolio-item" data-lightbox data-category="fashion" data-label="Fashion" data-swatch="swatch-3">
+            <span class="swatch swatch-3"></span>
+            <span class="work-tag">Fashion</span>
+            <span class="portfolio-item-view">View</span>
+          </button>
+          <button type="button" class="portfolio-item" data-lightbox data-category="beauty" data-label="Beauty" data-swatch="swatch-4">
+            <span class="swatch swatch-4"></span>
+            <span class="work-tag">Beauty</span>
+            <span class="portfolio-item-view">View</span>
+          </button>
+          <button type="button" class="portfolio-item portfolio-item--wide" data-lightbox data-category="beauty" data-label="Beauty" data-swatch="swatch-5">
+            <span class="swatch swatch-5"></span>
+            <span class="work-tag">Beauty</span>
+            <span class="portfolio-item-view">View</span>
+          </button>
+          <button type="button" class="portfolio-item" data-lightbox data-category="beauty" data-label="Beauty" data-swatch="swatch-6">
+            <span class="swatch swatch-6"></span>
+            <span class="work-tag">Beauty</span>
+            <span class="portfolio-item-view">View</span>
+          </button>
+          <button type="button" class="portfolio-item" data-lightbox data-category="lifestyle" data-label="Lifestyle" data-swatch="swatch-2">
+            <span class="swatch swatch-2"></span>
+            <span class="work-tag">Lifestyle</span>
+            <span class="portfolio-item-view">View</span>
+          </button>
+          <button type="button" class="portfolio-item" data-lightbox data-category="lifestyle" data-label="Lifestyle" data-swatch="swatch-4">
+            <span class="swatch swatch-4"></span>
+            <span class="work-tag">Lifestyle</span>
+            <span class="portfolio-item-view">View</span>
+          </button>
+          <button type="button" class="portfolio-item portfolio-item--wide" data-lightbox data-category="lifestyle" data-label="Lifestyle" data-swatch="swatch-1">
+            <span class="swatch swatch-1"></span>
+            <span class="work-tag">Lifestyle</span>
+            <span class="portfolio-item-view">View</span>
+          </button>
+        </div>
+
+        <p class="work-note">Placeholder compositions shown above. Real photography to come.</p>
+      </div>
+    </section>
+
+    <!-- Closing CTA -->
+    <section class="cta-close">
+      <div class="container reveal">
+        <h2>Let's create something with intention.</h2>
+        <p>
+          For bookings, collaborations, and brand partnerships, reach
+          out. I'd love to hear the vision.
+        </p>
+        <a href="contact.html" class="btn-primary-inverse">Work With Me</a>
       </div>
     </section>
   </main>
@@ -48,6 +143,10 @@
   <footer class="site-footer">
     <p>&copy; 2026 Lettie. All rights reserved.</p>
   </footer>
+
+  <div class="lightbox-overlay" aria-hidden="true">
+    <div class="lightbox-content"></div>
+  </div>
 
   <script src="js/main.js"></script>
 </body>
