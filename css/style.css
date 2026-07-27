@@ -139,6 +139,7 @@ img {
 }
 
 .nav-toggle {
+  position: relative;
   display: none;
   flex-direction: column;
   justify-content: center;
@@ -178,6 +179,7 @@ button:focus-visible {
    ========================================================================== */
 
 .btn-primary {
+  position: relative;
   display: inline-block;
   font-family: var(--font-body);
   font-weight: 700;
@@ -198,6 +200,7 @@ button:focus-visible {
 }
 
 .btn-primary-inverse {
+  position: relative;
   display: inline-block;
   font-family: var(--font-body);
   font-weight: 700;
@@ -333,7 +336,7 @@ button:focus-visible {
   z-index: 2;
 }
 
-.hero-title span {
+.hero-title .accent {
   color: var(--color-accent);
 }
 
@@ -477,6 +480,33 @@ button:focus-visible {
   line-height: 1.8;
   max-width: 65ch;
   margin-bottom: 1.25rem;
+}
+
+.glance-list {
+  margin-top: 1.5rem;
+  border-top: var(--rule-soft);
+}
+
+.glance-item {
+  padding: 1.25rem 0;
+  border-bottom: var(--rule-soft);
+}
+
+.glance-item dt {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+  margin-bottom: 0.4rem;
+}
+
+.glance-item dd {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--color-ink);
+  margin: 0;
 }
 
 /* ==========================================================================
@@ -676,6 +706,7 @@ button:focus-visible {
 }
 
 .portfolio-filters button {
+  position: relative;
   font-family: var(--font-body);
   font-size: 0.78rem;
   font-weight: 600;
@@ -837,6 +868,29 @@ button:focus-visible {
 }
 
 /* ==========================================================================
+   Brand campaign-preview gallery (static, non-lightbox)
+   ========================================================================== */
+
+.brand-gallery {
+  background: var(--color-bg-pearl);
+  padding: var(--section-pad) 0;
+}
+
+.brand-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+.gallery-tile {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+/* ==========================================================================
    Brand index (partner-credits rows)
    ========================================================================== */
 
@@ -993,6 +1047,7 @@ button:focus-visible {
   text-align: center;
   color: var(--color-ink-soft);
   background: var(--color-bg-pearl);
+  border-top: var(--rule-soft);
   font-size: 0.85rem;
 }
 
@@ -1048,8 +1103,28 @@ button:focus-visible {
   animation: fade-up 0.6s var(--ease-out-expo) both;
 }
 
-.hero-title {
-  animation: ink-reveal 0.8s var(--ease-out-expo) both 0.25s;
+.hero-title .typewriter {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  white-space: nowrap;
+  width: 0;
+  border-right: 2px solid var(--color-accent);
+  animation:
+    typewriter 1.1s steps(6, end) 0.3s both,
+    caret-blink 0.9s step-end infinite 0.3s;
+}
+
+@keyframes typewriter {
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes caret-blink {
+  50% {
+    border-color: transparent;
+  }
 }
 
 .hero-tagline {
@@ -1165,7 +1240,57 @@ button:focus-visible {
   transform: rotate(90deg);
 }
 
+/* ==========================================================================
+   Ripple (tap/click feedback on solid buttons, filter pills, and tiles)
+   ========================================================================== */
+
+.ripple-surface {
+  /* No `position` here on purpose: `.lightbox-close` already declares
+     `position: absolute` elsewhere in this file, and this rule's later
+     source order would otherwise win the specificity tie and break it.
+     Each ripple-eligible selector sets its own `position` below instead. */
+  overflow: hidden;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--ripple-color, rgba(91, 42, 134, 0.22));
+  transform: scale(0);
+  pointer-events: none;
+  animation: ripple-expand 0.6s var(--ease-out-expo);
+}
+
+@keyframes ripple-expand {
+  to {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+.btn-primary {
+  --ripple-color: rgba(250, 249, 251, 0.45);
+}
+
+.btn-primary-inverse,
+.portfolio-filters button {
+  --ripple-color: rgba(91, 42, 134, 0.22);
+}
+
+.portfolio-item,
+.lightbox-close {
+  --ripple-color: rgba(250, 249, 251, 0.35);
+}
+
+.nav-toggle {
+  --ripple-color: rgba(91, 42, 134, 0.25);
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .ripple {
+    display: none;
+  }
+
   .reveal,
   .hero .kicker,
   .hero-title,
@@ -1173,6 +1298,12 @@ button:focus-visible {
   .hero-actions,
   .hero-visual .silhouette-frame {
     animation: none;
+  }
+
+  .hero-title .typewriter {
+    animation: none;
+    width: 100%;
+    border-right: none;
   }
 
   ::view-transition-old(root),

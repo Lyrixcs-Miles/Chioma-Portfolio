@@ -127,6 +127,10 @@
     gap: 0.5rem;
   }
 
+  .brand-gallery-grid {
+    grid-template-columns: 1fr;
+  }
+
   .brand-row {
     flex-direction: column;
     gap: 1.5rem;
