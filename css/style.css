@@ -1,16 +1,29 @@
 /* ==========================================================================
-   Lettie Portfolio — Main Stylesheet
-   Colors, typography, layout, and component styles
+   Lettie — Main Stylesheet
+   Palette: white / pearl / whisper lavender grounds, royal plum + soft
+   orchid accents. Cormorant Garamond for display, Manrope for body/UI.
    ========================================================================== */
 
 :root {
-  --color-bg: #ffffff;
-  --color-text: #1a1a1a;
-  --color-accent: #c9a24b;
-  --color-muted: #6b6b6b;
+  --color-bg: #FFFFFF;
+  --color-bg-pearl: #FAF9FB;
+  --color-bg-lavender: #F2ECF7;
 
-  --font-heading: Georgia, 'Times New Roman', serif;
-  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+  --color-accent: #5B2A86;       /* royal plum — primary accent, CTAs */
+  --color-accent-soft: #A98BC7;  /* soft orchid — secondary accent, decorative only (fails text contrast on light grounds) */
+  --color-accent-deep: #3D1C60;  /* deeper plum for gradients/shadows, never used as a stand-in for black */
+
+  --color-ink: #241530;          /* primary text — deep plum-black, not literal black */
+  --color-ink-soft: #6B5A7D;     /* secondary/muted text, tinted from the accent hue */
+  --color-on-accent: #FAF9FB;    /* text on solid plum surfaces */
+
+  --font-heading: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-body: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+
+  --rule-soft: 1px solid rgba(91, 42, 134, 0.16);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --section-pad: 7rem;
 }
 
 * {
@@ -21,15 +34,18 @@
 
 body {
   font-family: var(--font-body);
-  color: var(--color-text);
+  color: var(--color-ink);
   background-color: var(--color-bg);
   line-height: 1.6;
 }
 
 h1, h2, h3, h4 {
   font-family: var(--font-heading);
-  line-height: 1.2;
+  line-height: 1.1;
+  font-weight: 500;
 }
+
+p { color: var(--color-ink); }
 
 a {
   color: inherit;
@@ -48,23 +64,571 @@ img {
   padding: 0 1.5rem;
 }
 
-/* Navigation */
+/* ==========================================================================
+   Navigation
+   ========================================================================== */
+
 .site-nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.5rem;
+  padding: 1.75rem 1.5rem;
+  background: var(--color-bg);
+  border-bottom: var(--rule-soft);
+}
+
+.site-nav .logo {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 1.7rem;
+  color: var(--color-accent);
+  letter-spacing: 0.01em;
 }
 
 .site-nav ul {
   display: flex;
-  gap: 2rem;
+  gap: 2.25rem;
   list-style: none;
 }
 
-/* Footer */
-.site-footer {
-  padding: 2rem 1.5rem;
+.site-nav ul li a {
+  position: relative;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  padding-bottom: 0.35rem;
+}
+
+.site-nav ul li a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s var(--ease-out-expo);
+}
+
+.site-nav ul li a:hover::after,
+.site-nav ul li a:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: var(--color-accent);
+  cursor: pointer;
+}
+
+.nav-toggle:focus-visible,
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* ==========================================================================
+   Buttons / links
+   ========================================================================== */
+
+.btn-primary {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-on-accent);
+  background: var(--color-accent);
+  padding: 1.05rem 2.1rem;
+  border-radius: 2px;
+  box-shadow: 0 14px 28px -14px rgba(36, 21, 48, 0.55);
+  transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo);
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 34px -12px rgba(36, 21, 48, 0.6);
+}
+
+.btn-primary-inverse {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  background: var(--color-bg-pearl);
+  padding: 1.05rem 2.1rem;
+  border-radius: 2px;
+  box-shadow: 0 14px 28px -14px rgba(15, 8, 20, 0.35);
+  transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo);
+}
+
+.btn-primary-inverse:hover {
+  transform: translateY(-3px);
+  background: #FFFFFF;
+}
+
+.btn-secondary {
+  position: relative;
+  display: inline-block;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  padding-bottom: 0.35rem;
+  transition: color 0.3s var(--ease-out-expo);
+}
+
+.btn-secondary::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--color-accent-soft);
+  transition: background 0.3s var(--ease-out-expo);
+}
+
+.btn-secondary:hover {
+  color: var(--color-ink);
+}
+
+.btn-secondary:hover::after {
+  background: var(--color-accent);
+}
+
+.text-link {
+  color: var(--color-accent);
+  font-weight: 600;
+  border-bottom: 1px solid var(--color-accent-soft);
+  padding-bottom: 2px;
+  transition: border-color 0.3s var(--ease-out-expo), color 0.3s var(--ease-out-expo);
+}
+
+.text-link:hover {
+  color: var(--color-ink);
+  border-color: var(--color-accent);
+}
+
+/* ==========================================================================
+   Section labels
+   ========================================================================== */
+
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 1.25rem;
+}
+
+.kicker::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-accent-soft);
+  opacity: 0.6;
+}
+
+.section-kicker {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: var(--color-accent);
+  margin-bottom: 0.75rem;
+}
+
+/* ==========================================================================
+   Hero
+   ========================================================================== */
+
+.hero {
+  background: var(--color-bg-lavender);
+  padding: var(--section-pad) 0;
+  overflow: hidden;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-title {
+  /* Oversized past the usual 6rem display cap on purpose: the brief's own
+     cover-line-bleeding-behind-the-panel concept only reads at masthead
+     scale, so the type has to reach toward the visual to sell it. */
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(4.5rem, 13vw, 9rem);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+  position: relative;
+  z-index: 2;
+}
+
+.hero-title span {
+  color: var(--color-accent);
+}
+
+.hero-tagline {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--color-ink-soft);
+  max-width: 42ch;
+  margin-top: 1.75rem;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-top: 2.75rem;
+}
+
+.hero-visual {
+  position: relative;
+  z-index: 1;
+  margin-left: -8rem;
+  margin-right: calc(-1 * max(0px, (100vw - 1200px) / 2 + 1.5rem));
+}
+
+.silhouette-frame {
+  position: relative;
+  aspect-ratio: 3 / 4;
+}
+
+.silhouette {
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+}
+
+.silhouette-back {
+  background: linear-gradient(155deg, var(--color-accent-soft) 0%, var(--color-bg-lavender) 85%);
+  clip-path: polygon(20% 0%, 100% 8%, 86% 100%, 2% 90%);
+  opacity: 0.7;
+  transform: translate(6%, 5%);
+}
+
+.silhouette-front {
+  background: linear-gradient(200deg, var(--color-accent-soft) 0%, var(--color-accent) 45%, var(--color-accent-deep) 80%, var(--color-ink) 130%);
+  clip-path: polygon(9% 3%, 92% 0%, 100% 90%, 13% 100%);
+  box-shadow: 0 32px 60px -22px rgba(36, 21, 48, 0.5);
+}
+
+.silhouette-front::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 28% 18%, rgba(255, 255, 255, 0.28), transparent 55%);
+  mix-blend-mode: soft-light;
+}
+
+.silhouette-label {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-bg-pearl);
+}
+
+.hero-visual figcaption {
+  margin-top: 0.9rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--color-ink-soft);
+  text-align: right;
+}
+
+/* ==========================================================================
+   About teaser
+   ========================================================================== */
+
+.about-teaser {
+  background: var(--color-bg-pearl);
+  padding: var(--section-pad) 0;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.about-grid h2 {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  margin-bottom: 1.5rem;
+  max-width: 14ch;
+}
+
+.about-copy p {
+  color: var(--color-ink-soft);
+  line-height: 1.8;
+  max-width: 62ch;
+  margin-bottom: 1.25rem;
+}
+
+/* ==========================================================================
+   Portfolio teaser
+   ========================================================================== */
+
+.work-teaser {
+  background: var(--color-bg);
+  padding: var(--section-pad) 0;
+}
+
+.work-intro {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 4rem;
+  align-items: end;
+  margin-bottom: 3.5rem;
+}
+
+.work-intro h2 {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  max-width: 14ch;
+}
+
+.work-intro p {
+  color: var(--color-ink-soft);
+  line-height: 1.8;
+  max-width: 58ch;
+}
+
+.work-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: minmax(140px, 1fr);
+  gap: 1.25rem;
+}
+
+.work-panel {
+  position: relative;
+  border-radius: 2px;
+  overflow: hidden;
+  min-height: 200px;
+}
+
+.work-panel--large {
+  grid-column: span 4;
+  grid-row: span 2;
+}
+
+.work-panel--a {
+  grid-column: span 2;
+  grid-row: span 1;
+}
+
+.work-panel--b {
+  grid-column: span 2;
+  grid-row: span 1;
+}
+
+.work-panel .swatch {
+  position: absolute;
+  inset: 0;
+}
+
+.work-panel--large .swatch {
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-deep) 70%);
+}
+
+.work-panel--a .swatch {
+  background: linear-gradient(200deg, var(--color-accent-soft) 0%, var(--color-accent) 100%);
+}
+
+.work-panel--b .swatch {
+  background: linear-gradient(20deg, var(--color-bg-lavender) 0%, var(--color-accent-soft) 100%);
+}
+
+.work-panel .swatch::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 75% 20%, rgba(255, 255, 255, 0.22), transparent 60%);
+  mix-blend-mode: soft-light;
+}
+
+.work-tag {
+  position: absolute;
+  top: 1.1rem;
+  left: 1.1rem;
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  background: rgba(250, 249, 251, 0.88);
+  padding: 0.4rem 0.85rem;
+  border-radius: 100px;
+}
+
+.work-panel--large .work-tag {
+  color: var(--color-bg-pearl);
+  background: rgba(36, 21, 48, 0.35);
+}
+
+.work-note {
+  margin-top: 1.25rem;
+  font-size: 0.8rem;
+  color: var(--color-ink-soft);
+}
+
+.work-cta {
+  margin-top: 1rem;
+  text-align: right;
+}
+
+/* ==========================================================================
+   Brand strip
+   ========================================================================== */
+
+.brand-strip {
+  background: var(--color-bg-lavender);
+  padding: var(--section-pad) 0;
   text-align: center;
-  color: var(--color-muted);
+}
+
+.brand-strip .kicker {
+  justify-content: center;
+}
+
+.brand-strip .kicker::after {
+  display: none;
+}
+
+.brand-row {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 3.5rem;
+  flex-wrap: wrap;
+  margin-top: 2.25rem;
+}
+
+.brand-row a {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 1.6rem;
+  color: var(--color-accent);
+  border-bottom: 1px solid transparent;
+  padding-bottom: 0.3rem;
+  transition: color 0.3s var(--ease-out-expo), border-color 0.3s var(--ease-out-expo);
+}
+
+.brand-row a:hover {
+  color: var(--color-ink);
+  border-color: var(--color-accent-soft);
+}
+
+.brand-strip .work-cta {
+  text-align: center;
+  margin-top: 2.75rem;
+}
+
+/* ==========================================================================
+   Closing CTA
+   ========================================================================== */
+
+.cta-close {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  padding: var(--section-pad) 0;
+  text-align: center;
+}
+
+.cta-close h2 {
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  color: var(--color-on-accent);
+  margin-bottom: 1.5rem;
+}
+
+.cta-close p {
+  color: rgba(250, 249, 251, 0.85);
+  max-width: 46ch;
+  margin: 0 auto 2.5rem;
+  line-height: 1.75;
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+.site-footer {
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  color: var(--color-ink-soft);
+  background: var(--color-bg-pearl);
+  font-size: 0.85rem;
+}
+
+/* ==========================================================================
+   Entrance motion (single authored moment, CSS-only so it never depends
+   on JS/observer timing and never leaves content stuck invisible)
+   ========================================================================== */
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  animation: fade-up 0.9s var(--ease-out-expo) both;
+}
+
+.reveal-delay-1 {
+  animation-delay: 0.15s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    animation: none;
+  }
 }
