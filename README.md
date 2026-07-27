@@ -8,7 +8,7 @@ Personal portfolio site for Lettie, hosted at [lettie.azhyre.co.za](https://lett
 - `about.html` — About
 - `portfolio.html` — Portfolio (fashion / beauty / lifestyle, filterable)
 - `contact.html` — Work With Me
-- `brands/` — Brand pages (Azhyre Tech, Azhyre Fashion, Serenq)
+- `brands/` — Brand pages (Azhyre Tech, Azhyre Fashion, SerenQ)
 - `css/` — Stylesheets (`style.css` for base styles, `responsive.css` for breakpoints)
 - `js/main.js` — Nav toggle, portfolio filters, lightbox
 - `images/` — Hero, portfolio, and brand assets
