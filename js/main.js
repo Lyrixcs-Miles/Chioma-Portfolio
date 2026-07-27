@@ -5,7 +5,39 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavToggle();
   initPortfolioFilters();
   initLightbox();
+  initRipples();
 });
+
+// Tactile click/tap feedback on solid buttons, filter pills, and
+// portfolio tiles. Skipped entirely under reduced motion, and skipped
+// for keyboard activation (no pointer coordinate, no visual to anchor).
+const RIPPLE_SELECTOR = '.btn-primary, .btn-primary-inverse, .portfolio-filters button, .portfolio-item, .lightbox-close, .nav-toggle';
+
+function createRipple(x, y, el) {
+  const rect = el.getBoundingClientRect();
+  const size = Math.max(rect.width, rect.height) * 2;
+  const span = document.createElement('span');
+  span.className = 'ripple';
+  span.style.width = `${size}px`;
+  span.style.height = `${size}px`;
+  span.style.left = `${x - rect.left - size / 2}px`;
+  span.style.top = `${y - rect.top - size / 2}px`;
+  el.appendChild(span);
+  span.addEventListener('animationend', () => span.remove());
+}
+
+function attachRipple(el) {
+  el.classList.add('ripple-surface');
+  el.addEventListener('pointerdown', (e) => {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    createRipple(e.clientX, e.clientY, el);
+  });
+}
+
+function initRipples() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  document.querySelectorAll(RIPPLE_SELECTOR).forEach(attachRipple);
+}
 
 function initNavToggle() {
   const toggle = document.querySelector('.nav-toggle');
@@ -80,6 +112,9 @@ function initLightbox() {
     closeBtn.setAttribute('aria-label', 'Close');
     closeBtn.innerHTML = '&times;';
     closeBtn.addEventListener('click', close);
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      attachRipple(closeBtn);
+    }
 
     const panel = document.createElement('div');
     panel.className = `lightbox-panel ${swatchClass}`;
