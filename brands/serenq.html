@@ -4,30 +4,66 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lettie | Serenq</title>
+  <meta name="description" content="Lettie's brand ambassador partnership with Serenq.">
   <link rel="icon" href="../images/icons/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/responsive.css">
 </head>
 <body>
-
   <header>
     <nav class="site-nav container">
       <a href="../index.html" class="logo">Lettie</a>
-      <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
-      <ul>
-        <li><a href="../index.html">Home</a></li>
-        <li><a href="../about.html">About</a></li>
-        <li><a href="../portfolio.html">Portfolio</a></li>
-        <li><a href="index.html">Brands</a></li>
-        <li><a href="../contact.html">Work With Me</a></li>
-      </ul>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <div class="nav-collapse">
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../portfolio.html">Portfolio</a></li>
+          <li><a href="index.html" aria-current="page">Brands</a></li>
+          <li><a href="../contact.html">Work With Me</a></li>
+        </ul>
+      </div>
     </nav>
   </header>
 
   <main>
-    <section class="container">
-      <h1>Serenq</h1>
-      <p>Brand content goes here.</p>
+    <section class="page-header">
+      <div class="container page-header-grid">
+        <div>
+          <a href="index.html" class="text-link brand-back-link">← All Brands</a>
+          <p class="kicker">Brand Partner</p>
+          <h1>Serenq</h1>
+          <p class="page-header-intro">
+            <!-- Placeholder brand profile, pending Serenq's own copy -->
+            Lettie models for and creates content as brand ambassador
+            for Serenq. Full brand story, imagery, and campaign details
+            to come.
+          </p>
+        </div>
+        <figure class="page-header-visual">
+          <div class="silhouette-frame small">
+            <div class="silhouette silhouette-back"></div>
+            <div class="silhouette silhouette-front"></div>
+          </div>
+        </figure>
+      </div>
+    </section>
+
+    <section class="cta-close">
+      <div class="container reveal">
+        <h2>Let's create something with intention.</h2>
+        <p>
+          For bookings, collaborations, and brand partnerships, reach
+          out. I'd love to hear the vision.
+        </p>
+        <a href="../contact.html" class="btn-primary-inverse">Work With Me</a>
+      </div>
     </section>
   </main>
 

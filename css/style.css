@@ -4,6 +4,19 @@
    orchid accents. Cormorant Garamond for display, Manrope for body/UI.
    ========================================================================== */
 
+/* Cross-document continuity: page navigations cross-fade instead of
+   hard-cutting, so moving through the site feels like turning pages in
+   one magazine. No-ops silently in browsers without support. */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.4s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 :root {
   --color-bg: #FFFFFF;
   --color-bg-pearl: #FAF9FB;
@@ -121,13 +134,36 @@ img {
   transform: scaleX(1);
 }
 
+.nav-collapse {
+  display: contents;
+}
+
 .nav-toggle {
   display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 24px;
+  padding: 4px;
   background: none;
   border: none;
-  font-size: 1.4rem;
-  color: var(--color-accent);
   cursor: pointer;
+}
+
+.nav-toggle-bar {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--color-accent);
+  transition: transform 0.35s var(--ease-out-expo), opacity 0.35s var(--ease-out-expo);
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:first-child {
+  transform: translateY(3.5px) rotate(45deg);
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:last-child {
+  transform: translateY(-3.5px) rotate(-45deg);
 }
 
 .nav-toggle:focus-visible,
@@ -378,6 +414,110 @@ button:focus-visible {
 }
 
 /* ==========================================================================
+   Page header (About / Portfolio / Brands / Contact masthead-lite)
+   ========================================================================== */
+
+.page-header {
+  background: var(--color-bg-lavender);
+  padding: calc(var(--section-pad) * 0.85) 0 var(--section-pad);
+}
+
+.page-header-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.page-header .kicker {
+  animation: fade-up 0.6s var(--ease-out-expo) both;
+}
+
+.page-header h1 {
+  font-style: italic;
+  font-size: clamp(2.75rem, 6vw, 4.5rem);
+  margin: 0.5rem 0 1.25rem;
+  color: var(--color-ink);
+  animation: ink-reveal 0.8s var(--ease-out-expo) both 0.2s;
+}
+
+.page-header-intro {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--color-ink-soft);
+  max-width: 52ch;
+  animation: fade-up 0.7s var(--ease-out-expo) both 0.4s;
+}
+
+.page-header-visual {
+  animation: fade-up 0.8s var(--ease-out-expo) both 0.3s;
+}
+
+.silhouette-frame.small {
+  aspect-ratio: 4 / 3;
+}
+
+/* ==========================================================================
+   Bio
+   ========================================================================== */
+
+.bio-section {
+  background: var(--color-bg);
+  padding: var(--section-pad) 0;
+}
+
+.bio-grid {
+  display: grid;
+  grid-template-columns: 0.6fr 1.4fr;
+  gap: 3rem;
+}
+
+.bio-copy p {
+  color: var(--color-ink-soft);
+  line-height: 1.8;
+  max-width: 65ch;
+  margin-bottom: 1.25rem;
+}
+
+/* ==========================================================================
+   Focus areas (editorial contributor-list, not icon cards)
+   ========================================================================== */
+
+.focus-section {
+  background: var(--color-bg-pearl);
+  padding: var(--section-pad) 0;
+}
+
+.focus-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 2.5rem;
+  border-top: var(--rule-soft);
+}
+
+.focus-item {
+  padding: 2rem 1.75rem 2rem 0;
+  border-bottom: var(--rule-soft);
+  border-right: var(--rule-soft);
+}
+
+.focus-item:last-child {
+  border-right: none;
+}
+
+.focus-item h3 {
+  font-style: italic;
+  font-size: 1.5rem;
+  color: var(--color-accent);
+  margin-bottom: 0.75rem;
+}
+
+.focus-item p {
+  color: var(--color-ink-soft);
+  line-height: 1.7;
+}
+
+/* ==========================================================================
    About teaser
    ========================================================================== */
 
@@ -520,6 +660,126 @@ button:focus-visible {
 }
 
 /* ==========================================================================
+   Portfolio (contact-sheet grid)
+   ========================================================================== */
+
+.portfolio-section {
+  background: var(--color-bg);
+  padding: var(--section-pad) 0;
+}
+
+.portfolio-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+}
+
+.portfolio-filters button {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+  background: transparent;
+  border: 1px solid var(--color-accent-soft);
+  border-radius: 100px;
+  padding: 0.6rem 1.25rem;
+  cursor: pointer;
+  transition: background 0.3s var(--ease-out-expo), color 0.3s var(--ease-out-expo), border-color 0.3s var(--ease-out-expo);
+}
+
+.portfolio-filters button:hover {
+  color: var(--color-ink);
+  border-color: var(--color-accent);
+}
+
+.portfolio-filters button.active {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.portfolio-item {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 2px;
+  overflow: hidden;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.portfolio-item--wide {
+  grid-column: span 2;
+  aspect-ratio: 16 / 9;
+}
+
+.portfolio-item .swatch {
+  position: absolute;
+  inset: 0;
+  transition: transform 0.5s var(--ease-out-expo);
+}
+
+.portfolio-item:hover .swatch,
+.portfolio-item:focus-visible .swatch {
+  transform: scale(1.04);
+}
+
+.portfolio-item .swatch::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 75% 20%, rgba(255, 255, 255, 0.22), transparent 60%);
+  mix-blend-mode: soft-light;
+}
+
+.swatch-1 { background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-deep) 70%); }
+.swatch-2 { background: linear-gradient(200deg, var(--color-accent-soft) 0%, var(--color-accent) 100%); }
+.swatch-3 { background: linear-gradient(20deg, var(--color-bg-lavender) 0%, var(--color-accent-soft) 100%); }
+.swatch-4 { background: linear-gradient(160deg, var(--color-accent-deep) 0%, var(--color-accent-soft) 100%); }
+.swatch-5 { background: linear-gradient(210deg, var(--color-bg-lavender) 0%, var(--color-accent) 90%); }
+.swatch-6 { background: linear-gradient(45deg, var(--color-accent) 0%, var(--color-bg-lavender) 100%); }
+
+.portfolio-item .work-tag {
+  z-index: 1;
+}
+
+.portfolio-item-view {
+  position: absolute;
+  right: 1.1rem;
+  bottom: 1.1rem;
+  z-index: 1;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-bg-pearl);
+  background: rgba(36, 21, 48, 0.55);
+  padding: 0.4rem 0.85rem;
+  border-radius: 100px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s var(--ease-out-expo), transform 0.3s var(--ease-out-expo);
+}
+
+.portfolio-item:hover .portfolio-item-view,
+.portfolio-item:focus-visible .portfolio-item-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==========================================================================
    Brand strip
    ========================================================================== */
 
@@ -565,6 +825,71 @@ button:focus-visible {
 .brand-strip .work-cta {
   text-align: center;
   margin-top: 2.75rem;
+}
+
+/* ==========================================================================
+   Brand index (partner-credits rows)
+   ========================================================================== */
+
+.brand-index-section {
+  background: var(--color-bg);
+  padding: var(--section-pad) 0;
+}
+
+.brand-index-list {
+  border-top: var(--rule-soft);
+}
+
+.brand-index-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 2rem 0;
+  border-bottom: var(--rule-soft);
+  transition: padding-left 0.3s var(--ease-out-expo);
+}
+
+.brand-index-row:hover,
+.brand-index-row:focus-visible {
+  padding-left: 0.5rem;
+}
+
+.brand-index-name {
+  flex: 0 0 auto;
+  min-width: 220px;
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 2rem;
+  color: var(--color-accent);
+}
+
+.brand-index-desc {
+  flex: 1;
+  color: var(--color-ink-soft);
+}
+
+.brand-index-arrow {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+  white-space: nowrap;
+  transition: color 0.3s var(--ease-out-expo);
+}
+
+.brand-index-row:hover .brand-index-arrow,
+.brand-index-row:focus-visible .brand-index-arrow {
+  color: var(--color-accent);
+}
+
+.brand-back-link {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
 }
 
 /* ==========================================================================
@@ -627,8 +952,163 @@ button:focus-visible {
   animation-delay: 0.15s;
 }
 
+/* ==========================================================================
+   Hero focal moment: the masthead opens like a lookbook cover — the
+   silhouette panel swings open on its left edge like a page turning,
+   while the wordmark inks in with a left-to-right wipe. This is the one
+   authored sequence the THESIS asks for; every other section keeps the
+   quieter shared fade-up above.
+   ========================================================================== */
+
+@keyframes ink-reveal {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes page-open {
+  from {
+    opacity: 0;
+    transform: perspective(1600px) rotateY(-26deg) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: perspective(1600px) rotateY(0) scale(1);
+  }
+}
+
+.hero .kicker {
+  animation: fade-up 0.6s var(--ease-out-expo) both;
+}
+
+.hero-title {
+  animation: ink-reveal 0.8s var(--ease-out-expo) both 0.25s;
+}
+
+.hero-tagline {
+  animation: fade-up 0.7s var(--ease-out-expo) both 0.55s;
+}
+
+.hero-actions {
+  animation: fade-up 0.7s var(--ease-out-expo) both 0.7s;
+}
+
+.hero-visual .silhouette-frame {
+  transform-origin: left center;
+  animation: page-open 0.9s var(--ease-out-expo) both 0.15s;
+}
+
+/* ==========================================================================
+   Portfolio filter transitions
+   ========================================================================== */
+
+.portfolio-grid [data-category] {
+  transition: opacity 0.35s var(--ease-out-expo), transform 0.35s var(--ease-out-expo);
+}
+
+.portfolio-grid [data-category].is-hidden {
+  opacity: 0;
+  transform: scale(0.96);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   Lightbox
+   ========================================================================== */
+
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: rgba(36, 21, 48, 0.82);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s var(--ease-out-expo), visibility 0s linear 0.35s;
+}
+
+.lightbox-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.35s var(--ease-out-expo);
+}
+
+.lightbox-content {
+  position: relative;
+  width: min(90vw, 720px);
+  transform: scale(0.94);
+  transition: transform 0.4s var(--ease-out-expo);
+}
+
+.lightbox-overlay.is-open .lightbox-content {
+  transform: scale(1);
+}
+
+.lightbox-panel {
+  aspect-ratio: 4 / 5;
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 50px 90px -30px rgba(15, 8, 20, 0.65);
+}
+
+.lightbox-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 75% 20%, rgba(255, 255, 255, 0.22), transparent 60%);
+  mix-blend-mode: soft-light;
+}
+
+.lightbox-panel .work-tag {
+  color: var(--color-bg-pearl);
+  background: rgba(36, 21, 48, 0.4);
+}
+
+.lightbox-caption {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: var(--color-bg-pearl);
+  text-align: center;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -2.75rem;
+  right: 0;
+  background: none;
+  border: none;
+  color: var(--color-bg-pearl);
+  font-size: 1.9rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.3s var(--ease-out-expo);
+}
+
+.lightbox-close:hover {
+  transform: rotate(90deg);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .reveal {
+  .reveal,
+  .hero .kicker,
+  .hero-title,
+  .hero-tagline,
+  .hero-actions,
+  .hero-visual .silhouette-frame {
     animation: none;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+
+  .lightbox-content,
+  .lightbox-close:hover {
+    transition: none;
+    transform: none;
   }
 }
