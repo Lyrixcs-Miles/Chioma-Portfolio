@@ -11,15 +11,15 @@ web
 Two audiences share this site:
 
 1. **Brands, agencies, and collaborators** evaluating Lettie for modeling, content, or partnership work — deciding whether to book or reach out to her.
-2. **General visitors** browsing her fashion/beauty/lifestyle portfolio and discovering the Azhyre/Serenq brand ecosystem she's affiliated with.
+2. **General visitors** browsing her fashion/beauty/lifestyle portfolio and discovering the Azhyre/SerenQ brand ecosystem she's affiliated with.
 
 ## Product Purpose
 
-A personal portfolio for Lettie, a fashion/beauty/lifestyle model and content creator, that showcases her work and her role as brand ambassador for Azhyre Tech, Azhyre Fashion, and Serenq. Success means a visitor can browse/filter her portfolio, learn who she is, find the brands she's connected to, and reach her.
+A personal portfolio for Lettie, a fashion/beauty/lifestyle model and content creator, that showcases her work and her role as brand ambassador for Azhyre Tech, Azhyre Fashion, and SerenQ. Success means a visitor can browse/filter her portfolio, learn who she is, find the brands she's connected to, and reach her.
 
 ## Positioning
 
-Open decision: the site combines a personal-portfolio identity with a hub pointing to three affiliated brand ventures (Azhyre Tech, Azhyre Fashion, Serenq). The precise differentiation of Lettie's role relative to those brands (exclusive ambassador vs. one of several, founder involvement, etc.) has not been confirmed and should not be assumed.
+Open decision: the site combines a personal-portfolio identity with a hub pointing to three affiliated brand ventures (Azhyre Tech, Azhyre Fashion, SerenQ). The precise differentiation of Lettie's role relative to those brands (exclusive ambassador vs. one of several, founder involvement, etc.) has not been confirmed and should not be assumed.
 
 ## Operating Context
 
@@ -35,7 +35,7 @@ Static site, no backend or build step, deployed via GitHub Pages at the custom d
 ## Brand Commitments
 
 - Site identity/name: "Lettie."
-- Affiliated brands, current relationship confirmed as model/content creator and ambassador: **Azhyre Tech**, **Azhyre Fashion**, **Serenq**. Further specifics of each brand relationship (equity, employment, exclusivity) are not established.
+- Affiliated brands, current relationship confirmed as model/content creator and ambassador: **Azhyre Tech**, **Azhyre Fashion**, **SerenQ**. Further specifics of each brand relationship (equity, employment, exclusivity) are not established.
 
 ## Evidence on Hand
 
