@@ -96,7 +96,19 @@ header {
    .is-mid (grown halfway back up) while scrolling up but not yet back at
    the top, and neither (fully grown again) once scrollY returns to 0.
    .is-shadow lifts it off the page ("hovering" rather than flush/flat)
-   any time it's not at that resting top position. */
+   any time it's not at that resting top position.
+
+   Deliberate exception to the site's "animate transform/opacity, not
+   layout properties" rule (see DESIGN.md Don'ts): this transitions
+   `padding`, a genuine layout property. A transform: scale() can't
+   substitute here — the requested effect is the header's real box
+   height changing (so it actually grows/shrinks, pushing sticky
+   content correctly) while the logo/link text stays crisp at native
+   size, not a visually-scaled illusion. Scoped to one small, cheap
+   element (a single flex row, not a page-wide grid) transitioning at
+   most once per scroll-direction change, not a continuous per-frame
+   animation — the layout-thrash risk this rule guards against doesn't
+   really apply at this scale. Confirmed smooth in-browser. */
 .site-nav {
   position: relative;
   display: flex;
