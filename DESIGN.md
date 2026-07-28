@@ -305,7 +305,7 @@ A quieter, page-header-scale echo of the same idea: a single real photo (`.page-
 
 ### Don't:
 - **Don't** use Soft Orchid (`#A98BC7`) as text color on a light background — it fails contrast.
-- **Don't** animate `width`/`height`/`padding`/`margin` for hover or state feedback; use `transform`/`opacity` (the nav underline and brand-index-row hover were both fixed for exactly this).
+- **Don't** animate `width`/`height`/`padding`/`margin` for hover or state feedback; use `transform`/`opacity` (the nav underline and brand-index-row hover were both fixed for exactly this). **Confirmed exception:** the header's scroll-shrink `transition: padding` — a `transform: scale()` would visually distort the logo/link text instead of the box genuinely resizing, and it's one small element transitioning at most once per scroll-direction change, not a per-frame animation. Don't extend this exception to anything else without the same reasoning holding.
 - **Don't** add icon+heading+text card grids; the system's list pattern is hairline-divided text, not bordered cards.
 - **Don't** extend the hero wordmark's 9rem display-size exception to any other heading.
 - **Don't** extend the glass/backdrop-blur treatment beyond the site header/nav — it's a deliberate, one-surface exception to the "flat by default" rule, not a new standing pattern for cards, panels, or other components.
