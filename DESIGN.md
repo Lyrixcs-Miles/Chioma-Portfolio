@@ -167,7 +167,7 @@ in the palette is tinted from the plum hue, never literal black/gray).
 - Editorial, not corporate-influencer: kickers, hairline rules, serif italic labels
 - Palette is a brief-pinned "Full palette" strategy (5 named roles), not a designer's free choice
 - One tilted-photo-plus-peeking-accent-shape motif reused at two scales: the hero's swipeable/autoplaying polaroid stack (masthead-size, Home only) and a single rotated photo with a purple clipped shape peeking from behind (page-header size, every other page)
-- Flat surfaces, tinted plum shadows, near-zero border-radius except pill badges/buttons
+- Flat surfaces, tinted plum shadows, near-zero border-radius except pill badges/buttons — **the one deliberate exception is the site header**, a dark-plum glass (`backdrop-filter: blur`) that floats above page content, the system's only non-flat surface
 - Motion is deliberately restrained: one authored focal sequence on the homepage, quiet shared support elsewhere
 
 ## Colors
@@ -279,8 +279,12 @@ The site's recurring "contributor page" list pattern, reused with different cont
 - **Overlay:** every tile — photo or swatch — gets the same radial soft-light highlight, via a `::after` on the tile itself (`.portfolio-item::after`, `.work-panel::after`, `.gallery-tile::after`) so it works whether the tile holds an `<img>` or a swatch span.
 - **States:** `.portfolio-item` scales its image/swatch slightly and reveals a "View" pill on hover/focus; filtered-out tiles fade+scale out via `.is-hidden` before being set `hidden` (see PROJECT_NOTES.md for the CSS-specificity gotcha this required).
 
-### Navigation
-Manrope uppercase links with an animated underline (`transform: scaleX()`, not `width`, to avoid layout thrash). Mobile: a two-bar hamburger that morphs into an X (`.nav-toggle[aria-expanded="true"]`), driving a `.nav-collapse` panel open via `grid-template-rows: 0fr → 1fr`.
+### Navigation (signature component, glass)
+Manrope uppercase links (pearl, not the system's usual ink — see below) with an animated underline (`transform: scaleX()`, not `width`, to avoid layout thrash). The header itself is a sticky, dark-plum glass bar (`rgba(36,21,48,.78)` + `backdrop-filter: blur(18px) saturate(160%)`) with faint pulsing "water droplet" ring outlines (`.glass-ripples`, 6 staggered rings, `@keyframes ripple-pulse`) — the system's one intentionally non-flat, non-editorial surface. It resizes on scroll: fully grown at the very top, shrinks while scrolling down, grows back to a halfway size while scrolling up (before reaching the top again), and gains a lifting drop-shadow (`.is-shadow`) any time it isn't at that resting top position, so it reads as hovering above content rather than flush with it.
+
+Mobile: a two-bar hamburger that morphs into an X (`.nav-toggle[aria-expanded="true"]`), opening `.nav-collapse` as a fixed off-canvas drawer (not an in-flow accordion) that slides in from the right over a dimming `.nav-scrim` backdrop — same dark glass and ripple treatment as the header bar, top-aligned links (not vertically centered). Closes via the same toggle button (now an X), a tap on the scrim, or Escape.
+
+**Because the header is glass, its text/logo/toggle/ripple colors are inverted from the rest of the system**: `.site-nav ul li a` and the mobile drawer's links use `--color-bg-pearl` (not the system-wide `--color-ink` default), the logo uses `--color-accent-soft` (not `--color-accent`), and ripple rings use a light pearl outline — the system's usual light-background/dark-text pairing would be nearly invisible on this one dark surface.
 
 ### Lightbox (signature component)
 A fixed, centered overlay (`.lightbox-overlay`) that fades and scales in a single enlarged panel — a real `<img>` for the Portfolio grid's photos, a swatch-tinted panel for anything still on placeholder imagery. Width is capped against *both* viewport width and viewport height (converted through the panel's 4:5 ratio) so the close button and caption can never overflow off-screen on a short viewport.
@@ -304,3 +308,4 @@ A quieter, page-header-scale echo of the same idea: a single real photo (`.page-
 - **Don't** animate `width`/`height`/`padding`/`margin` for hover or state feedback; use `transform`/`opacity` (the nav underline and brand-index-row hover were both fixed for exactly this).
 - **Don't** add icon+heading+text card grids; the system's list pattern is hairline-divided text, not bordered cards.
 - **Don't** extend the hero wordmark's 9rem display-size exception to any other heading.
+- **Don't** extend the glass/backdrop-blur treatment beyond the site header/nav — it's a deliberate, one-surface exception to the "flat by default" rule, not a new standing pattern for cards, panels, or other components.
