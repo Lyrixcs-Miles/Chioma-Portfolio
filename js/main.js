@@ -9,7 +9,53 @@ document.addEventListener('DOMContentLoaded', () => {
   initTypewriter();
   initPolaroidStack();
   initHeaderPhoto();
+  initStickyNav();
 });
+
+// Three-state header sizing on scroll, matching .site-nav's .is-compact/
+// .is-mid/.is-shadow classes in style.css: fully grown (no class) only
+// at the very top; .is-compact (shrunk to the header's original size)
+// while scrolling down; .is-mid (grown back up halfway) while scrolling
+// up but not back at the top yet. .is-shadow lifts the header off the
+// page any time it isn't at that resting top position, so it reads as
+// hovering above passing content rather than flush with it. Scroll
+// direction is tracked by comparing each scroll event's Y against the
+// previous one; rAF-throttled so this never runs more than once per
+// paint.
+function initStickyNav() {
+  const nav = document.querySelector('.site-nav');
+  if (!nav) return;
+
+  let lastY = window.scrollY;
+  let ticking = false;
+
+  function update() {
+    const y = window.scrollY;
+    if (y <= 0) {
+      nav.classList.remove('is-compact', 'is-mid', 'is-shadow');
+    } else {
+      nav.classList.add('is-shadow');
+      if (y < lastY) {
+        nav.classList.add('is-mid');
+        nav.classList.remove('is-compact');
+      } else {
+        nav.classList.add('is-compact');
+        nav.classList.remove('is-mid');
+      }
+    }
+    lastY = y;
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(update);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  update();
+}
 
 // Page-header photo (About/Portfolio/Brands/Contact masthead) — picks one
 // of the same 4 mirror-selfie photos at random on each load, so the
@@ -307,14 +353,33 @@ function initRipples() {
   document.querySelectorAll(RIPPLE_SELECTOR).forEach(attachRipple);
 }
 
+// Mobile off-canvas drawer: toggling .nav-collapse now also toggles a
+// .nav-scrim backdrop (both elements, not just the drawer, since the
+// scrim is a separate fixed sibling that dims the rest of the page
+// while the drawer is open). Closes on scrim click or Escape, in
+// addition to the toggle button itself.
 function initNavToggle() {
   const toggle = document.querySelector('.nav-toggle');
   const collapse = document.querySelector('.nav-collapse');
+  const scrim = document.querySelector('.nav-scrim');
   if (!toggle || !collapse) return;
 
-  toggle.addEventListener('click', () => {
-    const isOpen = collapse.classList.toggle('open');
+  function setOpen(isOpen) {
+    collapse.classList.toggle('open', isOpen);
+    if (scrim) scrim.classList.toggle('open', isOpen);
     toggle.setAttribute('aria-expanded', String(isOpen));
+  }
+
+  toggle.addEventListener('click', () => {
+    setOpen(!collapse.classList.contains('open'));
+  });
+
+  if (scrim) {
+    scrim.addEventListener('click', () => setOpen(false));
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && collapse.classList.contains('open')) setOpen(false);
   });
 }
 

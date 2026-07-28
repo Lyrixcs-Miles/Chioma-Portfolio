@@ -15,8 +15,9 @@ this file assumes them.
 - Site name is **Eullie** (renamed from an earlier "Lettie" placeholder
   partway through the build — every file was updated to match).
 - Shared across every page: `css/style.css` (base + design system),
-  `css/responsive.css` (900px/600px breakpoints), `js/main.js` (nav
-  toggle, portfolio filters, lightbox, ripple, typewriter).
+  `css/responsive.css` (900px/600px breakpoints), `js/main.js` (glass
+  nav toggle/scroll-shrink, portfolio filters, lightbox, ripple,
+  looping typewriter, hero polaroid stack, random page-header photo).
 - Fonts: Google Fonts CDN (`Cormorant Garamond` + `Manrope`), loaded
   per-page via `<link>` in `<head>` with `display=swap`.
 
@@ -116,6 +117,43 @@ for this gotcha**: `.ripple-surface` deliberately does NOT set
 `position: relative` there too, which silently broke `.lightbox-close`'s
 `position: absolute` due to a CSS specificity/source-order tie. Each
 ripple-eligible selector sets its own `position` directly instead.
+
+### Glass nav (header + mobile drawer) and the backdrop-filter containing-block trap
+The site header (`.site-nav`) is a sticky, dark-plum glass bar
+(`backdrop-filter: blur`), and on mobile the hamburger opens
+`.nav-collapse` as a fixed off-canvas drawer (not the old in-flow
+accordion) sliding in over a dimming `.nav-scrim`. Both share the same
+dark glass + `.glass-ripples` decorative rings.
+
+**Real bug hit while building this, worth remembering:** `.nav-scrim`
+is `position: fixed`, and was originally sized with `inset: 0`. It
+rendered collapsed to only ~44px tall (just the header bar's own
+height) instead of covering the page — clicking it to close the drawer
+silently did nothing outside that tiny strip. Cause: `.site-nav` (the
+scrim's ancestor) has `backdrop-filter`, and **`backdrop-filter` (like
+`filter`, `transform`, `perspective`, `will-change` naming one of
+those) makes that element the containing block for `position: fixed`
+descendants' *percentage* offsets** — `top/right/bottom/left: 0`
+(what `inset: 0` expands to) resolved against `.site-nav`'s own small
+box, not the true viewport. `.nav-collapse`'s `height: 100vh` was
+*not* affected by the same trap, because `vh`/`vw` units are always
+viewport-relative regardless of containing block — only percentage-style
+offsets are caught by this. **Fix:** gave `.nav-scrim` `top: 0; left: 0;
+width: 100vw; height: 100vh;` instead of `inset: 0`. **If you ever add
+another `position: fixed` element inside (or descended from) anything
+with `backdrop-filter`/`filter`/`transform`, use `vw`/`vh` for its
+sizing/offsets, not percentages or `inset` shorthand, or it will
+silently size itself against the wrong box.**
+
+**Scroll-shrink header:** `initStickyNav()` in `main.js` tracks
+`window.scrollY` (rAF-throttled) and toggles three states on
+`.site-nav` via CSS classes: fully grown (no class, only at `scrollY
+<= 0`), `.is-compact` (shrunk to the header's base size, scrolling
+down), `.is-mid` (grown back to a halfway size, scrolling up but not
+back at the top yet) — plus `.is-shadow` (a lifting drop-shadow) any
+time `scrollY > 0`, so the header only looks "flush"/flat at the
+absolute top of the page. Direction is inferred by comparing each
+scroll event's Y to the previous one, not a fixed threshold.
 
 ### The `[hidden]` + `display` CSS gotcha (portfolio filters)
 `main.js` toggles `item.hidden = true/false` to remove filtered-out
