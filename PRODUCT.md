@@ -39,7 +39,7 @@ Static site, no backend or build step, deployed via GitHub Pages at the custom d
 
 ## Evidence on Hand
 
-None yet. Every page currently holds placeholder copy ("content goes here," "A little about me goes here") and the portfolio grid and images directory have no real photos. Future work must not invent bio details, photos, testimonials, brand descriptions, pricing, or contact information — this content will be supplied later.
+The Portfolio grid now has real photography (11 shots across fashion/beauty/lifestyle, in `images/portfolio/`). Every other page still holds placeholder copy ("content goes here," "A little about me goes here"), and brand campaign galleries still have no real photos. Future work must not invent bio details, photos, testimonials, brand descriptions, pricing, or contact information — this content will be supplied later.
 
 ## Product Principles
 
