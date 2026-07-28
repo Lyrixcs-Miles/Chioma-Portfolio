@@ -12,16 +12,19 @@ document.addEventListener('DOMContentLoaded', () => {
   initStickyNav();
 });
 
-// Three-state header sizing on scroll, matching .site-nav's .is-compact/
-// .is-mid/.is-shadow classes in style.css: fully grown (no class) only
-// at the very top; .is-compact (shrunk to the header's original size)
-// while scrolling down; .is-mid (grown back up halfway) while scrolling
-// up but not back at the top yet. .is-shadow lifts the header off the
-// page any time it isn't at that resting top position, so it reads as
-// hovering above passing content rather than flush with it. Scroll
-// direction is tracked by comparing each scroll event's Y against the
-// previous one; rAF-throttled so this never runs more than once per
-// paint.
+// Header sizing/visibility on scroll, matching .site-nav's .is-compact/
+// .is-shadow/.is-hidden classes in style.css: fully grown (no class) only
+// at the very top; .is-compact (shrunk) any time scrollY > 0, whether
+// scrolling up or down, so the header stays shrunk-but-visible on the way
+// back up instead of growing back to a mid-size first. .is-shadow lifts
+// the header off the page any time it isn't at that resting top
+// position, so it reads as hovering above passing content rather than
+// flush with it. .is-hidden (desktop only — no-op at ≤900px, see
+// responsive.css) is direction-aware, unlike the other two: added while
+// actively scrolling down (so the fixed, hero-overlaying header doesn't
+// sit over content indefinitely), removed the instant the user scrolls
+// up even slightly, and always cleared at the very top. rAF-throttled so
+// this never runs more than once per paint.
 function initStickyNav() {
   const nav = document.querySelector('.site-nav');
   if (!nav) return;
@@ -32,15 +35,13 @@ function initStickyNav() {
   function update() {
     const y = window.scrollY;
     if (y <= 0) {
-      nav.classList.remove('is-compact', 'is-mid', 'is-shadow');
+      nav.classList.remove('is-compact', 'is-shadow', 'is-hidden');
     } else {
-      nav.classList.add('is-shadow');
-      if (y < lastY) {
-        nav.classList.add('is-mid');
-        nav.classList.remove('is-compact');
+      nav.classList.add('is-compact', 'is-shadow');
+      if (y > lastY) {
+        nav.classList.add('is-hidden');
       } else {
-        nav.classList.add('is-compact');
-        nav.classList.remove('is-mid');
+        nav.classList.remove('is-hidden');
       }
     }
     lastY = y;
