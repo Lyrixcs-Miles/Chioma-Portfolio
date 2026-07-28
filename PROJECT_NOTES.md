@@ -125,6 +125,33 @@ The site header (`.site-nav`) is a sticky, dark-plum glass bar
 accordion) sliding in over a dimming `.nav-scrim`. Both share the same
 dark glass + `.glass-ripples` decorative rings.
 
+**`.site-nav` vs `.nav-inner` split (full-bleed bar, capped content):**
+`.site-nav` used to also carry the `.container` class directly, which
+capped the entire glass bar — background, blur, border, everything —
+to the 1200px content column, leaving visible page background on both
+sides on any viewport wider than ~1250px. Per feedback ("on pc it's
+not responsive, it's supposed to span the whole horizontal"),
+`.site-nav` no longer has a `max-width` (spans the full viewport edge
+to edge; only vertical padding lives on it now, horizontal padding
+moved off it entirely) and the flex row (logo/links/toggle) moved into
+a new child, `.nav-inner container` — `.nav-inner` supplies
+`display:flex`/`align-items`/`justify-content`, `.container` supplies
+the shared `max-width:1200px; margin:0 auto; padding-left/right`. This
+mirrors every other section's use of `.container` for its content
+column while letting the header be the one full-bleed surface.
+`.glass-ripples` (the first one, the ambient decorative rings) stays a
+**direct child of `.site-nav`**, not `.nav-inner`, so the rings scatter
+across the full-width bar rather than being confined to the 1200px
+column. `.nav-scrim` and `.nav-collapse` moved one level deeper (now
+inside `.nav-inner`) — this is safe because the backdrop-filter
+containing-block behavior described below applies to *any* descendant
+of `.site-nav`, not just direct children, and every `.site-nav`-scoped
+CSS selector already used descendant combinators (`.site-nav .logo`,
+`.site-nav ul`, etc.), never `>`. **This same nav block is duplicated
+across all 8 HTML files** (no templating on this static site) — if you
+touch this markup again, check `grep -rn "class=\"site-nav\""` across
+the repo, not just `index.html`.
+
 **Real bug hit while building this, worth remembering:** `.nav-scrim`
 is `position: fixed`, and was originally sized with `inset: 0`. It
 rendered collapsed to only ~44px tall (just the header bar's own
@@ -145,15 +172,82 @@ with `backdrop-filter`/`filter`/`transform`, use `vw`/`vh` for its
 sizing/offsets, not percentages or `inset` shorthand, or it will
 silently size itself against the wrong box.**
 
+**`.container`/`.site-nav` padding cascade trap:** `.site-nav` carries
+both `site-nav` and `container` classes (for horizontal alignment with
+the rest of the page). Below 900px, `responsive.css`'s `.container`
+rule used to be a `padding: 0 1rem;` shorthand — identical specificity
+(0,0,1,0) to `.site-nav`'s own padding rule in `style.css`, but loaded
+in a later stylesheet (`index.html` links `style.css` then
+`responsive.css`), so it won outright and **zeroed out all of
+`.site-nav`'s vertical padding** below 900px, in every scroll state
+(`.is-compact`/`.is-mid`/fully-grown alike) — not just the horizontal
+gutter it was meant to control. This silently undid the header's
+thickness (and the whole scroll-shrink size difference) on any tablet/
+mobile viewport, confirmed via `getComputedStyle` showing `padding: 0px
+16px` instead of the intended `80px 16px`. **Fix:** both `.container`
+rules (base, in `style.css`, and the 900px override, in
+`responsive.css`) now set `padding-left`/`padding-right` explicitly
+instead of a `padding: 0 …` shorthand, so they can never clobber
+another selector's vertical padding via source order. **If another
+element ever needs `.container` plus its own vertical padding, check
+this pattern still holds** — shorthand `padding` on a shared-specificity
+utility class is a footgun for exactly this reason.
+
 **Scroll-shrink header:** `initStickyNav()` in `main.js` tracks
-`window.scrollY` (rAF-throttled) and toggles three states on
-`.site-nav` via CSS classes: fully grown (no class, only at `scrollY
-<= 0`), `.is-compact` (shrunk to the header's base size, scrolling
-down), `.is-mid` (grown back to a halfway size, scrolling up but not
-back at the top yet) — plus `.is-shadow` (a lifting drop-shadow) any
-time `scrollY > 0`, so the header only looks "flush"/flat at the
-absolute top of the page. Direction is inferred by comparing each
-scroll event's Y to the previous one, not a fixed threshold.
+`window.scrollY` (rAF-throttled) and toggles state on `.site-nav` via
+CSS classes: fully grown (no class, only at `scrollY <= 0`) and
+`.is-compact` (shrunk) any time `scrollY > 0` — plus `.is-shadow` (a
+lifting drop-shadow) at the same time, so the header only looks
+"flush"/flat at the absolute top of the page. **`.is-compact`/
+`.is-shadow` are deliberately not direction-aware**: an earlier version
+also had `.is-mid` (grown back to a halfway size while scrolling up but
+not yet back at the top), so the header grew partway before fully
+expanding again. Per feedback, the header should stay shrunk-but-visible
+the whole way back up and only return to full size once the page is
+actually scrolled to the top — `.is-mid` was removed (from both
+`main.js` and `style.css`) rather than kept as dead code.
+
+**Desktop-only fixed overlay + auto-hide (`.is-hidden`), and the
+mobile-vs-desktop position split:** Per later feedback ("let it be over
+the hero, hero beneath it" + "hides on scroll down, reveals on scroll
+up" — confirmed via `AskUserQuestion` since "hides on scroll" is
+ambiguous about direction), `header` is `position: fixed` by default
+(`style.css`), not `sticky` — this takes it out of flow so the
+hero/page-header section starts at the true top of the viewport with
+the glass bar floating over it (confirmed live: scrolling to the very
+top with a real backdrop behind it shows the hero content visibly
+blurred through the glass). `initStickyNav()`'s `update()` regained a
+`lastY` comparison (removed in the `.is-mid` cleanup above, reintroduced
+here) *specifically* to drive `.is-hidden`
+(`transform: translateY(-100%)`, transitioned): added while
+`y > lastY` (scrolling down) and `scrollY > 0`, removed the instant
+`y <= lastY` (scrolling up) or `scrollY <= 0`. Note `.is-compact`/
+`.is-shadow` stay direction-independent (per the note above) — only
+`.is-hidden` cares about direction; these are two independent concerns
+toggled by the same `update()` call. **This overlay/auto-hide treatment
+is desktop-only.** At ≤900px, `responsive.css` reverts `header` back to
+`position: sticky` (original in-flow behavior — pushes hero/page-header
+down normally) and neutralizes `.is-hidden` with `transform: none`, so
+tablet/mobile never overlay or auto-hide, matching the original
+pre-overlay UX there. Verified in this environment (whose Chrome tab is
+stuck at ~400px width, see the quirks section below) by temporarily
+setting `document.styleSheets` → the `responsive.css` sheet →
+`.disabled = true` via `javascript_tool`, which strips every breakpoint
+override and exposes the raw desktop rules regardless of actual
+viewport width — confirmed `header` computes to `position: fixed`,
+`.is-hidden` actually translates the bar off-screen, and re-enabling
+the sheet restores the ≤900px reverts. **If you need to verify desktop
+nav behavior again in this environment, reuse that stylesheet-disable
+trick** rather than fighting `resize_window` (confirmed broken here).
+
+**Mobile resting-size reduction:** separately, per feedback that the
+mobile header's resting (top-of-page, scrollY = 0) size looked too big
+next to its own scrolled/shrunk size, `responsive.css`'s ≤600px block
+sets `.site-nav { padding: 1.75rem 0; }` — the same value as
+`.is-compact` — so the mobile header no longer visibly grows when
+scrolled back to the top. This is independent of the desktop
+fixed/overlay/hide work above (different breakpoint, different
+property), just implemented in the same pass.
 
 ### The `[hidden]` + `display` CSS gotcha (portfolio filters)
 `main.js` toggles `item.hidden = true/false` to remove filtered-out
@@ -313,6 +407,23 @@ never overflow off-screen on a short viewport — an earlier version
 only bounded width, and the panel could grow taller than the viewport.
 Closes on Escape, click-outside, or the close button; returns focus to
 the trigger tile on close.
+
+**z-index vs. the fixed header:** `.lightbox-overlay` was `z-index: 100`
+— lower than `header`'s `z-index: 500` — so whenever the header was
+visually on top of the viewport's top strip, it painted over the top of
+the lightbox (photo, tag pill, and close button all cut off behind the
+glass bar). This was always technically true (header's z-index has
+always been 500), but went unnoticed while `header` was `position:
+sticky` and only overlapped page content while actively scrolled past
+the top. Once `header` became `position: fixed` on desktop (see the
+overlay/auto-hide note above), it overlaps the viewport top *at every
+scroll position*, making the bug immediately visible any time the
+lightbox opens. **Fixed by raising `.lightbox-overlay` to `z-index:
+600`** — a full-screen modal should always be the topmost thing on the
+page, above chrome as well as content. If you add another fixed/modal
+overlay (a second lightbox variant, a toast, a dialog), check its
+z-index against `header`'s 500 rather than assuming "z-index: 100" (a
+common default-ish value) is automatically high enough.
 
 ### Portfolio filter transitions
 `setItemVisible()` in `main.js` adds `.is-hidden` (opacity/scale

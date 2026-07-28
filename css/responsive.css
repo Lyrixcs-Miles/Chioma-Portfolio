@@ -4,8 +4,23 @@
 
 /* Tablet */
 @media (max-width: 900px) {
+  /* Revert the desktop-only fixed/overlay-hero header back to its
+     original in-flow sticky behavior — the header pushes hero/page-header
+     content down as normal here, rather than floating over it, and never
+     slides away (.is-hidden is neutralized below). */
+  header {
+    position: sticky;
+    left: auto;
+    width: auto;
+  }
+
+  .site-nav.is-hidden {
+    transform: none;
+  }
+
   .container {
-    padding: 0 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
   :root {
@@ -62,7 +77,14 @@
     --section-pad: 3.5rem;
   }
 
+  /* Per feedback: the mobile header's resting (top-of-page) size was too
+     big — matches the already-shrunk .is-compact size instead, so it
+     doesn't visibly grow when you scroll back to the top. */
   .site-nav {
+    padding: 1.75rem 0;
+  }
+
+  .nav-inner {
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;

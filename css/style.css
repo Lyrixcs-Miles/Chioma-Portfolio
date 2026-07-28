@@ -74,64 +74,85 @@ img {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
 /* ==========================================================================
    Navigation
    ========================================================================== */
 
-/* Sticky + translucent so the backdrop-filter blur actually has page
-   content passing underneath it to blur — a glass surface over a
-   static background would just look tinted, not glassy. */
+/* Fixed (desktop) so the header floats over the hero/page-header instead
+   of pushing it down — hero content starts at the true top of the
+   viewport, with the glass bar overlaid on top of it. Translucent so the
+   backdrop-filter blur actually has that content passing underneath it
+   to blur — a glass surface over a static background would just look
+   tinted, not glassy. Reverted to the original in-flow `sticky` at
+   ≤900px (see responsive.css) — the overlay-hero treatment is a desktop
+   thing; tablet/mobile keep the header pushing content down normally. */
 header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  width: 100%;
   z-index: 500;
 }
 
 /* Base = fully-grown, resting state (top of page, or scroll position 0).
-   initStickyNav() in main.js adds/removes .is-compact / .is-mid / .is-shadow
-   as the page scrolls: .is-compact (shrunk to this size) on scroll down,
-   .is-mid (grown halfway back up) while scrolling up but not yet back at
-   the top, and neither (fully grown again) once scrollY returns to 0.
-   .is-shadow lifts it off the page ("hovering" rather than flush/flat)
-   any time it's not at that resting top position.
+   initStickyNav() in main.js adds/removes .is-compact / .is-shadow /
+   .is-hidden as the page scrolls: .is-compact (shrunk) any time
+   scrollY > 0, whether scrolling up or down — so the header stays
+   shrunk-but-visible on the way back up rather than growing back first —
+   and neither (fully grown again) once scrollY returns to 0. .is-shadow
+   lifts it off the page ("hovering" rather than flush/flat) any time
+   it's not at that resting top position. .is-hidden (desktop only —
+   neutralized at ≤900px in responsive.css) slides the header off-screen
+   while actively scrolling down, and is removed the instant the user
+   scrolls up, so it doesn't permanently occupy space over page content
+   but is always one upward scroll away.
 
    Deliberate exception to the site's "animate transform/opacity, not
    layout properties" rule (see DESIGN.md Don'ts): this transitions
-   `padding`, a genuine layout property. A transform: scale() can't
-   substitute here — the requested effect is the header's real box
-   height changing (so it actually grows/shrinks, pushing sticky
-   content correctly) while the logo/link text stays crisp at native
-   size, not a visually-scaled illusion. Scoped to one small, cheap
-   element (a single flex row, not a page-wide grid) transitioning at
-   most once per scroll-direction change, not a continuous per-frame
-   animation — the layout-thrash risk this rule guards against doesn't
-   really apply at this scale. Confirmed smooth in-browser. */
+   `padding`, a genuine layout property, in addition to `transform`
+   (used for the hide/show slide, per the rule). A transform: scale()
+   can't substitute for the padding change — the requested effect is the
+   header's real box height changing (so it actually grows/shrinks)
+   while the logo/link text stays crisp at native size, not a
+   visually-scaled illusion. Scoped to one small, cheap element (a
+   single flex row, not a page-wide grid) transitioning at most once per
+   scroll-direction change, not a continuous per-frame animation — the
+   layout-thrash risk this rule guards against doesn't really apply at
+   this scale. Confirmed smooth in-browser. */
 .site-nav {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 3.75rem 1.5rem;
+  padding: 2.5rem 0;
   background: rgba(36, 21, 48, 0.78);
   backdrop-filter: blur(18px) saturate(160%);
   -webkit-backdrop-filter: blur(18px) saturate(160%);
   border-bottom: 1px solid rgba(250, 249, 251, 0.14);
-  transition: padding 0.45s var(--ease-out-expo), box-shadow 0.45s var(--ease-out-expo);
+  transition: padding 0.45s var(--ease-out-expo), box-shadow 0.45s var(--ease-out-expo), transform 0.45s var(--ease-out-expo);
 }
 
 .site-nav.is-shadow {
   box-shadow: 0 20px 40px -18px rgba(15, 8, 20, 0.45);
 }
 
-.site-nav.is-compact {
-  padding: 1.75rem 1.5rem;
+.site-nav.is-hidden {
+  transform: translateY(-100%);
 }
 
-.site-nav.is-mid {
-  padding: 2.125rem 1.5rem;
+.site-nav.is-compact {
+  padding: 1.75rem 0;
+}
+
+/* Content row, capped to the same 1200px column as the rest of the page
+   (via the shared .container class) — kept separate from .site-nav so
+   the glass background/blur/scroll-shrink padding above can span the
+   full viewport width edge-to-edge instead of being capped with it. */
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 /* Ambient "water droplet" rings — decorative only (aria-hidden),
@@ -1380,7 +1401,7 @@ button:focus-visible {
 .lightbox-overlay {
   position: fixed;
   inset: 0;
-  z-index: 100;
+  z-index: 600;
   display: flex;
   align-items: center;
   justify-content: center;
