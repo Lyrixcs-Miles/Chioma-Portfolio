@@ -6,7 +6,275 @@ document.addEventListener('DOMContentLoaded', () => {
   initPortfolioFilters();
   initLightbox();
   initRipples();
+  initTypewriter();
+  initPolaroidStack();
+  initHeaderPhoto();
 });
+
+// Page-header photo (About/Portfolio/Brands/Contact masthead) — picks one
+// of the same 4 mirror-selfie photos at random on each load, so the
+// page/photo pairing isn't fixed. If JS never runs, each page's own
+// hard-coded src/alt (set directly in the HTML) stays visible as a
+// sensible default.
+const HEADER_PHOTOS = [
+  { src: 'images/portfolio/beauty/mirror-selfie-01.jpg', alt: 'Black and white mirror portrait in a hoodie, head tilted, looking down at the phone screen.' },
+  { src: 'images/portfolio/beauty/mirror-selfie-02.jpg', alt: 'Black and white mirror portrait in a hoodie, closer crop, looking down at the phone screen.' },
+  { src: 'images/portfolio/beauty/mirror-selfie-03.jpg', alt: 'Black and white mirror portrait in a hoodie, hand resting on top of head, looking down at the phone screen.' },
+  { src: 'images/portfolio/beauty/mirror-selfie-04.jpg', alt: 'Black and white mirror portrait in a hoodie, seated, looking directly at the camera.' },
+];
+
+function initHeaderPhoto() {
+  const img = document.querySelector('[data-header-photo]');
+  if (!img) return;
+  const prefix = img.getAttribute('src').startsWith('../') ? '../' : '';
+  const choice = HEADER_PHOTOS[Math.floor(Math.random() * HEADER_PHOTOS.length)];
+  img.src = prefix + choice.src;
+  img.alt = choice.alt;
+}
+
+// Continuously cycles the hero wordmark through WORDS — typing each in,
+// holding, then erasing before typing the next — forever, not a one-shot
+// reveal. Each new letter is a fresh <span class="letter"> given an
+// .is-in class one frame after insertion so its opacity/transform
+// transition actually has something to animate from (same double-rAF
+// pattern initPortfolioFilters uses). Erasing mirrors that: it removes
+// the .is-in class (triggering the same transition in reverse) and only
+// detaches the span from the DOM after that transition would have
+// finished, so backspacing reads as a smooth cascade rather than an
+// abrupt snap — `liveLetters` (not the DOM's own childElementCount) is
+// what tracks "how many letters are logically left," since erase ticks
+// fire faster than each individual fade-out finishes and several spans
+// end up mid-fade in the DOM at once. Per-letter typing speed is
+// randomized within a range for an organic, non-mechanical feel. Skipped
+// entirely under reduced motion — the plain "Eullie" text the original
+// markup already had stays fully visible and static, matching every
+// other motion effect on this site.
+function initTypewriter() {
+  const el = document.querySelector('.hero-title .typewriter');
+  if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const WORDS = ['Eullie', 'Euleth', 'Amukelo', 'Ngobeni'];
+
+  const TYPE_MS_MIN = 70;
+  const TYPE_MS_MAX = 130;
+  const ERASE_MS = 45;
+  const ERASE_FADE_MS = 230; // matches .hero-title .letter's transition duration
+  const HOLD_FULL_MS = 1400;
+  const HOLD_EMPTY_MS = 350;
+  const START_DELAY_MS = 300;
+
+  el.innerHTML = '';
+  const caret = document.createElement('span');
+  caret.className = 'caret';
+  el.after(caret);
+
+  let wordIndex = 0;
+  let len = 0;
+  let typing = true;
+  const liveLetters = [];
+
+  function currentWord() {
+    return WORDS[wordIndex];
+  }
+
+  function addLetter() {
+    const word = currentWord();
+    const span = document.createElement('span');
+    span.className = len === word.length - 1 ? 'letter accent' : 'letter';
+    span.textContent = word[len];
+    el.appendChild(span);
+    liveLetters.push(span);
+    len += 1;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => span.classList.add('is-in'));
+    });
+  }
+
+  function removeLetter() {
+    const span = liveLetters.pop();
+    if (!span) return;
+    len -= 1;
+    span.classList.remove('is-in');
+    window.setTimeout(() => span.remove(), ERASE_FADE_MS);
+  }
+
+  function tick() {
+    if (typing) {
+      addLetter();
+      if (len >= currentWord().length) {
+        typing = false;
+        window.setTimeout(tick, HOLD_FULL_MS);
+      } else {
+        const jitter = TYPE_MS_MIN + Math.random() * (TYPE_MS_MAX - TYPE_MS_MIN);
+        window.setTimeout(tick, jitter);
+      }
+    } else {
+      removeLetter();
+      if (len <= 0) {
+        typing = true;
+        wordIndex = (wordIndex + 1) % WORDS.length;
+        window.setTimeout(tick, HOLD_EMPTY_MS);
+      } else {
+        window.setTimeout(tick, ERASE_MS);
+      }
+    }
+  }
+
+  window.setTimeout(tick, START_DELAY_MS);
+}
+
+// Hero "polaroid stack" — real photos standing in for the old silhouette
+// placeholder, in the same slot (see the .hero-visual .polaroid-stack
+// page-open animation in style.css, reused from .silhouette-frame).
+// Cycling reassigns cards to a fixed set of back-of-pile scatter "slots"
+// rather than re-rolling every card's own offset, so the motion reads as
+// one photo sliding to the back and the next rising to front, not the
+// whole pile jumping. Reshuffle (double-tap/-click, or Enter) is the only
+// thing that re-rolls the slot offsets themselves. Skipped entirely (no
+// autoplay, no transitions) under reduced motion, but swipe/tap/keyboard
+// cycling still works — same "still operable, just not animated" pattern
+// as the rest of the site's motion.
+function initPolaroidStack() {
+  const stack = document.querySelector('[data-polaroid-stack]');
+  if (!stack) return;
+  const order = Array.from(stack.querySelectorAll('[data-polaroid-card]'));
+  if (order.length < 2) return;
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const AUTO_MS = 4000;
+  const SWIPE_PX = 50;
+  const TAP_PX = 10;
+  const DOUBLE_TAP_MS = 350;
+
+  let slots = order.slice(1).map((_, i) => ({
+    tx: (i % 2 === 0 ? 1 : -1) * (5 + i * 2),
+    ty: (i % 2 === 0 ? -1 : 1) * (4 + i * 3),
+    rot: (i % 2 === 0 ? 1 : -1) * (6 + i * 2),
+  }));
+  let autoTimer = null;
+  let autoDirection = 1; // 1 = front card cycles to back; -1 = reversed
+  let lastTapTime = 0;
+  let dragStartX = null;
+
+  function rollSlots() {
+    slots = order.slice(1).map((_, i) => {
+      const sign = i % 2 === 0 ? 1 : -1;
+      return {
+        tx: sign * (4 + Math.random() * 4 + i * 1.5),
+        ty: (Math.random() - 0.5) * (8 + i * 3),
+        rot: sign * (5 + Math.random() * 6),
+      };
+    });
+  }
+
+  function applyOrder(animate) {
+    order.forEach((card, i) => {
+      card.style.transition = animate ? '' : 'none';
+      card.style.zIndex = String(order.length - i);
+      if (i === 0) {
+        card.style.setProperty('--tx', '0%');
+        card.style.setProperty('--ty', '0%');
+        card.style.setProperty('--rot', '0deg');
+      } else {
+        const slot = slots[i - 1];
+        card.style.setProperty('--tx', `${slot.tx}%`);
+        card.style.setProperty('--ty', `${slot.ty}%`);
+        card.style.setProperty('--rot', `${slot.rot}deg`);
+      }
+    });
+  }
+
+  function cycle(direction) {
+    if (direction === 1) order.push(order.shift());
+    else order.unshift(order.pop());
+    applyOrder(true);
+  }
+
+  function reshuffle() {
+    rollSlots();
+    applyOrder(true);
+  }
+
+  function stopAuto() {
+    if (autoTimer) window.clearInterval(autoTimer);
+    autoTimer = null;
+  }
+
+  function startAuto() {
+    if (reduceMotion) return;
+    stopAuto();
+    autoTimer = window.setInterval(() => cycle(autoDirection), AUTO_MS);
+  }
+
+  applyOrder(false);
+  void stack.offsetWidth; // force reflow before re-enabling transitions
+  order.forEach((card) => { card.style.transition = ''; });
+
+  const io = new IntersectionObserver(([entry]) => {
+    if (entry.isIntersecting) startAuto();
+    else stopAuto();
+  }, { threshold: 0.2 });
+  io.observe(stack);
+
+  function endDrag(dx) {
+    order[0].style.transition = '';
+    order[0].style.setProperty('--drag', '0px');
+    dragStartX = null;
+
+    if (Math.abs(dx) < TAP_PX) {
+      const now = Date.now();
+      if (now - lastTapTime < DOUBLE_TAP_MS) {
+        reshuffle();
+        lastTapTime = 0;
+      } else {
+        lastTapTime = now;
+      }
+    } else if (Math.abs(dx) >= SWIPE_PX) {
+      autoDirection = dx < 0 ? 1 : -1;
+      cycle(autoDirection);
+    }
+    startAuto();
+  }
+
+  stack.addEventListener('pointerdown', (e) => {
+    dragStartX = e.clientX;
+    stopAuto();
+    order[0].style.transition = 'none';
+  });
+
+  stack.addEventListener('pointermove', (e) => {
+    if (dragStartX === null) return;
+    order[0].style.setProperty('--drag', `${e.clientX - dragStartX}px`);
+  });
+
+  stack.addEventListener('pointerup', (e) => {
+    if (dragStartX === null) return;
+    endDrag(e.clientX - dragStartX);
+  });
+
+  stack.addEventListener('pointercancel', () => {
+    if (dragStartX === null) return;
+    endDrag(0);
+  });
+
+  stack.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      autoDirection = -1;
+      cycle(-1);
+      startAuto();
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      autoDirection = 1;
+      cycle(1);
+      startAuto();
+    } else if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      reshuffle();
+      startAuto();
+    }
+  });
+}
 
 // Tactile click/tap feedback on solid buttons, filter pills, and
 // portfolio tiles. Skipped entirely under reduced motion, and skipped
@@ -101,8 +369,9 @@ function initLightbox() {
 
   function open(trigger) {
     lastTrigger = trigger;
-    const swatchClass = trigger.dataset.swatch || '';
+    const imageSrc = trigger.dataset.image || '';
     const category = trigger.dataset.label || trigger.dataset.category || '';
+    const captionText = trigger.dataset.caption || '';
 
     stage.innerHTML = '';
 
@@ -117,7 +386,14 @@ function initLightbox() {
     }
 
     const panel = document.createElement('div');
-    panel.className = `lightbox-panel ${swatchClass}`;
+    panel.className = 'lightbox-panel';
+    if (imageSrc) {
+      const triggerImg = trigger.querySelector('img');
+      const img = document.createElement('img');
+      img.src = imageSrc;
+      img.alt = triggerImg ? triggerImg.alt : '';
+      panel.appendChild(img);
+    }
     if (category) {
       const tag = document.createElement('span');
       tag.className = 'work-tag';
@@ -125,13 +401,15 @@ function initLightbox() {
       panel.appendChild(tag);
     }
 
-    const caption = document.createElement('p');
-    caption.className = 'lightbox-caption';
-    caption.textContent = 'Placeholder composition. Real photography to come.';
-
     stage.appendChild(closeBtn);
     stage.appendChild(panel);
-    stage.appendChild(caption);
+
+    if (captionText) {
+      const caption = document.createElement('p');
+      caption.className = 'lightbox-caption';
+      caption.textContent = captionText;
+      stage.appendChild(caption);
+    }
 
     overlay.classList.add('is-open');
     overlay.setAttribute('aria-hidden', 'false');
