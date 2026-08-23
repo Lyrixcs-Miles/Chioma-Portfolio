@@ -442,7 +442,6 @@ something to animate from.
   the tab regains focus. Always bring the specific tab to the front
   (e.g. a `computer` screenshot call) before judging whether a
   timer-based effect is actually running.
-- The Chrome extension used for live verification (`claude-in-chrome`)
   could not resize its window below its native ~1536px width in this
   environment — `resize_window` calls silently no-op'd. Mobile-viewport
   screenshots were never obtained live; mobile/tablet CSS was verified
