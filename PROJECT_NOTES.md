@@ -124,6 +124,50 @@ this file assumes them.
      across all 8 pages with the correct relative-path prefix per
      page; re-check all 8 via `grep -rn "footer-grid"` if it's ever
      edited again, same caution as the nav.
+- **Oct 2026 "center the brands / style the footer / cards" follow-up**:
+  three more complaints from the same review pass, fixed together.
+  1. **Brand-row mobile centering bug.** `.brand-row`'s
+     `align-items: flex-start` is correct for the desktop row (aligns
+     the number above the name across the row's cross axis), but at the
+     ≤600px breakpoint where the row switches to
+     `flex-direction: column`, that same property governs the now-
+     *horizontal* cross axis instead — without an override every item
+     (and its number) shoved flush-left rather than centering. User
+     report: "center the brands on mobile view... they dont look good."
+     Fixed with a mobile-only `align-items: center` + `a { text-align:
+     center; }` override in `responsive.css`'s ≤600px block. See
+     DESIGN.md's Brand Credits Row section for the full writeup — this
+     is a reusable lesson for any other component that flips
+     `flex-direction` at a breakpoint.
+  2. **Footer form.** Added `.footer-form-row` (a "Send a Quick
+     Message" row with name/email/message fields + submit button)
+     between the footer's main grid and its bottom bar, on all 8 pages.
+     No backend exists on this static site, so `initFooterForm()` in
+     `js/main.js` builds a `mailto:chioma@azhyre.co.za` link from the
+     field values on submit and hands off to the visitor's own email
+     client — the only genuinely functional option without a
+     third-party form-service dependency, which would need separate
+     account setup/approval. An `aria-live="polite"` note under the
+     form confirms the handoff (and gives the email as a manual
+     fallback) since opening a mail client is otherwise invisible
+     feedback. Verified rendering on both a root page (`index.html`)
+     and a `brands/*.html` subpage — the form has no page-relative
+     links, so propagation across the 8 hand-duplicated pages was
+     low-risk. See DESIGN.md's Footer section for the full component
+     writeup.
+  3. **`.focus-item` card redesign.** User: "make the 'what i offer' in
+     cards or something visually appealing." This is a deliberate
+     reversal of the system's earlier "no bordered card grids" Don't
+     rule, done at explicit client direction rather than relitigated —
+     see DESIGN.md's Editorial List section and amended Do's/Don'ts for
+     the full reasoning and scope (the card treatment is scoped to
+     `.focus-item` only; `.glance-list` keeps its original plain
+     hairline-divided text). Pure CSS change, no HTML touched — the
+     component is shared verbatim across Home ("What I Offer"), About
+     ("Where I Create"), and Contact ("Good to Know"), so all three
+     picked up the new card look automatically. Verified on all three
+     pages at mobile width (390px) via the iframe cache-busting
+     workaround described below.
 - Shared across every page: `css/style.css` (base + design system),
   `css/responsive.css` (900px/600px breakpoints), `js/main.js` (glass
   nav toggle/scroll-shrink, portfolio filters, lightbox, ripple,
