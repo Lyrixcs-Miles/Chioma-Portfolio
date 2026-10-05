@@ -1516,12 +1516,32 @@ button:focus-visible {
   padding-top: var(--section-pad);
 }
 
-.footer-grid {
+/* Oct 2026 restructure: the original 3-up grid (brand | nav | connect)
+   put the quick-message form in its own full-width row below, reading
+   as a fourth stack of plain text with nothing to separate it or give
+   it weight — flagged as "flat." Rebuilt as two deliberate zones
+   instead: .footer-info (brand blurb, with Navigate/Connect side by
+   side beneath it) and .footer-form-card (its own tinted, ringed
+   surface, the footer's one CTA object) sitting beside it. */
+.footer-top {
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr 0.8fr;
-  gap: 3rem;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 4rem;
+  align-items: start;
   padding-bottom: 3rem;
   border-bottom: var(--rule-soft);
+}
+
+.footer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2.75rem;
+}
+
+.footer-link-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem;
 }
 
 .footer-wordmark {
@@ -1567,43 +1587,43 @@ button:focus-visible {
   color: var(--color-accent);
 }
 
-/* Quick-message form, Oct 2026 pass. Real functionality within the
-   site's static/no-backend constraint (see PRODUCT.md): submits via
-   `mailto:` (initFooterForm() in main.js), which opens the visitor's
-   own mail client with the message pre-filled rather than silently
-   posting to a server — there is no backend here to post to, and
-   wiring up a third-party form service (Formspree, Netlify Forms,
-   etc.) would be a real architectural addition needing its own
-   account/approval, not something to add unasked. Underline-style
-   inputs (no boxes/borders-all-around), matching the system's flat,
-   hairline-divided language rather than introducing generic rounded
-   form-field chrome. */
-.footer-form-row {
-  padding: 2.5rem 0;
-  border-bottom: var(--rule-soft);
+/* Quick-message form card, Oct 2026 restructure. Real functionality
+   within the site's static/no-backend constraint (see PRODUCT.md):
+   submits via `mailto:` (initFooterForm() in main.js), which opens
+   the visitor's own mail client with the message pre-filled rather
+   than silently posting to a server — there is no backend here to
+   post to, and wiring up a third-party form service (Formspree,
+   Netlify Forms, etc.) would be a real architectural addition needing
+   its own account/approval, not something to add unasked. Underline-
+   style inputs (no boxes/borders-all-around), matching the system's
+   flat, hairline-divided input language even inside the card surface.
+   The surface itself reuses the same tinted-background + 1px-ring
+   language `.focus-item` established for cards — see DESIGN.md's
+   Editorial List section — rather than inventing a second card style.
+   Fields stack full-width (not the old wrapping flex row) since the
+   card is a narrower column than the old full-bleed row was. */
+.footer-form-card {
+  background: rgba(203, 163, 168, 0.06);
+  box-shadow: 0 0 0 1px rgba(243, 233, 231, 0.14);
+  border-radius: 2px;
+  padding: 2.25rem 2rem;
+}
+
+.footer-form-card .footer-label {
+  color: var(--color-accent);
 }
 
 .footer-form {
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  gap: 1.5rem;
+  flex-direction: column;
+  gap: 1.1rem;
   margin-top: 1.25rem;
 }
 
 .footer-form-field {
-  flex: 1 1 160px;
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
-}
-
-.footer-form-field--wide {
-  flex-basis: 220px;
-}
-
-.footer-form-field--grow {
-  flex: 2 1 220px;
 }
 
 .footer-form label {
@@ -1636,16 +1656,18 @@ button:focus-visible {
   border-bottom-color: var(--color-accent);
 }
 
-.footer-form button {
-  /* .btn-secondary was only ever used on <a> tags before (bare by
-     default, no browser chrome); this is the first <button> usage, so
-     native button chrome (background/border/font/cursor) needs an
-     explicit reset before .btn-secondary's own styling applies. */
-  flex: 0 0 auto;
-  background: none;
+/* .btn-primary was only ever used on <a> tags before (no native
+   button chrome to fight); this is the first <button> usage, so a
+   browser's default border/cursor still need an explicit reset on
+   top of .btn-primary's own styling. Full-width and bottom-anchored
+   so it reads as the card's one clear call to action, not a trailing
+   link. */
+.footer-form .btn-primary {
+  width: 100%;
+  text-align: center;
   border: none;
-  font: inherit;
   cursor: pointer;
+  margin-top: 0.4rem;
 }
 
 .footer-form-note {
