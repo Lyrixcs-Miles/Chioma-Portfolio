@@ -32,7 +32,8 @@
   .work-intro,
   .page-header-grid,
   .bio-grid,
-  .contact-grid {
+  .contact-grid,
+  .footer-grid {
     grid-template-columns: 1fr;
     gap: 2.5rem;
   }

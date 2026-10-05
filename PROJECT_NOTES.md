@@ -96,6 +96,34 @@ this file assumes them.
   center itself by default, and this component's own rotate/scale
   transform makes an off-center miss more visually obvious than it
   would be for an unrotated element.**
+- **Oct 2026 "lacks character" pass**: four separate complaints, fixed
+  together where they overlapped.
+  1. **Homepage portfolio-teaser crop.** `.work-panel img`/`.work-panel--large img`
+     had no `object-position` (default 50% 50%), and the large panel
+     especially is a wide landscape box (~761×420 at desktop) cropping
+     a tall portrait phone photo — center-crop cut the subject's head
+     off entirely on `park-halter-trousers-01.jpg`. Checked all 3
+     homepage-teaser photos individually at their real rendered box
+     sizes (not guessed): `balloon-portrait-02.jpg` and
+     `garden-cardigan-01.jpg` already crop fine at center (their
+     subjects sit vertically mid-frame in the source photos), so only
+     `park-halter-trousers-01.jpg` needed a fix — `object-position: 82%
+     6%` (she's positioned right-of-center and near the top of the
+     source photo). **The same photo is also used in
+     `portfolio.html`'s `.portfolio-item--wide` tile** (16:9, a
+     similarly extreme crop) — same fix applied there too via inline
+     `style` on that `<img>`, matching the established "Per-image crop
+     overrides" pattern (see below) rather than a shared CSS rule,
+     since this object-position is specific to this one photo, not a
+     general rule for wide tiles.
+  2. **Brand-row + Editorial List numbering device** — see DESIGN.md's
+     Brand Credits Row and Editorial List sections for the full
+     writeup; one shared numbered-index device fixed "the brand names
+     look pale" and "What I Offer lacks character" together.
+  3. **Real footer** — see DESIGN.md's Footer section. Hand-duplicated
+     across all 8 pages with the correct relative-path prefix per
+     page; re-check all 8 via `grep -rn "footer-grid"` if it's ever
+     edited again, same caution as the nav.
 - Shared across every page: `css/style.css` (base + design system),
   `css/responsive.css` (900px/600px breakpoints), `js/main.js` (glass
   nav toggle/scroll-shrink, portfolio filters, lightbox, ripple,
