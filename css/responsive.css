@@ -206,11 +206,10 @@
     text-align: left;
   }
 
-  .cta-close {
-    text-align: left;
-  }
-
-  .cta-close p {
-    margin: 0 0 2rem;
-  }
+  /* .cta-close was left-aligned here along with the rest of the
+     mobile left-align pass above, but per feedback this one section
+     ("Let's create something with intention.") reads better centered
+     on mobile — reverts to the desktop rule (text-align: center,
+     .cta-close p's auto margins) by simply not overriding it here.
+     Scoped to this one section only; .work-cta above is unaffected. */
 }
