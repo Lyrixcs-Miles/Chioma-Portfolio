@@ -987,18 +987,29 @@ button:focus-visible {
   gap: 1.25rem;
 }
 
+/* Oct 2026 "rectangles aren't doing any justice" pass. Was a flat
+   rectangular tile — border-radius, a 1px hairline edge, two-layer
+   overlay gradient, otherwise completely static — the one place on
+   the site presenting real photography with no trace of the system's
+   signature "peeking accent shape" device (see DESIGN.md's Shapes
+   section) and no interactive feedback at all. Split each tile into
+   two stacked layers instead of one flat box: `.work-panel-accent` is
+   a solid hot-pink layer filling the tile; `.work-panel-photo` sits on
+   top holding the actual photo, clipped with an asymmetric
+   corner-notch `clip-path` (a different corner per tile, see the
+   per-variant rules below) so the pink layer shows through at that one
+   cut corner — the same "accent shape peeks out from behind the
+   photo" idea the hero/page-header device uses, expressed as a clean
+   chamfered notch instead of a rotated photo over a clipped polygon,
+   since rotating individual tiles inside this tight asymmetric grid
+   risked them visually colliding with their neighbors. `.work-tag`
+   stays a direct child of `.work-panel` (not `.work-panel-photo`), so
+   it's never subject to the clip-path — which is also why every
+   notch corner below is deliberately NOT top-left, where the tag
+   always sits. */
 .work-panel {
   position: relative;
-  border-radius: 2px;
-  overflow: hidden;
   min-height: 200px;
-  /* box-shadow, not border — doesn't add to layout box size like a
-     real border would, so it doesn't fight the grid's gap math. Gives
-     each tile a defined edge against the page background and against
-     neighboring tiles whose own edge content (sky, pale clothing)
-     could otherwise blend straight into the page with only the grid
-     gap for separation (Oct 2026 critique: "no proper borders"). */
-  box-shadow: 0 0 0 1px rgba(255, 214, 232, 0.18);
 }
 
 .work-panel--large {
@@ -1014,6 +1025,48 @@ button:focus-visible {
 .work-panel--b {
   grid-column: span 2;
   grid-row: span 1;
+}
+
+.work-panel-accent {
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+  background: var(--color-accent);
+}
+
+.work-panel-photo {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 2px;
+  /* box-shadow, not border — doesn't add to layout box size like a
+     real border would, so it doesn't fight the grid's gap math. Gives
+     each tile a defined edge against the page background and against
+     neighboring tiles whose own edge content (sky, pale clothing)
+     could otherwise blend straight into the page with only the grid
+     gap for separation (Oct 2026 critique: "no proper borders"). Also
+     clipped by the same corner-notch path as the photo it wraps, so
+     the edge reads as one continuous chamfered frame, not a rectangle
+     with a notch cut out of its corner. */
+  box-shadow: 0 0 0 1px rgba(255, 214, 232, 0.18);
+  transition: transform 0.5s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo);
+}
+
+.work-panel:hover .work-panel-photo {
+  transform: scale(1.035);
+  box-shadow: 0 24px 44px -24px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 214, 232, 0.24);
+}
+
+.work-panel--large .work-panel-photo {
+  clip-path: polygon(0 0, 100% 0, 100% 88%, 90% 100%, 0 100%);
+}
+
+.work-panel--a .work-panel-photo {
+  clip-path: polygon(0 0, 88% 0, 100% 14%, 100% 100%, 0 100%);
+}
+
+.work-panel--b .work-panel-photo {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 14% 100%, 0 86%);
 }
 
 .work-panel .swatch,
@@ -1037,7 +1090,7 @@ button:focus-visible {
   background: linear-gradient(20deg, var(--color-bg-blush) 0%, var(--color-accent-soft) 100%);
 }
 
-.work-panel::after {
+.work-panel-photo::after {
   content: '';
   position: absolute;
   inset: 0;
