@@ -1528,13 +1528,19 @@ button:focus-visible {
   padding-top: var(--section-pad);
 }
 
-/* Oct 2026 restructure: the original 3-up grid (brand | nav | connect)
-   put the quick-message form in its own full-width row below, reading
-   as a fourth stack of plain text with nothing to separate it or give
-   it weight — flagged as "flat." Rebuilt as two deliberate zones
-   instead: .footer-info (brand blurb, with Navigate/Connect side by
-   side beneath it) and .footer-form-card (its own tinted, ringed
-   surface, the footer's one CTA object) sitting beside it. */
+/* Oct 2026 restructure, then same-day reorder: the original 3-up grid
+   (brand | nav | connect) put the quick-message form in its own
+   full-width row below, reading as a fourth stack of plain text with
+   nothing to separate it or give it weight — flagged as "flat."
+   Rebuilt as two zones: .footer-contact (brand blurb, then the form
+   card stacked directly beneath it) on the left, .footer-link-columns
+   (Navigate/Connect side by side) on the right. Per feedback, the form
+   needed to read before Navigate/Connect rather than after — grouping
+   it with the brand block (both "about/reach us") against the nav
+   links (all "where to go") also reads as a cleaner split than the
+   form being a disconnected third element. At the ≤900px collapse
+   this stacking order falls out automatically: brand, then form, then
+   Navigate/Connect. */
 .footer-top {
   display: grid;
   grid-template-columns: 1.3fr 1fr;
@@ -1544,10 +1550,10 @@ button:focus-visible {
   border-bottom: var(--rule-soft);
 }
 
-.footer-info {
+.footer-contact {
   display: flex;
   flex-direction: column;
-  gap: 2.75rem;
+  gap: 2rem;
 }
 
 .footer-link-columns {
