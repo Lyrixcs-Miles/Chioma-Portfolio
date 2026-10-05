@@ -152,25 +152,43 @@
             on the Portfolio page.
           </p>
         </div>
+        <!-- Shared heart clip-path for every .work-panel-accent/.work-panel-photo
+             below. objectBoundingBox units so the same path scales to each
+             element's own box rather than a fixed pixel size — defined once
+             here since clip-path: url(#...) works by id regardless of where
+             the referencing element sits in the document. -->
+        <svg width="0" height="0" style="position: absolute;" aria-hidden="true">
+          <defs>
+            <clipPath id="heart-clip" clipPathUnits="objectBoundingBox">
+              <path d="M0.5,0.9 C0.2,0.68 0.02,0.47 0.02,0.28 C0.02,0.12 0.15,0.02 0.29,0.02 C0.39,0.02 0.46,0.08 0.5,0.18 C0.54,0.08 0.61,0.02 0.71,0.02 C0.85,0.02 0.98,0.12 0.98,0.28 C0.98,0.47 0.8,0.68 0.5,0.9 Z"></path>
+            </clipPath>
+          </defs>
+        </svg>
         <div class="work-grid reveal">
           <div class="work-panel work-panel--large">
-            <div class="work-panel-accent"></div>
-            <div class="work-panel-photo">
-              <img src="images/portfolio/fashion/park-halter-trousers-01.jpg" alt="Fashion look: white cutout halter top and camel trousers, shot in a city park." style="object-position: 82% 6%;">
+            <div class="work-panel-frame">
+              <div class="work-panel-accent"></div>
+              <div class="work-panel-photo">
+                <img src="images/portfolio/fashion/park-halter-trousers-01.jpg" alt="Fashion look: white cutout halter top and camel trousers, shot in a city park." style="object-position: 50% 30%;">
+              </div>
             </div>
             <span class="work-tag">Fashion</span>
           </div>
           <div class="work-panel work-panel--a">
-            <div class="work-panel-accent"></div>
-            <div class="work-panel-photo">
-              <img src="images/portfolio/beauty/balloon-portrait-02.jpg" alt="Beauty portrait, braided hair, balloon backdrop.">
+            <div class="work-panel-frame">
+              <div class="work-panel-accent"></div>
+              <div class="work-panel-photo">
+                <img src="images/portfolio/beauty/balloon-portrait-02.jpg" alt="Beauty portrait, braided hair, balloon backdrop.">
+              </div>
             </div>
             <span class="work-tag">Beauty</span>
           </div>
           <div class="work-panel work-panel--b">
-            <div class="work-panel-accent"></div>
-            <div class="work-panel-photo">
-              <img src="images/portfolio/lifestyle/garden-cardigan-01.jpg" alt="Lifestyle portrait smiling in a white cardigan, garden setting with mountains behind.">
+            <div class="work-panel-frame">
+              <div class="work-panel-accent"></div>
+              <div class="work-panel-photo">
+                <img src="images/portfolio/lifestyle/garden-cardigan-01.jpg" alt="Lifestyle portrait smiling in a white cardigan, garden setting with mountains behind." style="object-position: center 70%;">
+              </div>
             </div>
             <span class="work-tag">Lifestyle</span>
           </div>

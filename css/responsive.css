@@ -154,18 +154,6 @@
     gap: 1.25rem;
   }
 
-  .work-grid {
-    grid-template-columns: 1fr;
-    grid-auto-rows: minmax(220px, auto);
-  }
-
-  .work-panel--large,
-  .work-panel--a,
-  .work-panel--b {
-    grid-column: span 1;
-    grid-row: span 1;
-  }
-
   .portfolio-grid {
     grid-template-columns: 1fr;
   }
