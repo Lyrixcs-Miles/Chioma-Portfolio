@@ -710,6 +710,47 @@ future session edits `main.js` and sees a redeclaration error that
 makes no sense against the current file contents, suspect this before
 suspecting the code.
 
+### "Selected Work" corner-notch tiles, Oct 2026
+User feedback: "the rectangles aren't doing any justice... put them in
+something else... that [has] style." `.work-panel` was the one
+remaining flat-rectangle photo tile on the site — no tilt, no peeking
+accent shape, no hover state — everywhere else real photography sits
+inside the hero/page-header's rotated-photo-plus-clipped-shape device
+or `.portfolio-item`'s hover-scale tile. See DESIGN.md's Shapes section
+("Corner-notch variant") for the full visual spec; the short version:
+each `.work-panel` became two stacked absolutely-positioned layers
+(`.work-panel-accent`, a solid pink fill; `.work-panel-photo`, the
+actual photo with an asymmetric `clip-path` notch cut into one
+corner), so the pink layer shows through exactly at the cut.
+
+**Why two layers instead of one `clip-path` + `::before` on
+`.work-panel` itself:** `clip-path` on an element clips that element's
+entire rendered output, pseudo-elements included — so a `::before`
+meant to peek *outside* the clipped shape gets clipped away too if
+it's a descendant of the same clipped element (confirmed by trying
+exactly that first). The hero/page-header device already solves this
+the same way (two real sibling elements, `.page-header-photo-back` +
+`.page-header-photo`, not one element with pseudo-elements) — this
+component follows that precedent rather than fighting clip-path
+semantics with a single element.
+
+**Why a straight corner-notch instead of reusing the rotated-photo
+device verbatim:** `.work-panel` tiles sit in a tight 6-column
+asymmetric grid with only `1.25rem` gap; rotating individual tiles the
+way the hero/page-header photos do would risk a tile visually
+colliding with its neighbor at the grid's tighter spacing, especially
+the large 4-column-span tile. A `clip-path` notch doesn't need any
+extra surrounding space (it only crops within the tile's own existing
+box), so it was the safer way to bring the same "accent shape peeks
+out" idea into a dense grid context — see DESIGN.md's updated "Do"
+rule on this.
+
+**`buildHomeTeaser()` in `main.js` needed no changes** — it already
+queries `panel.querySelector('img')`/`panel.querySelector('.work-tag')`
+as descendant selectors, which still resolve correctly now that
+`<img>` sits one level deeper inside the new `.work-panel-photo`
+wrapper.
+
 ### Gallery-tile swatch bug (brand campaign previews)
 `.gallery-tile .swatch` (the brand-page campaign-preview galleries)
 had never had a positioning rule — `.swatch` spans have no intrinsic
