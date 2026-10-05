@@ -194,6 +194,19 @@ this file assumes them.
   via the iframe cache-busting workaround — `resize_window` silently
   capped at ~1536px again this session, see the environment quirks
   section) on both a root page and a `brands/*.html` subpage.
+- **Oct 2026 footer reorder, next session.** User: "move the form above
+  the connect and navigate." Renamed `.footer-info` to `.footer-contact`
+  and moved `.footer-form-card`'s markup inside it, directly after
+  `.footer-brand` — `.footer-link-columns` (Navigate/Connect) is now
+  the grid's right-hand zone instead of being nested inside the left
+  one with the form sitting separately on the right. Net effect: the
+  stacking order at the ≤900px collapse (and the desktop reading order,
+  left-to-right) is now brand → form → Navigate/Connect. Propagated via
+  the same `update_footer.py` scratchpad script used for the original
+  footer build and the prior restructure — same relative-path-prefix
+  logic, re-verify all 8 pages the same way if the footer changes
+  again. Verified at mobile (390px, iframe workaround) and desktop on
+  the homepage. Detector run clean.
 - **Oct 2026 "Editorial Spotlight Pink" palette repaint.** User request:
   "use one of these color palettes," linking a black/pink palette
   reference guide (Filmora's black-pink palette article) rather than
