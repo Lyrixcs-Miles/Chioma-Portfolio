@@ -47,11 +47,6 @@
     grid-template-columns: 1fr;
   }
 
-  .focus-item {
-    border-right: none;
-    padding-right: 0;
-  }
-
   .portfolio-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -190,9 +185,20 @@
     grid-template-columns: 1fr;
   }
 
+  /* align-items: flex-start on .brand-row (style.css) aligns the
+     number above each name vertically in the desktop row layout — but
+     align-items controls the CROSS axis, which flips to horizontal
+     once flex-direction switches to column here, so without this
+     override every item (and its number) shoves flush-left instead of
+     centering (confirmed live, read as "the brands don't look good"). */
   .brand-row {
     flex-direction: column;
+    align-items: center;
     gap: 1.5rem;
+  }
+
+  .brand-row a {
+    text-align: center;
   }
 
   .work-cta,

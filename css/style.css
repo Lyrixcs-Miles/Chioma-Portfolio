@@ -823,26 +823,41 @@ button:focus-visible {
   padding: var(--section-pad) 0;
 }
 
+/* Oct 2026 "What I Offer lacks character" pass: this was a plain
+   hairline-divided text grid (deliberately, per the system's original
+   "no icon+heading+text cards" rule) — the user explicitly asked for
+   cards this time, a direct reversal of that rule, not a
+   misunderstanding of it. See the amended Don't rule in DESIGN.md.
+   Reused on all three pages that share this component (Home/About/
+   Contact), not just the one instance asked about, so the site
+   doesn't end up with two different treatments of the same pattern. */
 .focus-list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
   margin-top: 2.5rem;
-  border-top: var(--rule-soft);
-  /* Numbered-index device, Oct 2026 "lacks character" pass — reused
-     identically on .brand-row below for one consistent signature
-     across both complaints rather than two separate fixes. */
   counter-reset: focus-counter;
 }
 
 .focus-item {
   counter-increment: focus-counter;
-  padding: 2rem 1.75rem 2rem 0;
-  border-bottom: var(--rule-soft);
-  border-right: var(--rule-soft);
+  padding: 2.5rem 2rem;
+  border-radius: 2px;
+  /* Background is a translucent ivory wash over whatever the section's
+     own background is, not a new hex — reads as "a card lifted off
+     this surface" regardless of which dark tier it sits on (reused on
+     .focus-section's --color-bg-pearl here, but stays correct if this
+     component ever lands on a different section background). Edge
+     reuses the same box-shadow-as-border device as photo tiles. */
+  background: rgba(243, 233, 231, 0.04);
+  box-shadow: 0 0 0 1px rgba(243, 233, 231, 0.12);
+  transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo), background 0.4s var(--ease-out-expo);
 }
 
-.focus-item:last-child {
-  border-right: none;
+.focus-item:hover {
+  transform: translateY(-6px);
+  background: rgba(243, 233, 231, 0.07);
+  box-shadow: 0 24px 44px -24px rgba(11, 8, 8, 0.6), 0 0 0 1px rgba(243, 233, 231, 0.18);
 }
 
 /* Large muted italic numeral above each item — same italic-serif
@@ -1550,6 +1565,94 @@ button:focus-visible {
 
 .footer-links a:hover {
   color: var(--color-accent);
+}
+
+/* Quick-message form, Oct 2026 pass. Real functionality within the
+   site's static/no-backend constraint (see PRODUCT.md): submits via
+   `mailto:` (initFooterForm() in main.js), which opens the visitor's
+   own mail client with the message pre-filled rather than silently
+   posting to a server — there is no backend here to post to, and
+   wiring up a third-party form service (Formspree, Netlify Forms,
+   etc.) would be a real architectural addition needing its own
+   account/approval, not something to add unasked. Underline-style
+   inputs (no boxes/borders-all-around), matching the system's flat,
+   hairline-divided language rather than introducing generic rounded
+   form-field chrome. */
+.footer-form-row {
+  padding: 2.5rem 0;
+  border-bottom: var(--rule-soft);
+}
+
+.footer-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 1.5rem;
+  margin-top: 1.25rem;
+}
+
+.footer-form-field {
+  flex: 1 1 160px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.footer-form-field--wide {
+  flex-basis: 220px;
+}
+
+.footer-form-field--grow {
+  flex: 2 1 220px;
+}
+
+.footer-form label {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+
+.footer-form input {
+  background: transparent;
+  border: none;
+  border-bottom: var(--rule-soft);
+  padding: 0.5rem 0;
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  transition: border-color 0.3s var(--ease-out-expo);
+}
+
+.footer-form input::placeholder {
+  color: var(--color-ink-soft);
+  opacity: 0.7;
+}
+
+.footer-form input:focus {
+  outline: none;
+  border-bottom-color: var(--color-accent);
+}
+
+.footer-form button {
+  /* .btn-secondary was only ever used on <a> tags before (bare by
+     default, no browser chrome); this is the first <button> usage, so
+     native button chrome (background/border/font/cursor) needs an
+     explicit reset before .btn-secondary's own styling applies. */
+  flex: 0 0 auto;
+  background: none;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.footer-form-note {
+  margin-top: 0.85rem;
+  font-size: 0.78rem;
+  color: var(--color-ink-soft);
+  min-height: 1.2em;
 }
 
 .footer-bottom {

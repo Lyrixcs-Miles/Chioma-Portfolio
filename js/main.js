@@ -10,7 +10,33 @@ document.addEventListener('DOMContentLoaded', () => {
   initPolaroidStack();
   initHeaderPhoto();
   initStickyNav();
+  initFooterForm();
 });
+
+// Footer "quick message" form — the site is static with no backend (see
+// PRODUCT.md), so this can't silently POST anywhere; it builds a mailto:
+// link from the three fields and hands off to the visitor's own mail
+// client instead, which is genuinely functional without needing a
+// third-party form service. Shows a brief confirmation note rather than
+// just silently redirecting, since handing off to mailto: can otherwise
+// look like nothing happened if the OS is slow to switch apps.
+function initFooterForm() {
+  const form = document.querySelector('.footer-form');
+  if (!form) return;
+  const note = form.querySelector('.footer-form-note');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = form.elements.name.value.trim();
+    const email = form.elements.email.value.trim();
+    const message = form.elements.message.value.trim();
+    const subject = encodeURIComponent(`Inquiry from ${name}`);
+    const body = encodeURIComponent(`${message}\n\n— ${name} (${email})`);
+    window.location.href = `mailto:chioma@azhyre.co.za?subject=${subject}&body=${body}`;
+    if (note) {
+      note.textContent = "Opening your email app to send this — if nothing happens, email chioma@azhyre.co.za directly.";
+    }
+  });
+}
 
 // Header sizing/visibility on scroll, matching .site-nav's .is-compact/
 // .is-shadow/.is-hidden classes in style.css: fully grown (no class) only
