@@ -167,6 +167,56 @@ The site header (`.site-nav`) is a sticky, dark-noir glass bar
 accordion) sliding in over a dimming `.nav-scrim`. Both share the same
 dark glass + `.glass-ripples` decorative rings.
 
+**Oct 2026 critique fixes (three separate issues found in one pass,
+via a dual-agent `/impeccable critique` — see `.impeccable/critique/`
+for the full report):**
+- **Muddy nav color.** `backdrop-filter: blur(...) saturate(160%)` was
+  tuned for the old lavender-tinted background — boosting the
+  saturation of a faint lavender bleed-through read as rich glass.
+  Against the current blush-pink background it instead boosted the
+  pink into a visibly muddy brown/taupe cast on every page load,
+  confirmed live via screenshot. Fixed by dropping to `saturate(100%)`
+  (no boost) and raising the base background alpha (`.site-nav`:
+  `.78` → `.9`; `.nav-collapse`: `.84` → `.93`) to compensate so the
+  bar still reads as glass, not flat. **If you ever retint this glass
+  background again, test it live against the real page background
+  behind it** — `saturate()` in a `backdrop-filter` amplifies whatever
+  color is actually behind the element, not just the element's own
+  background-color, so the "right" hex value depends on what's behind
+  it, not just the token itself.
+- **Mobile horizontal overflow.** The closed `.nav-collapse` drawer
+  sits at `transform: translateX(...)`, not `display: none`, and
+  nothing clipped it — every page had ~305px of horizontal overflow at
+  phone width (confirmed via `document.documentElement.scrollWidth` vs
+  `clientWidth` in a sized iframe), so a visitor swiping sideways on
+  their phone could scroll the whole page and see the drawer bleed
+  into view without ever opening it. Fixed with `overflow-x: hidden`
+  on both `html` and `body` in `style.css`. Safe with the full-bleed
+  `position: fixed` header — fixed elements size against the viewport
+  regardless of an ancestor's `overflow-x`.
+- **Ripple rings colliding with nav link text.** `.glass-ripples
+  span:nth-child(N)` positions were percentages roughly spanning the
+  bar's vertical center (`top: 25–70%`), which is also where nav link
+  text sits — at some viewport widths a ring's horizontal position
+  landed on a specific link ("BRANDS" at one width, "ABOUT" at
+  another), reading as a stray UI dot rather than ambient decoration.
+  Moving one ring just shifted which link it collided with at a
+  different width, so the real fix was systemic: all 6 rings now sit
+  near the bar's top/bottom edges (`top: 15%`/`85%`) instead of its
+  vertical center, avoiding the text band entirely regardless of
+  viewport. **The mobile drawer reuses the exact same `.glass-ripples
+  span` rules** (it's a shared class, same spans), but the drawer is a
+  tall, narrow, top-aligned link *list* rather than a short wide bar —
+  the same edge-hugging percentages don't generalize there (they can
+  still land on a link vertically, and it shifts with viewport
+  *height* now, not width). Rather than chase a geometric fix across
+  every possible drawer height, `.nav-collapse .glass-ripples span`
+  gets a `responsive.css` override that fades the ring borders further
+  (`rgba(250,249,251,.35)` → `.16`) so even where one does sit near a
+  link, it reads as background texture, not a UI element. **If you add
+  a 4th context that reuses `.glass-ripples`, don't assume either
+  existing fix transfers — check it against that context's own layout.**
+
 **`.site-nav` vs `.nav-inner` split (full-bleed bar, capped content):**
 `.site-nav` used to also carry the `.container` class directly, which
 capped the entire glass bar — background, blur, border, everything —
@@ -356,6 +406,20 @@ overlay (same pattern as `.portfolio-item`/`.work-panel`) in
 verification issues noted below meant these tiles were never actually
 looked at in a browser.**
 
+**Second swatch bug, Oct 2026 critique:** `.swatch-1`
+(`linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-deep) 70%)`)
+paired two near-black stops (`#171212` → `#0B0808`) with almost no
+luminance gap — it rendered as a flat black square with no visible
+gradient, indistinguishable from a broken image (confirmed via
+computed styles; used on `brands/azhyre-tech.html` and
+`brands/serenq.html`, both of which include `.swatch-1`). Fixed by
+pairing it with `--color-accent-soft` (dusty rose) instead, matching
+the dark+light pattern every other swatch already uses. **If you add
+another swatch, keep both gradient stops' colors from the same side of
+the Soft-Noir Rule's light/dark split** — two near-black or two
+near-white stops will read as a flat, broken-looking block regardless
+of which two tokens they are.
+
 ### Hero polaroid stack (replaces the old silhouette placeholder)
 `index.html`'s hero visual is now a stack of 6 real photos
 (`.polaroid-stack` > `.polaroid-card`s with `data-polaroid-stack` /
@@ -389,21 +453,34 @@ in `main.js` drives everything else:
   if JS fails to run.
 
 ### Page-header photo (About/Portfolio/Brands/Contact)
-The smaller `.silhouette-frame.small` purple panel used in every other
-page's masthead is now `.page-header-photo-frame` — a real photo, and
-**only** one of the 4 `images/portfolio/beauty/mirror-selfie-0{1..4}.jpg`
-photos per the user's request to keep this treatment to that specific
-set. `initHeaderPhoto()` in `main.js` picks one of the 4 at random on
+The smaller `.silhouette-frame.small` panel used in every other
+page's masthead is now `.page-header-photo-frame` — a real photo.
+`initHeaderPhoto()` in `main.js` picks one of `HEADER_PHOTOS` at random on
 every page load (`[data-header-photo]`) rather than a fixed per-page
 assignment — reads the existing `src`'s `../` prefix (brand pages are
 one directory deeper) so the swap works from either root or `brands/`.
 Visually it's a two-layer composition echoing the hero's old
 silhouette-back/front bleed, now with a photo standing in for the front
-shape: `.page-header-photo-back` is the same purple clipped-polygon
+shape: `.page-header-photo-back` is the same dusty-rose clipped-polygon
 shape as the hero's `.silhouette-back`, offset behind; `.page-header-photo`
 is the photo, rotated (`rotate(-4deg)`) and scaled up slightly
 (`scale(1.06)`) so it reads as bigger/more dynamic than a flat
-rectangle and the purple shape peeks out from behind on one side.
+rectangle and the dusty-rose shape peeks out from behind on one side.
+
+**Pool widened, Oct 2026 critique:** originally **only** the 4
+`images/portfolio/beauty/mirror-selfie-0{1..4}.jpg` photos, per an
+earlier request to keep this treatment to that specific set. All 4 are
+near-identical black-and-white shots in the same pose family, so even
+genuinely random picks (`Math.random()`, confirmed not a caching bug)
+read as repetitive across consecutive page loads. Widened to 7 photos
+spanning all 3 portfolio categories — each addition was checked at the
+actual `aspect-ratio: 3/4, object-fit: cover, object-position: 50% 50%`
+crop before being added; all three new ones crop cleanly at the
+default center position, so none needed a per-image `object-position`
+override. **If this pool is narrowed back down or re-themed, re-check
+each candidate's crop the same way first** — see "Per-image crop
+overrides" below for what happens when a photo doesn't crop cleanly at
+the default center position.
 Neither layer sets `overflow: hidden` on the outer `-frame` (matching
 the hero's `.silhouette-frame`, which never clipped its own children
 either) — that's what lets the back shape's offset actually show.

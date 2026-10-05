@@ -59,15 +59,28 @@ function initStickyNav() {
 }
 
 // Page-header photo (About/Portfolio/Brands/Contact masthead) — picks one
-// of the same 4 mirror-selfie photos at random on each load, so the
-// page/photo pairing isn't fixed. If JS never runs, each page's own
-// hard-coded src/alt (set directly in the HTML) stays visible as a
-// sensible default.
+// of these photos at random on each load, so the page/photo pairing isn't
+// fixed. If JS never runs, each page's own hard-coded src/alt (set
+// directly in the HTML) stays visible as a sensible default.
+//
+// Originally just the 4 beauty mirror-selfies — all near-identical
+// black-and-white shots in the same pose family, so even genuinely
+// random picks (confirmed: this uses Math.random(), not a caching bug)
+// read as repetitive across page loads. Widened to span all 3 portfolio
+// categories (fashion/beauty/lifestyle) for real visual variety. Each
+// addition was checked at the actual `aspect-ratio: 3/4, object-fit:
+// cover, object-position: 50% 50%` crop used by `.page-header-photo`
+// before being added — all three crop cleanly at the default center
+// position, so none needed a per-image object-position override (see
+// "Per-image crop overrides" below for when one would be needed).
 const HEADER_PHOTOS = [
   { src: 'images/portfolio/beauty/mirror-selfie-01.jpg', alt: 'Black and white mirror portrait in a hoodie, head tilted, looking down at the phone screen.' },
   { src: 'images/portfolio/beauty/mirror-selfie-02.jpg', alt: 'Black and white mirror portrait in a hoodie, closer crop, looking down at the phone screen.' },
   { src: 'images/portfolio/beauty/mirror-selfie-03.jpg', alt: 'Black and white mirror portrait in a hoodie, hand resting on top of head, looking down at the phone screen.' },
   { src: 'images/portfolio/beauty/mirror-selfie-04.jpg', alt: 'Black and white mirror portrait in a hoodie, seated, looking directly at the camera.' },
+  { src: 'images/portfolio/fashion/tree-road-front-bw.jpg', alt: 'Black and white fashion portrait facing the camera on a tree-lined avenue.' },
+  { src: 'images/portfolio/beauty/balloon-portrait-02.jpg', alt: 'Beauty portrait, closer crop, braided hair, balloon backdrop.' },
+  { src: 'images/portfolio/lifestyle/garden-cardigan-01.jpg', alt: 'Lifestyle portrait smiling in a white cardigan, garden setting with mountains behind.' },
 ];
 
 function initHeaderPhoto() {
