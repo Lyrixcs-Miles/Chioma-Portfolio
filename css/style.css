@@ -178,7 +178,7 @@ header {
   background: rgba(23, 18, 18, 0.9);
   backdrop-filter: blur(18px) saturate(100%);
   -webkit-backdrop-filter: blur(18px) saturate(100%);
-  border-bottom: 1px solid rgba(250, 249, 251, 0.14);
+  border-bottom: 1px solid rgba(243, 233, 231, 0.14);
   transition: padding 0.45s var(--ease-out-expo), box-shadow 0.45s var(--ease-out-expo), transform 0.45s var(--ease-out-expo);
 }
 
@@ -220,7 +220,7 @@ header {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  border: 1px solid rgba(250, 249, 251, 0.35);
+  border: 1px solid rgba(243, 233, 231, 0.35);
   opacity: 0;
   animation: ripple-pulse 4s ease-out infinite;
 }
@@ -750,7 +750,7 @@ button:focus-visible {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 75% 15%, rgba(255, 255, 255, 0.3), transparent 55%),
+    radial-gradient(circle at 75% 15%, rgba(243, 233, 231, 0.3), transparent 55%),
     linear-gradient(195deg, rgba(23, 18, 18, 0) 55%, rgba(23, 18, 18, 0.28) 100%);
   mix-blend-mode: soft-light;
   pointer-events: none;
@@ -982,7 +982,7 @@ button:focus-visible {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 75% 15%, rgba(255, 255, 255, 0.3), transparent 55%),
+    radial-gradient(circle at 75% 15%, rgba(243, 233, 231, 0.3), transparent 55%),
     linear-gradient(195deg, rgba(23, 18, 18, 0) 55%, rgba(23, 18, 18, 0.28) 100%);
   mix-blend-mode: soft-light;
   pointer-events: none;
@@ -1123,7 +1123,7 @@ button:focus-visible {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 75% 15%, rgba(255, 255, 255, 0.3), transparent 55%),
+    radial-gradient(circle at 75% 15%, rgba(243, 233, 231, 0.3), transparent 55%),
     linear-gradient(195deg, rgba(23, 18, 18, 0) 55%, rgba(23, 18, 18, 0.28) 100%);
   mix-blend-mode: soft-light;
   pointer-events: none;
@@ -1261,7 +1261,7 @@ button:focus-visible {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 75% 15%, rgba(255, 255, 255, 0.3), transparent 55%),
+    radial-gradient(circle at 75% 15%, rgba(243, 233, 231, 0.3), transparent 55%),
     linear-gradient(195deg, rgba(23, 18, 18, 0) 55%, rgba(23, 18, 18, 0.28) 100%);
   mix-blend-mode: soft-light;
   pointer-events: none;
@@ -1604,7 +1604,7 @@ button:focus-visible {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 75% 15%, rgba(255, 255, 255, 0.3), transparent 55%),
+    radial-gradient(circle at 75% 15%, rgba(243, 233, 231, 0.3), transparent 55%),
     linear-gradient(195deg, rgba(23, 18, 18, 0) 55%, rgba(23, 18, 18, 0.28) 100%);
   mix-blend-mode: soft-light;
   pointer-events: none;
@@ -1697,7 +1697,7 @@ button:focus-visible {
 
 .portfolio-item,
 .lightbox-close {
-  --ripple-color: rgba(250, 249, 251, 0.35);
+  --ripple-color: rgba(243, 233, 231, 0.35);
 }
 
 /* Flipped light — was a dark ripple on the already-dark nav glass
