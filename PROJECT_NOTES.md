@@ -122,8 +122,10 @@ this file assumes them.
      look pale" and "What I Offer lacks character" together.
   3. **Real footer** — see DESIGN.md's Footer section. Hand-duplicated
      across all 8 pages with the correct relative-path prefix per
-     page; re-check all 8 via `grep -rn "footer-grid"` if it's ever
-     edited again, same caution as the nav.
+     page; re-check all 8 via `grep -rn "footer-top"` if it's ever
+     edited again, same caution as the nav. (Originally built as
+     `.footer-grid`, a flat 3-column row — restructured into
+     `.footer-top` below.)
 - **Oct 2026 "center the brands / style the footer / cards" follow-up**:
   three more complaints from the same review pass, fixed together.
   1. **Brand-row mobile centering bug.** `.brand-row`'s
@@ -168,6 +170,30 @@ this file assumes them.
      picked up the new card look automatically. Verified on all three
      pages at mobile width (390px) via the iframe cache-busting
      workaround described below.
+- **Oct 2026 footer "flat" / "navigate and connect messes things up"
+  restructure.** Same-day follow-up on the footer built above: user
+  reported the footer still "looks flat" and that having Navigate and
+  Connect in the same 3-column row as the brand block "messes things
+  up," suggesting either Navigate/Connect side by side with the form
+  in its own container to the right, or that same side-by-side pair
+  with the form container above/below. Replaced `.footer-grid` (brand
+  | Navigate | Connect, flat 3-up) with `.footer-top`, a 2-zone
+  `1.3fr 1fr` grid: `.footer-info` (brand block + `.footer-link-
+  columns`, a 2-col sub-grid putting Navigate and Connect side by
+  side) on the left, `.footer-form-card` on the right. The form card
+  reuses the `.focus-item` card surface (tinted background + 1px ring,
+  see DESIGN.md's Editorial List section) rather than a new card
+  style, gets its own accent-colored label, stacks its fields full-
+  width instead of the old wrapping flex row, and swaps its submit
+  button from `.btn-secondary` to a full-width `.btn-primary` — giving
+  the footer one clear CTA object instead of a fourth stack of plain
+  text. At ≤900px (`.footer-top`'s existing collapse breakpoint) the
+  card falls below the info column, matching the "container above or
+  below" fallback the user floated. Verified at both desktop
+  (1440×900, `resize_window` worked this session) and mobile (390px,
+  via the iframe cache-busting workaround — `resize_window` silently
+  capped at ~1536px again this session, see the environment quirks
+  section) on both a root page and a `brands/*.html` subpage.
 - Shared across every page: `css/style.css` (base + design system),
   `css/responsive.css` (900px/600px breakpoints), `js/main.js` (glass
   nav toggle/scroll-shrink, portfolio filters, lightbox, ripple,

@@ -33,7 +33,7 @@
   .page-header-grid,
   .bio-grid,
   .contact-grid,
-  .footer-grid {
+  .footer-top {
     grid-template-columns: 1fr;
     gap: 2.5rem;
   }
@@ -199,6 +199,18 @@
 
   .brand-row a {
     text-align: center;
+  }
+
+  /* Each Navigate/Connect column still only holds short single-word
+     (or one-line) entries at this width, so they stay side by side
+     rather than stacking to a single column — just with a tighter gap
+     and a smaller card inset to fit the narrower container. */
+  .footer-link-columns {
+    gap: 1.25rem;
+  }
+
+  .footer-form-card {
+    padding: 1.75rem 1.5rem;
   }
 
   .work-cta,
