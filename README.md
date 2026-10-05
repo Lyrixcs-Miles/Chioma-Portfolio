@@ -1,6 +1,6 @@
-# Eullie Portfolio
+# Chioma Portfolio
 
-Personal portfolio site for Eullie, hosted at [eullie.azhyre.co.za](https://eullie.azhyre.co.za).
+Personal portfolio site for Chioma, hosted at [soma.azhyre.co.za](https://soma.azhyre.co.za).
 
 ## Structure
 

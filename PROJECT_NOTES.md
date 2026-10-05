@@ -1,4 +1,4 @@
-# Project Notes — Eullie Portfolio
+# Project Notes — Chioma Portfolio
 
 Operational handoff doc: build status, remaining placeholders, and
 technical implementation details that don't belong in `PRODUCT.md`
@@ -11,9 +11,15 @@ this file assumes them.
 
 - Static site, no build step, no framework, no npm. Open `index.html`
   directly or serve the folder with any static server.
-- Deployed via GitHub Pages at `eullie.azhyre.co.za` (see `CNAME`).
-- Site name is **Eullie** (renamed from an earlier "Lettie" placeholder
-  partway through the build — every file was updated to match).
+- Deployed via GitHub Pages at `soma.azhyre.co.za` (see `CNAME`) — an
+  invented subdomain (echoing her TikTok handle `@itssoma75`), not a
+  literal rendering of her name; `azhyre.co.za` itself belongs to the
+  Azhyre brand family and wasn't Claude's to invent.
+- Site name is **Chioma** (renamed from an earlier "Lettie" placeholder
+  during the original build, then from "Eullie" when the site changed
+  to a different subject — every file was updated to match each time,
+  including `contact.html`'s email, phone numbers, and socials — see
+  "Real contact details" below).
 - Shared across every page: `css/style.css` (base + design system),
   `css/responsive.css` (900px/600px breakpoints), `js/main.js` (glass
   nav toggle/scroll-shrink, portfolio filters, lightbox, ripple,
@@ -57,9 +63,27 @@ HTML comment `<!-- Placeholder ... -->` to find the exact spot.
   `<link rel="icon">`, file does not exist (harmless 404, not visible
   to users, but worth adding a real favicon before launch).
 
-**Already resolved, not placeholder:** contact email, Instagram/TikTok/
-Facebook handles, and the three brand website links — the user filled
-these in directly.
+**Already resolved, not placeholder:** contact email(s), phone numbers,
+Instagram/TikTok handles, and the three brand website links — the user
+filled these in directly.
+
+**Chioma's real contact details (as of the Eullie → Chioma rename):**
+business email `chioma@azhyre.co.za`, personal email
+`chiomabvuma@icloud.com`, phone `+27 79 247 4794` (primary) and
+`+27 69 474 5469` (alternate), Instagram `@itsschibaby`, TikTok
+`@itssoma75`. **No Facebook** — the old Facebook entry
+("Euleth A. Ngobeni") was removed from `contact.html` rather than kept
+or guessed-at, since no Facebook presence was supplied for Chioma.
+`contact.html`'s `.contact-grid` grew from two columns (Email, Find Me
+On) to three (Email+personal email, Phone, Find Me On) to fit the new
+fields; `css/style.css`'s `.contact-grid` is now `1fr 1fr 1fr` / `gap:
+3rem` instead of `1fr 1fr` / `gap: 4rem` — still collapses to one
+column at the existing 900px breakpoint, no new CSS classes needed
+(the extra email/phone lines reuse `.contact-social`/`.contact-socials`
+as-is). The personal email's surname ("Bvuma") differs from the site's
+public name (Chioma Miyelani Anieze) — same pattern as the old site's
+Facebook name differing from its "Eullie" brand name; not a mistake to
+"fix."
 
 ## Technical implementation notes
 
@@ -81,12 +105,15 @@ these in directly.
 
 ### Typewriter effect (hero wordmark)
 `initTypewriter()` in `main.js` cycles the hero wordmark through
-`WORDS = ['Eullie', 'Euleth', 'Amukelo', 'Ngobeni']` forever — type in,
+`WORDS = ['Chioma', 'Miyelani', 'Anieze']` forever — type in,
 hold, erase, next word, repeat. **This replaced two earlier approaches**:
 first a `steps()`-based CSS width-clip (jerky on the proportional italic
 face — fixed-step width clipping doesn't respect glyph boundaries, so
 letters got cut mid-character), then a one-shot per-letter
-`animation-delay` reveal (typed "Eullie" once and stopped). Current
+`animation-delay` reveal (typed "Eullie" once and stopped, back when
+the site's subject and `WORDS` list were still Eullie/Euleth/Amukelo/
+Ngobeni — the mechanism carried over unchanged when the name changed).
+Current
 version builds each letter as a `<span class="letter">`, adds `.is-in`
 one frame after insertion (`requestAnimationFrame` x2, same pattern
 `initPortfolioFilters` uses) so its opacity/transform *transition* (not
@@ -102,9 +129,9 @@ keeps its own `liveLetters` array as the source of truth, and lets the
 fading-but-not-yet-`.remove()`'d spans clean themselves up on their own
 timers. Per-letter typing speed is randomized (70–130ms) for an organic
 feel rather than a mechanical fixed interval. The last letter of
-whichever word is currently showing gets `.accent` (not just "Eullie"'s
-final "e" — kept consistent across all 4 words in the loop). Skipped
-entirely under reduced motion; the plain "Eullie" text node the
+whichever word is currently showing gets `.accent` (not just "Chioma"'s
+final "a" — kept consistent across all 3 words in the loop). Skipped
+entirely under reduced motion; the plain "Chioma" text node the
 original markup already had stays fully visible and static.
 
 ### Ripple effect

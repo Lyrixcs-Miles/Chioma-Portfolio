@@ -1,4 +1,4 @@
-// Eullie Portfolio — Main JS
+// Chioma Portfolio — Main JS
 // Nav toggle, portfolio filters, lightbox, etc.
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -93,14 +93,14 @@ function initHeaderPhoto() {
 // fire faster than each individual fade-out finishes and several spans
 // end up mid-fade in the DOM at once. Per-letter typing speed is
 // randomized within a range for an organic, non-mechanical feel. Skipped
-// entirely under reduced motion — the plain "Eullie" text the original
+// entirely under reduced motion — the plain "Chioma" text the original
 // markup already had stays fully visible and static, matching every
 // other motion effect on this site.
 function initTypewriter() {
   const el = document.querySelector('.hero-title .typewriter');
   if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  const WORDS = ['Eullie', 'Euleth', 'Amukelo', 'Ngobeni'];
+  const WORDS = ['Chioma', 'Miyelani', 'Anieze'];
 
   const TYPE_MS_MIN = 70;
   const TYPE_MS_MAX = 130;
