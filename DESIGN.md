@@ -2,16 +2,16 @@
 name: Chioma
 description: Personal brand site for Chioma — fashion/beauty/lifestyle model, content creator, and brand ambassador.
 colors:
-  bg: "#13100F"
-  bg-pearl: "#1D1716"
-  bg-blush: "#201616"
-  accent: "#CBA3A8"
-  accent-soft: "#E4CBCE"
-  accent-deep: "#060504"
-  ink: "#F3E9E7"
-  ink-soft: "#A3908D"
-  on-accent: "#171212"
-  ivory-surface: "#F3E9E7"
+  bg: "#000000"
+  bg-pearl: "#111111"
+  bg-blush: "#222222"
+  accent: "#FF4F8B"
+  accent-soft: "#FF85B0"
+  accent-deep: "#000000"
+  ink: "#FFD6E8"
+  ink-soft: "#C0718C"
+  on-accent: "#000000"
+  ivory-surface: "#FFD6E8"
 typography:
   display:
     fontFamily: "Cormorant Garamond, Georgia, 'Times New Roman', serif"
@@ -152,70 +152,68 @@ templated influencer landing page: an editorial masthead, real
 photography presented as tilted, layered "polaroid" cards (a hero
 photo stack, and a photo-plus-peeking-accent-shape treatment on every
 other page header), and kicker-plus-hairline labeling borrowed from
-magazine contributor pages. As of the Oct 2026 redesign the entire
-site also runs on one persistent dark-noir ground — every page, every
-section, with no alternating light/dark breaks — so the experience
-reads as one continuous cinematic reel rather than a sequence of
-unrelated snapshots stitched together. Every real photo (color or
-pre-existing black-and-white) passes through one shared warm
-cinematic grade so the whole body of work looks graded by the same
-hand. Dusty rose carries every piece of interactive color on that dark
-ground (links, CTAs, active states) and is the system's only accent
-hue; the one deliberate exception to the dark ground is the closing
-CTA section, a full-bleed rose moment that closes every page. The
-palette and type pairing were pinned by the client brief (exact hex
-values and font names supplied up front), so the visual world was
-never an open concept choice — the craft lives in composition and, in
-this redesign, in flipping that brief-pinned palette's values onto a
-dark ground while keeping its role structure intact.
+magazine contributor pages. The site runs on one persistent true-black
+ground — every page, every section, with no alternating light/dark
+breaks — so the experience reads as one continuous cinematic reel
+rather than a sequence of unrelated snapshots stitched together. Every
+real photo (color or pre-existing black-and-white) passes through one
+shared warm cinematic grade so the whole body of work looks graded by
+the same hand. Hot pink carries every piece of interactive color on
+that dark ground (links, CTAs, active states) and is the system's only
+accent hue; the one deliberate exception to the dark ground is the
+closing CTA section, a full-bleed pink moment that closes every page.
+As of the Oct 2026 "Editorial Spotlight Pink" repaint, the palette is
+sourced from an external black/pink palette reference rather than a
+client-pinned brief — see the Palette History note below for the full
+lineage and what carried over.
 
 Confirmed rejection: no centered-headshot-plus-CTA-button template
 hero, no icon-led card grids (the Oct 2026 `.focus-item` card treatment
-is a scoped exception — see Do's and Don'ts), no gray neutrals (every neutral
-in the palette is tinted warm-black or dusty rose, never flat/cool
-gray), and — as of this redesign — no alternating light/dark page
-sections; the dark ground is the site's constant, broken only by the
-one rose CTA moment.
+is a scoped exception — see Do's and Don'ts), no gray neutrals outside
+the palette's own two near-black tones (see the Named Rules below for
+what replaced the old warm-black rule), and no alternating light/dark
+page sections; the dark ground is the site's constant, broken only by
+the one pink CTA moment.
 
 **Key Characteristics:**
 - Editorial, not corporate-influencer: kickers, hairline rules, serif italic labels
-- Persistent dark-noir ground across all 8 pages, with dusty rose as the single, promoted interactive accent and one deliberate full-bleed rose CTA moment per page
+- Persistent true-black ground across all 8 pages, with hot pink as the single interactive accent and one deliberate full-bleed pink CTA moment per page
 - Every real photograph passes through one shared `img` color-grade filter so mixed color/black-and-white source shoots read as one deliberately graded body of work
-- One tilted-photo-plus-peeking-accent-shape motif reused at two scales: the hero's swipeable/autoplaying polaroid stack (masthead-size, Home only, kept unchanged structurally through the redesign) and a single rotated, thick-dark-framed photo with a dusty-rose clipped shape peeking from behind (page-header size, every other page)
-- Flat surfaces, tinted near-black shadows, near-zero border-radius except pill badges/buttons — **the one deliberate exception is the site header**, a dark-noir glass (`backdrop-filter: blur`) that floats above page content, the system's only non-flat surface
+- One tilted-photo-plus-peeking-accent-shape motif reused at two scales: the hero's swipeable/autoplaying polaroid stack (masthead-size, Home only) and a single rotated, thick-dark-framed photo with a hot-pink clipped shape peeking from behind (page-header size, every other page)
+- Flat surfaces, true-black shadows, near-zero border-radius except pill badges/buttons — **the one deliberate exception is the site header**, a dark glass (`backdrop-filter: blur`) that floats above page content, the system's only non-flat surface
 - Motion is deliberately restrained: one authored focal sequence on the homepage, quiet shared support elsewhere
 
 ## Colors
 
-Full palette strategy — five named roles, each owning a field-scale region rather than appearing as scattered accents. **Oct 2026: flipped from a soft-noir-black-on-white system to a persistent dark-noir world** — see the Palette History note below for what carried over and what inverted.
+Full palette strategy — five named roles, each owning a field-scale region rather than appearing as scattered accents. **Oct 2026: repainted from a soft-noir-black + dusty-rose system to a stark true-black + hot-pink one ("Editorial Spotlight Pink")** — see the Palette History note below for what carried over and what changed.
 
 ### Primary
-- **Dusty Rose** (`#CBA3A8`, `--color-accent`): the site's one interactive color — CTAs, links, active states, headings-as-accent, the closing CTA section's full-bleed background. Promoted from a decorative-only secondary role in the pre-redesign system now that the dark ground itself carries the "noir" weight; rose is free to do the interactive work instead.
+- **Hot Pink** (`#FF4F8B`, `--color-accent`): the site's one interactive color — CTAs, links, active states, headings-as-accent, the closing CTA section's full-bleed background. A vivid, saturated pink rather than the prior system's muted dusty rose — the palette's own namesake color.
 
 ### Secondary
-- **Powder Rose** (`#E4CBCE`, `--color-accent-soft`): decorative/structural only — the nav wordmark and mobile toggle bars, underline/hairline tints, gradient stops. Never carries body copy.
+- **Pale Rose** (`#FF85B0`, `--color-accent-soft`): decorative/structural only — the nav wordmark and mobile toggle bars, underline/hairline tints, gradient stops. Never carries body copy. A derived midpoint between `--color-accent` and `--color-ink`, not a value sourced directly from the palette.
 
 ### Tertiary
-- **Truest Black** (`#060504`, `--color-accent-deep`): the system's single darkest value — gradient/shadow depth stop, and the thick 10px frame border on every `.page-header-photo`.
+- **Truest Black** (`#000000`, `--color-accent-deep`): the system's single darkest value — gradient/shadow depth stop, and the thick 10px frame border on every `.page-header-photo`. Identical to `--color-bg` in this palette (see Named Rules below).
 
 ### Neutral
-- **Noir Ground** (`#13100F`, `--color-bg`): primary page background, replacing the old white ground. Holds for every page, with no light-background sections anywhere except the rose CTA fill.
-- **Secondary Dark** (`#1D1716`, `--color-bg-pearl`): the about-teaser, focus-section, brand-gallery, and footer surfaces — a slightly lifted dark tier against the primary ground.
-- **Warm Dark** (`#201616`, `--color-bg-blush`): hero, page-header, and brand-strip surfaces — the deepest warm-dark tier, carrying a faint rose warmth against the flatter primary ground.
-- **Ivory Ink** (`#F3E9E7`, `--color-ink`): primary text — warm ivory, replacing the old soft-black text color now that the ground itself is dark.
-- **Muted Rose-Grey** (`#A3908D`, `--color-ink-soft`): secondary/muted text, tinted from the accent hue rather than flat gray.
-- **Soft Noir** (`#171212`, `--color-on-accent`): dark text atop solid rose-accent fills (buttons, the CTA heading). Reuses the exact hex that was this system's *primary* accent before the redesign — the old "soft noir" primary survives as the on-accent role.
-- **Ivory Surface** (`#F3E9E7`, `--color-ivory-surface`): the one deliberately BRIGHT surface in an otherwise all-dark system — the polaroid card's paper mat background, and the "Work With Me" button's ivory text atop its dark fill on the rose CTA section. Same value as Ivory Ink, kept as a separate token because the role (a bright card-like object / a guaranteed-bright text color) is distinct from "body text."
+- **True Black Ground** (`#000000`, `--color-bg`): primary page background. Holds for every page, with no light-background sections anywhere except the pink CTA fill.
+- **Secondary Dark** (`#111111`, `--color-bg-pearl`): the about-teaser, focus-section, brand-gallery, and footer surfaces — a slightly lifted dark tier against the primary ground. An interpolated midpoint, not sourced directly from the palette (see Palette History).
+- **Charcoal** (`#222222`, `--color-bg-blush`): hero, page-header, and brand-strip surfaces — the lightest of the three dark tiers, sourced directly from the palette.
+- **Pale Pink Ink** (`#FFD6E8`, `--color-ink`): primary text — sourced directly from the palette.
+- **Muted Rose-Mauve** (`#C0718C`, `--color-ink-soft`): secondary/muted text, blended from the accent hue toward neutral gray rather than sourced directly.
+- **True Black On-Accent** (`#000000`, `--color-on-accent`): dark text atop solid pink-accent fills (buttons, the CTA heading). Identical to `--color-bg`/`--color-accent-deep` in this palette — see Named Rules below.
+- **Ivory Surface** (`#FFD6E8`, `--color-ivory-surface`): the one deliberately BRIGHT surface in an otherwise all-dark system — the polaroid card's paper mat background, and the "Work With Me" button's ivory text atop its dark fill on the pink CTA section. Same value as Pale Pink Ink, kept as a separate token because the role (a bright card-like object / a guaranteed-bright text color) is distinct from "body text."
 
 ### Named Rules
-**The Persistent-Ground Rule.** The page background is dark noir on every page and every in-page section — `--color-bg`, `--color-bg-pearl`, and `--color-bg-blush` are all near-black, never white or light. The site never alternates back to a light section. The one confirmed exception is `.cta-close`, a deliberate full-bleed rose moment — don't add a second one; its force depends on staying singular.
+**The Persistent-Ground Rule.** The page background is true black on every page and every in-page section — `--color-bg`, `--color-bg-pearl`, and `--color-bg-blush` are all near-black, never white or light. The site never alternates back to a light section. The one confirmed exception is `.cta-close`, a deliberate full-bleed pink moment — don't add a second one; its force depends on staying singular.
 
-**The Soft-Noir Rule.** Every near-black value in the system — the three background tiers, `--color-accent-deep`, `--color-on-accent` — is a *warm*, softened black (`#13100F`, `#1D1716`, `#201616`, `#060504`, `#171212`) rather than flat `#000000` or a cool gray. Check any new dark value against this before adding one.
+**The True-Black Rule** (supersedes the prior Soft-Noir Rule). Every near-black value in the system — `--color-bg`, `--color-accent-deep`, `--color-on-accent` — is literal `#000000`; `--color-bg-pearl` (`#111111`) and `--color-bg-blush` (`#222222`) are the only lifted dark tiers, both neutral gray rather than warm-tinted. This is a deliberate reversal of the prior system's "never flat #000000 / always warm black" rule: the Editorial Spotlight Pink palette is intentionally starker and more graphic, with no warm undertone in its blacks. Don't reintroduce warm-tinted near-blacks or treat flat `#000000` as a mistake to "fix" — it's the current system's literal ground value.
 
-**The One Accent Rule.** Dusty Rose (`--color-accent`) is the only hue carrying interactive meaning (links, CTAs, active states) anywhere in the system. Powder Rose (`--color-accent-soft`) is structural/decorative only and never stands in for it. Don't introduce a second interactive hue.
+**The One Accent Rule.** Hot Pink (`--color-accent`) is the only hue carrying interactive meaning (links, CTAs, active states) anywhere in the system. Pale Rose (`--color-accent-soft`) is structural/decorative only and never stands in for it. Don't introduce a second interactive hue.
 
 ### Palette History
-This system was originally "royal plum + soft orchid" under an explicit No-Black Rule, then rebranded to "soft-noir-black on white/blush" at Chioma's request. In Oct 2026 it flipped again, this time to persistent dark: every `:root` custom property kept its name and role, but values inverted — `--color-bg` went from white to near-black, `--color-ink` went from near-black to ivory, and `--color-accent` was promoted from a decorative secondary (soft noir black) to the primary interactive color (dusty rose). The *old* primary accent hex (`#171212`, "soft noir") didn't disappear — it now lives on as `--color-on-accent`, the dark text color used atop the new rose accent fills. A new `--color-ivory-surface` token was added for the handful of surfaces that must stay bright regardless of the dark page (the polaroid mat, the inverse button's text). If you find references to a light/white page background, "Rose-Is-Decorative," or rose failing contrast on a light ground anywhere outside this note, they're stale from the pre-Oct-2026 system — update them to match this section.
+This system has gone through three full repaints, each pinned by an external source rather than invented in-session: "royal plum + soft orchid" (an explicit No-Black Rule brief) → "soft-noir-black on white/blush" (Chioma's own black preference) → "persistent dark-noir ground + dusty rose" (Oct 2026, fused from two reference portfolio sites) → **"true-black + hot pink, 'Editorial Spotlight Pink'"** (Oct 2026, same day — sourced from a black/pink color-palette reference guide, at the client's direct request to "use one of these color palettes"). Every `:root` custom property kept its name and role across all four; only the values moved. This latest repaint: `--color-accent` flipped from muted dusty rose (`#CBA3A8`) to vivid hot pink (`#FF4F8B`); `--color-ink`/`--color-ivory-surface` flipped from warm ivory (`#F3E9E7`) to pale pink (`#FFD6E8`); and `--color-bg`/`--color-accent-deep`/`--color-on-accent` all collapsed to literal `#000000` since the source palette gives only two near-black anchors (`#000000`, `#222222`) rather than the prior system's five distinct warm-noir tiers — `--color-bg-pearl` (`#111111`) is the one interpolated value needed to keep a 3-tier dark-surface system working with only two sourced blacks. Every hardcoded shadow/overlay/ripple `rgba()` literal tied to the old tokens was remapped to match (see `css/style.css`'s and `css/responsive.css`'s git history for the exact before/after). If you find references to "dusty rose," "warm noir," or a non-`#000000` ground/accent-deep/on-accent anywhere outside this note, they're stale — update them to match this section.
 
 ## Typography
 
@@ -267,23 +265,23 @@ Recurring grid shapes: two-column asymmetric splits (`1.15fr/1fr` hero, `0.6–0
 
 ## Elevation & Depth
 
-Flat by default. Depth appears only as tinted, soft-blurred drop shadows on interactive/floating elements (buttons on hover, the polaroid cards/page-header photo, the lightbox panel) — never a neutral-gray shadow lifted straight from a browser default. The shadow literals themselves are carried over unchanged from the pre-redesign palette (`rgba(31,26,26,X)`, the old `--color-ink` hex, and `rgba(11,8,8,X)`, the old `--color-accent-deep` hex) rather than re-derived from the current dark tokens — both are still warm near-blacks, so the "floats-higher-gets-darker" depth logic still holds, but because the current page ground (`--color-bg` `#13100F` etc.) is itself close in value to these shadow tints, the shadows read mostly as soft blur-driven lift rather than a strongly visible dark cast. That's consistent with "flat by default" rather than a defect to chase: depth is a secondary, quiet cue here, not a focal device.
+Flat by default. Depth appears only as tinted, soft-blurred drop shadows on interactive/floating elements (buttons on hover, the polaroid cards/page-header photo, the lightbox panel) — never a neutral-gray shadow lifted straight from a browser default. **Oct 2026 "Editorial Spotlight Pink" repaint:** every shadow literal collapsed to a pure-black (`rgba(0,0,0,X)`) tint, replacing the prior system's two warm-noir shadow families (`rgba(31,26,26,X)`/`rgba(11,8,8,X)`, themselves carried over from an even earlier palette generation). Since this palette's own darkest token (`--color-bg`/`--color-accent-deep`/`--color-on-accent`) is literal `#000000`, there's no longer a distinct "deeper" near-black to draw a second shadow family from — the two depth tiers below are now differentiated by alpha/blur alone, not by a secondary hue. That's consistent with "flat by default" rather than a defect to chase: depth is a secondary, quiet cue here, not a focal device.
 
 ### Shadow Vocabulary
-- **Button Lift** (`0 14px 28px -14px rgba(31,26,26,.55)` → `0 20px 34px -12px rgba(31,26,26,.6)` on hover): `.btn-primary`.
-- **Button Lift (Inverse)** (`0 14px 28px -14px rgba(11,8,8,.35)`): `.btn-primary-inverse` — the deeper tint, since it sits on the full-bleed rose CTA background.
-- **Panel Float** (`0 32px 60px -22px rgba(31,26,26,.5)`): each `.polaroid-card` in the hero stack, and `.page-header-photo` on every other page.
-- **Lightbox Lift** (`0 50px 90px -30px rgba(11,8,8,.65)`): the enlarged lightbox panel — the deepest shadow in the system, matching its topmost z-index.
-- **Tile Edge** (`box-shadow: 0 0 0 1px rgba(243,233,231,.18)`): a light-tinted 1px hairline (not a layout-affecting `border`) on `.portfolio-item`, `.work-panel`, `.gallery-tile` — flipped from dark- to light-tinted in this redesign so adjacent tiles with light edge content (sky, pale clothing) still separate from each other and from the dark page ground.
+- **Button Lift** (`0 14px 28px -14px rgba(0,0,0,.55)` → `0 20px 34px -12px rgba(0,0,0,.6)` on hover): `.btn-primary`.
+- **Button Lift (Inverse)** (`0 14px 28px -14px rgba(0,0,0,.35)`): `.btn-primary-inverse` — the deeper tint, since it sits on the full-bleed pink CTA background.
+- **Panel Float** (`0 32px 60px -22px rgba(0,0,0,.5)`): each `.polaroid-card` in the hero stack, and `.page-header-photo` on every other page.
+- **Lightbox Lift** (`0 50px 90px -30px rgba(0,0,0,.65)`): the enlarged lightbox panel — the deepest shadow in the system, matching its topmost z-index.
+- **Tile Edge** (`box-shadow: 0 0 0 1px rgba(255,214,232,.18)`): a light-tinted 1px hairline (not a layout-affecting `border`) on `.portfolio-item`, `.work-panel`, `.gallery-tile` — light-tinted (not dark) so adjacent tiles with light edge content (sky, pale clothing) still separate from each other and from the dark page ground.
 
 ### Named Rules
-**The Tinted-Shadow Rule.** Every shadow's color is a warm near-black tint, never a flat gray/black lifted from a browser default — consistent with the Soft-Noir Rule above. Edge/hairline treatments on tiles are the one shadow-family exception that goes light-tinted instead, because their job is separation against a dark ground, not depth.
+**The Tinted-Shadow Rule.** Every shadow's color is a true-black tint, never a flat gray lifted from a browser default — consistent with the True-Black Rule above. Edge/hairline treatments on tiles are the one shadow-family exception that goes light-tinted instead, because their job is separation against a dark ground, not depth.
 
 ## Shapes
 
 Near-flat throughout: `2px` border-radius on cards, tiles, and buttons (an editorial, not-rounded feel). The one exception is pill shapes (`100px` radius) reserved for tag badges, filter buttons, and category labels — a deliberate contrast between "flat editorial surface" and "rounded UI control."
 
-**Signature shape — tilted real photography with a peeking accent shape:** the hero's `.polaroid-stack` is a swipeable/autoplaying pile of real photo cards (`aspect-ratio: 3/4` slot, bleeding off the homepage hero's right edge and overlapping the wordmark), kept structurally unchanged through the Oct 2026 redesign — only its surrounding tokens (the now-dark `--color-bg-blush` ground beneath it) moved. Every other page header keeps a smaller echo of that same layered look: `.page-header-photo-back` is a single `clip-path: polygon(...)` shape in a dusty-rose→warm-dark gradient, offset behind a rotated, slightly scaled-up real photo (`.page-header-photo`, `aspect-ratio: 3/4`) — so the rose shape still peeks out from one edge. New in this redesign: `.page-header-photo` now sits inside a thick `10px solid var(--color-accent-deep)` frame (was a hairline/shadow-only edge before) — a deliberately heavier device, scoped to page-header photos only, never the hero polaroid stack.
+**Signature shape — tilted real photography with a peeking accent shape:** the hero's `.polaroid-stack` is a swipeable/autoplaying pile of real photo cards (`aspect-ratio: 3/4` slot, bleeding off the homepage hero's right edge and overlapping the wordmark), kept structurally unchanged through the Oct 2026 redesign — only its surrounding tokens (the now-dark `--color-bg-blush` ground beneath it) moved. Every other page header keeps a smaller echo of that same layered look: `.page-header-photo-back` is a single `clip-path: polygon(...)` shape in a hot-pink→dark gradient, offset behind a rotated, slightly scaled-up real photo (`.page-header-photo`, `aspect-ratio: 3/4`) — so the pink shape still peeks out from one edge. New in this redesign: `.page-header-photo` now sits inside a thick `10px solid var(--color-accent-deep)` frame (was a hairline/shadow-only edge before) — a deliberately heavier device, scoped to page-header photos only, never the hero polaroid stack.
 
 ## Components
 
@@ -297,7 +295,7 @@ Near-flat throughout: `2px` border-radius on cards, tiles, and buttons (an edito
 ### Editorial List (signature component)
 The site's recurring "contributor page" list pattern, reused with different content on four different pages: `.focus-list`/`.focus-item` (3-column, heading+paragraph — Home's "What I Offer", About's "Where I Create", Contact's "Good to Know") and `.glance-list`/`.glance-item` (a `<dt>/<dd>` fact-list variant — About's "At a Glance", each brand page's "Partnership" block, still plain hairline-divided text, unchanged by the card pass below).
 
-**Oct 2026 "lacks character" card pass (`.focus-item` only):** this is a deliberate reversal of the system's earlier "no bordered card grids" stance, made at the client's explicit direction ("make 'what I offer' in cards or something visually appealing"). Each `.focus-item` is now a standalone surface — `background: rgba(243,233,231,.04)`, a 1px light-tinted `box-shadow` ring (same hairline-via-shadow technique as the Cards/Tiles edge treatment, not a layout-affecting `border`), 2px radius — that lifts and brightens on hover (`translateY(-6px)`, deeper shadow, brighter background), all on `transform`/`box-shadow`/`background`, never layout properties. The old cell-divider borders (`border-right`/`border-bottom: var(--rule-soft)` between items) are gone; the grid gap alone now separates cards. `.glance-list` keeps the original plain hairline-divided text — the card treatment is scoped to `.focus-item` only, not the whole Editorial List pattern.
+**Oct 2026 "lacks character" card pass (`.focus-item` only):** this is a deliberate reversal of the system's earlier "no bordered card grids" stance, made at the client's explicit direction ("make 'what I offer' in cards or something visually appealing"). Each `.focus-item` is now a standalone surface — `background: rgba(255,214,232,.04)`, a 1px light-tinted `box-shadow` ring (same hairline-via-shadow technique as the Cards/Tiles edge treatment, not a layout-affecting `border`), 2px radius — that lifts and brightens on hover (`translateY(-6px)`, deeper shadow, brighter background), all on `transform`/`box-shadow`/`background`, never layout properties. The old cell-divider borders (`border-right`/`border-bottom: var(--rule-soft)` between items) are gone; the grid gap alone now separates cards. `.glance-list` keeps the original plain hairline-divided text — the card treatment is scoped to `.focus-item` only, not the whole Editorial List pattern.
 
 **Ambient ring texture, Oct 2026 layout pass:** `.focus-section` (the wrapper around every `.focus-list` instance) and the homepage's `.brand-strip` now each carry a `.glass-ripples` instance (same 6-span markup/CSS as the nav's) purely as background texture — these are long, photography-free text passages that read as flat empty stretches on the persistent dark ground, especially on mobile where there's no asymmetric grid to lean on. **This reuses only the ring-pulse decoration, not the glass/backdrop-blur surface** — see the Navigation entry below and the amended Don't rule for that distinction. Both sections needed `position: relative` added (the ripples' `position: absolute; inset: 0` had nothing to anchor to before).
 
@@ -305,9 +303,9 @@ The site's recurring "contributor page" list pattern, reused with different cont
 
 ### Cards / Tiles
 - **Corner:** 2px radius, `overflow: hidden`.
-- **Edge:** every tile (`.portfolio-item`, `.work-panel`, `.gallery-tile`) gets a 1px `box-shadow: 0 0 0 1px rgba(243,233,231,.18)` — not a real `border`, so it doesn't add to the box's layout size against the grid's `aspect-ratio`/gap math. Light-tinted (not dark) against the current dark ground — each tile/ripple color in the system was individually audited for this redesign rather than blindly flipped, so this value reads correctly against a dark tile.
-- **Background:** the full Portfolio grid and the homepage portfolio teaser now hold real photography (`<img>`, `object-fit: cover`, passed through the site-wide cinematic grade filter); brand campaign-preview galleries still use duotone gradient "swatches" (`.swatch-1` through `.swatch-6`, re-paired this redesign around `--color-accent-deep` since `accent`/`accent-soft` are now both light rose tones with too little luminance range to pair together) standing in for real photography until their own photos arrive.
-- **Overlay:** every tile — photo or swatch — gets the same two-layer gradient via a `::after` on the tile itself: a soft-light radial highlight (`circle at 75% 15%, rgba(243,233,231,.3)`, derived from `--color-ink`/`--color-ivory-surface` rather than a literal white) plus a subtle bottom-edge vignette (`linear-gradient(195deg, transparent 55%, rgba(23,18,18,.28) 100%)`).
+- **Edge:** every tile (`.portfolio-item`, `.work-panel`, `.gallery-tile`) gets a 1px `box-shadow: 0 0 0 1px rgba(255,214,232,.18)` — not a real `border`, so it doesn't add to the box's layout size against the grid's `aspect-ratio`/gap math. Light-tinted (not dark) against the current dark ground.
+- **Background:** the full Portfolio grid and the homepage portfolio teaser now hold real photography (`<img>`, `object-fit: cover`, passed through the site-wide cinematic grade filter); brand campaign-preview galleries still use duotone gradient "swatches" (`.swatch-1` through `.swatch-6`, each pairing `--color-accent`/`--color-accent-soft` against `--color-accent-deep` or `--color-bg-blush` for a clear luminance gap — the current hot-pink accent against true-black accent-deep gives a strong gradient with no risk of the prior palette's "both too light to pair" bug) standing in for real photography until their own photos arrive.
+- **Overlay:** every tile — photo or swatch — gets the same two-layer gradient via a `::after` on the tile itself: a soft-light radial highlight (`circle at 75% 15%, rgba(255,214,232,.3)`, derived from `--color-ink`/`--color-ivory-surface` rather than a literal white) plus a subtle bottom-edge vignette (`linear-gradient(195deg, transparent 55%, rgba(0,0,0,.28) 100%)`).
 - **States:** `.portfolio-item` scales its image/swatch slightly and reveals a "View" pill on hover/focus; filtered-out tiles fade+scale out via `.is-hidden` before being set `hidden` (see PROJECT_NOTES.md for the CSS-specificity gotcha this required).
 
 ### Navigation (signature component, glass)
@@ -326,7 +324,7 @@ A fixed, centered overlay (`.lightbox-overlay`) that fades and scales in a singl
 A pile of real photo cards (`.polaroid-stack` > `.polaroid-card`) in the homepage hero. Kept deliberately unchanged in structure and behavior through the Oct 2026 redesign per direction confirmation — only the dark ground beneath it changed. Front card centered/unrotated; back cards sit in fixed scatter "slots" (randomized only on reshuffle, not on every cycle) so cycling reads as one photo sliding back and the next rising to front. The card's own paper mat stays `--color-ivory-surface` (deliberately bright) regardless of the dark ground around it. Autoplays on a timer (paused off-screen, disabled under reduced motion), swipeable (drag flips which direction autoplay continues in), double-tap/-click or Enter reshuffles the scatter, arrow keys cycle. No-JS fallback is a fixed (non-random) fanned arrangement via CSS `nth-child` rules.
 
 ### Page-Header Photo (signature component, every other page)
-A quieter, page-header-scale echo of the same idea: a single real photo (`.page-header-photo`), rotated and scaled up slightly, with a dusty-rose `clip-path` shape (`.page-header-photo-back`) peeking out from behind on one side. New in this redesign: a thick `10px solid var(--color-accent-deep)` frame around the photo itself (was a hairline/shadow-only edge before) — the device is scoped to this component only, never the hero polaroid stack. `aspect-ratio: 3/4` (portrait, matching the source photos). Which photo shows is picked at random client-side on each page load from a fixed set, so the page/photo pairing isn't static.
+A quieter, page-header-scale echo of the same idea: a single real photo (`.page-header-photo`), rotated and scaled up slightly, with a hot-pink `clip-path` shape (`.page-header-photo-back`) peeking out from behind on one side. New in this redesign: a thick `10px solid var(--color-accent-deep)` frame around the photo itself (was a hairline/shadow-only edge before) — the device is scoped to this component only, never the hero polaroid stack. `aspect-ratio: 3/4` (portrait, matching the source photos). Which photo shows is picked at random client-side on each page load from a fixed set, so the page/photo pairing isn't static.
 
 **Reused, not duplicated, in the homepage About teaser:** `.about-grid` (Oct 2026 layout pass) now carries the exact same `.page-header-photo-frame` markup/CSS as its first column, capped to `max-width: 280px` **and `margin: 0 auto`** via `.about-grid .page-header-photo-frame`. Added because the teaser was a plain two-column text/text split with no photography at all — on the persistent dark ground this read as a large flat empty stretch, confirmed by the user ("too flat and plain"). No new photo-frame CSS was written; this is the identical component, just dropped into a third grid column. **The `margin: 0 auto` was a same-day follow-up fix**: without it, a block element capped to a fixed `max-width` inside a wider column just hugs the column's start edge per normal block layout, and this component's own `rotate()`/`scale()`/`translate()` transform shifts it further off-center on top of that — confirmed via `elementFromPoint` at 390px width, the photo's visual footprint ran ~x:-18 to x:306 in a 372px column before the fix. If this component is ever capped to a fixed width anywhere else, center it in the same edit, not as an afterthought.
 
@@ -340,15 +338,15 @@ Oct 2026 "basically nonexistent" pass — was a single centered copyright line. 
 
 **Two-zone restructure, same-day follow-up.** The original layout was a flat 3-column `.footer-grid` (brand | Navigate | Connect) with the quick-message form in its own full-width row underneath — reading as four stacks of plain text in a row, with nothing to separate the form from the nav links next to it. Feedback: "the footer have some character, it looks flat... navigate and connect in the same row messes things up." Rebuilt as two deliberate zones in `.footer-top` (`display: grid; grid-template-columns: 1.3fr 1fr;`, collapsing to 1 column at ≤900px, same breakpoint list as `.hero-grid`/`.about-grid`/etc.):
 - **`.footer-info`** (left): the brand block, with `.footer-link-columns` — Navigate and Connect as two side-by-side sub-columns (`display: grid; grid-template-columns: repeat(2, 1fr);`) beneath it, directly per the client's own suggested fix ("have navigate and connect side by side").
-- **`.footer-form-card`** (right): the "Send a Quick Message" form promoted into its own tinted, ringed surface — reusing the exact card-edge language `.focus-item` established (see Editorial List → Oct 2026 card pass: `background: rgba(203,163,168,.06)`, a 1px light-tinted `box-shadow` ring, 2px radius) rather than inventing a second card style. This is the footer's one deliberate CTA object, the direct answer to "give it character." The "Send a Quick Message" label is tinted `--color-accent` (not the default `--color-ink-soft`) inside this card only, so it reads as the footer's accent moment. Fields stack full-width in a column (not the old wrapping flex row, since the card is narrower than the old full-bleed row was), and the submit button is `.btn-primary` (solid rose fill, full-width) rather than the original `.btn-secondary` text-link — a stronger visual anchor befitting a card's one clear action. At ≤900px the grid collapses and the card falls below `.footer-info`, naturally matching the "form in a container above or below" fallback the client also floated.
+- **`.footer-form-card`** (right): the "Send a Quick Message" form promoted into its own tinted, ringed surface — reusing the exact card-edge language `.focus-item` established (see Editorial List → Oct 2026 card pass: `background: rgba(255,79,139,.06)`, a 1px light-tinted `box-shadow` ring, 2px radius) rather than inventing a second card style. This is the footer's one deliberate CTA object, the direct answer to "give it character." The "Send a Quick Message" label is tinted `--color-accent` (not the default `--color-ink-soft`) inside this card only, so it reads as the footer's accent moment. Fields stack full-width in a column (not the old wrapping flex row, since the card is narrower than the old full-bleed row was), and the submit button is `.btn-primary` (solid pink fill, full-width) rather than the original `.btn-secondary` text-link — a stronger visual anchor befitting a card's one clear action. At ≤900px the grid collapses and the card falls below `.footer-info`, naturally matching the "form in a container above or below" fallback the client also floated.
 
 **No backend exists on this static site**, so the form is wired client-side in `js/main.js` (`initFooterForm`) to build a `mailto:` link from the three field values and hand off to the user's own email client on submit — the only genuinely functional option that doesn't add a third-party form-service dependency requiring separate approval/account setup. An `aria-live="polite"` note below the form confirms this handoff (and gives a manual-email fallback) since the mail client opening is invisible to the page itself. Identical markup on all 8 pages, same hand-duplication constraint as the rest of the footer — the form itself has no page-relative links, so it's lower-risk to propagate than the nav/footer-links columns.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** keep every dark/neutral value a warm, soft black — check new colors against the Soft-Noir Rule.
-- **Do** keep the dark ground persistent across every page/section; the rose CTA is the system's one full-bleed-color moment, and its force depends on staying singular.
+- **Do** keep every dark/neutral value one of the system's two literal blacks (`#000000` or `#222222`) or the interpolated `#111111` midpoint — check new colors against the True-Black Rule.
+- **Do** keep the dark ground persistent across every page/section; the pink CTA is the system's one full-bleed-color moment, and its force depends on staying singular.
 - **Do** run every new real photo through the site-wide `img` filter (`saturate(0.78) sepia(0.16) contrast(1.08) brightness(0.96)`) rather than hand-grading individual images — it's what keeps mixed color/black-and-white shoots reading as one body of work.
 - **Do** reuse the editorial-list pattern (`.focus-list`/`.glance-list`) for any new "several short facts" content. `.focus-item` is now a bordered-surface card (see Editorial List → Oct 2026 card pass); `.glance-list` stays plain hairline-divided text — match whichever of the two the new content is closer to, rather than inventing a third treatment.
 - **Do** use `--ease-out-expo` (`cubic-bezier(0.16, 1, 0.3, 1)`) for all deliberate motion; it's the system's one easing curve.
@@ -360,4 +358,4 @@ Oct 2026 "basically nonexistent" pass — was a single centered copyright line. 
 - **Don't** extend the hero wordmark's 9rem display-size exception to any other heading.
 - **Don't** extend the glass/backdrop-blur *surface* (`backdrop-filter`, the translucent dark fill) beyond the site header/nav — it's a deliberate, one-surface exception to the "flat by default" rule. **Do**, however, reuse the `.glass-ripples` *ring-pulse decoration on its own* as ambient texture in long photography-free text sections (see Editorial List → "Ambient ring texture") — that's a lighter-weight reuse of one decorative device, not an extension of the glass material itself.
 - **Don't** extend the thick `10px` photo-frame device to the hero polaroid stack; it's scoped to `.page-header-photo` only, a deliberate contrast between the two photo-presentation scales.
-- **Don't** introduce a second interactive accent hue alongside Dusty Rose, and don't reintroduce rose-on-light-background reasoning — there is no light background left in the system to fail contrast against; rose is now the primary interactive color on the dark ground itself.
+- **Don't** introduce a second interactive accent hue alongside Hot Pink, and don't reintroduce accent-on-light-background reasoning — there is no light background left in the system to fail contrast against; hot pink is the primary interactive color on the dark ground itself.
