@@ -1,7 +1,7 @@
 /* ==========================================================================
    Chioma — Main Stylesheet
-   Palette: white / pearl / whisper lavender grounds, royal plum + soft
-   orchid accents. Cormorant Garamond for display, Manrope for body/UI.
+   Palette: white / ivory / whisper blush grounds, soft noir black +
+   dusty rose accents. Cormorant Garamond for display, Manrope for body/UI.
    ========================================================================== */
 
 /* Cross-document continuity: page navigations cross-fade instead of
@@ -19,21 +19,21 @@
 
 :root {
   --color-bg: #FFFFFF;
-  --color-bg-pearl: #FAF9FB;
-  --color-bg-lavender: #F2ECF7;
+  --color-bg-pearl: #FAF8F7;
+  --color-bg-blush: #F7EAEA;
 
-  --color-accent: #5B2A86;       /* royal plum — primary accent, CTAs */
-  --color-accent-soft: #A98BC7;  /* soft orchid — secondary accent, decorative only (fails text contrast on light grounds) */
-  --color-accent-deep: #3D1C60;  /* deeper plum for gradients/shadows, never used as a stand-in for black */
+  --color-accent: #171212;       /* soft noir — primary accent, CTAs (warm black, not pure #000) */
+  --color-accent-soft: #CBA3A8;  /* dusty rose — secondary accent, decorative only (fails text contrast on light grounds) */
+  --color-accent-deep: #0B0808;  /* deepest noir for gradients/shadows — the system's darkest value */
 
-  --color-ink: #241530;          /* primary text — deep plum-black, not literal black */
-  --color-ink-soft: #6B5A7D;     /* secondary/muted text, tinted from the accent hue */
-  --color-on-accent: #FAF9FB;    /* text on solid plum surfaces */
+  --color-ink: #1F1A1A;          /* primary text — soft black, intentionally not pure #000 */
+  --color-ink-soft: #6F5F61;     /* secondary/muted text, tinted rose-grey from the accent hue */
+  --color-on-accent: #FAF8F7;    /* text on solid noir surfaces */
 
   --font-heading: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   --font-body: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
 
-  --rule-soft: 1px solid rgba(91, 42, 134, 0.16);
+  --rule-soft: 1px solid rgba(23, 18, 18, 0.16);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 
   --section-pad: 7rem;
@@ -126,7 +126,7 @@ header {
 .site-nav {
   position: relative;
   padding: 2.5rem 0;
-  background: rgba(36, 21, 48, 0.78);
+  background: rgba(31, 26, 26, 0.78);
   backdrop-filter: blur(18px) saturate(160%);
   -webkit-backdrop-filter: blur(18px) saturate(160%);
   border-bottom: 1px solid rgba(250, 249, 251, 0.14);
@@ -134,7 +134,7 @@ header {
 }
 
 .site-nav.is-shadow {
-  box-shadow: 0 20px 40px -18px rgba(15, 8, 20, 0.45);
+  box-shadow: 0 20px 40px -18px rgba(11, 8, 8, 0.45);
 }
 
 .site-nav.is-hidden {
@@ -157,8 +157,8 @@ header {
 
 /* Ambient "water droplet" rings — decorative only (aria-hidden),
    painted first so the logo/links/toggle (normal DOM flow, no z-index
-   needed) stack above them automatically. Kept to faint plum-tinted
-   rings, never blue, per the No-Black/no-gray palette rule. */
+   needed) stack above them automatically. Kept to faint pearl-tinted
+   rings, never blue, per the Soft-Noir palette rule (see DESIGN.md). */
 .glass-ripples {
   position: absolute;
   inset: 0;
@@ -204,8 +204,8 @@ header {
   list-style: none;
 }
 
-/* Light text — the header glass is now the same dark plum as the mobile
-   drawer (rgba(36,21,48,X)), nearly identical to --color-ink, which
+/* Light text — the header glass is now the same dark noir as the mobile
+   drawer (rgba(31,26,26,X)), nearly identical to --color-ink, which
    would be invisible-on-invisible if links kept their original ink
    color from the site's light-background default. */
 .site-nav ul li a {
@@ -260,7 +260,7 @@ header {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(36, 21, 48, 0.35);
+  background: rgba(31, 26, 26, 0.35);
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.35s var(--ease-out-expo);
@@ -324,13 +324,13 @@ button:focus-visible {
   background: var(--color-accent);
   padding: 1.05rem 2.1rem;
   border-radius: 2px;
-  box-shadow: 0 14px 28px -14px rgba(36, 21, 48, 0.55);
+  box-shadow: 0 14px 28px -14px rgba(31, 26, 26, 0.55);
   transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo);
 }
 
 .btn-primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 20px 34px -12px rgba(36, 21, 48, 0.6);
+  box-shadow: 0 20px 34px -12px rgba(31, 26, 26, 0.6);
 }
 
 .btn-primary-inverse {
@@ -345,7 +345,7 @@ button:focus-visible {
   background: var(--color-bg-pearl);
   padding: 1.05rem 2.1rem;
   border-radius: 2px;
-  box-shadow: 0 14px 28px -14px rgba(15, 8, 20, 0.35);
+  box-shadow: 0 14px 28px -14px rgba(11, 8, 8, 0.35);
   transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo);
 }
 
@@ -438,7 +438,7 @@ button:focus-visible {
    ========================================================================== */
 
 .hero {
-  background: var(--color-bg-lavender);
+  background: var(--color-bg-blush);
   padding: var(--section-pad) 0;
   overflow: hidden;
 }
@@ -528,7 +528,7 @@ button:focus-visible {
   background: var(--color-bg-pearl);
   padding: 0.6rem 0.6rem 1.6rem;
   border-radius: 2px;
-  box-shadow: 0 32px 60px -22px rgba(36, 21, 48, 0.5);
+  box-shadow: 0 32px 60px -22px rgba(31, 26, 26, 0.5);
   cursor: grab;
   user-select: none;
   transform: translate(-50%, -50%) translate(var(--tx, 0%), var(--ty, 0%)) translate(var(--drag, 0px), 0) rotate(var(--rot, 0deg));
@@ -574,7 +574,7 @@ button:focus-visible {
    ========================================================================== */
 
 .page-header {
-  background: var(--color-bg-lavender);
+  background: var(--color-bg-blush);
   padding: calc(var(--section-pad) * 0.85) 0 var(--section-pad);
 }
 
@@ -629,7 +629,7 @@ button:focus-visible {
   position: absolute;
   inset: 0;
   border-radius: 2px;
-  background: linear-gradient(155deg, var(--color-accent-soft) 0%, var(--color-bg-lavender) 85%);
+  background: linear-gradient(155deg, var(--color-accent-soft) 0%, var(--color-bg-blush) 85%);
   clip-path: polygon(20% 0%, 100% 8%, 86% 100%, 2% 90%);
   opacity: 0.7;
   transform: translate(6%, 5%);
@@ -640,7 +640,7 @@ button:focus-visible {
   inset: 0;
   border-radius: 2px;
   overflow: hidden;
-  box-shadow: 0 32px 60px -22px rgba(36, 21, 48, 0.5);
+  box-shadow: 0 32px 60px -22px rgba(31, 26, 26, 0.5);
   transform: rotate(-4deg) translate(-4%, -3%) scale(1.06);
 }
 
@@ -852,7 +852,7 @@ button:focus-visible {
 }
 
 .work-panel--b .swatch {
-  background: linear-gradient(20deg, var(--color-bg-lavender) 0%, var(--color-accent-soft) 100%);
+  background: linear-gradient(20deg, var(--color-bg-blush) 0%, var(--color-accent-soft) 100%);
 }
 
 .work-panel::after {
@@ -881,7 +881,7 @@ button:focus-visible {
 
 .work-panel--large .work-tag {
   color: var(--color-bg-pearl);
-  background: rgba(36, 21, 48, 0.35);
+  background: rgba(31, 26, 26, 0.35);
 }
 
 .work-note {
@@ -999,10 +999,10 @@ button:focus-visible {
 
 .swatch-1 { background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-deep) 70%); }
 .swatch-2 { background: linear-gradient(200deg, var(--color-accent-soft) 0%, var(--color-accent) 100%); }
-.swatch-3 { background: linear-gradient(20deg, var(--color-bg-lavender) 0%, var(--color-accent-soft) 100%); }
+.swatch-3 { background: linear-gradient(20deg, var(--color-bg-blush) 0%, var(--color-accent-soft) 100%); }
 .swatch-4 { background: linear-gradient(160deg, var(--color-accent-deep) 0%, var(--color-accent-soft) 100%); }
-.swatch-5 { background: linear-gradient(210deg, var(--color-bg-lavender) 0%, var(--color-accent) 90%); }
-.swatch-6 { background: linear-gradient(45deg, var(--color-accent) 0%, var(--color-bg-lavender) 100%); }
+.swatch-5 { background: linear-gradient(210deg, var(--color-bg-blush) 0%, var(--color-accent) 90%); }
+.swatch-6 { background: linear-gradient(45deg, var(--color-accent) 0%, var(--color-bg-blush) 100%); }
 
 .portfolio-item .work-tag {
   z-index: 1;
@@ -1018,7 +1018,7 @@ button:focus-visible {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-bg-pearl);
-  background: rgba(36, 21, 48, 0.55);
+  background: rgba(31, 26, 26, 0.55);
   padding: 0.4rem 0.85rem;
   border-radius: 100px;
   opacity: 0;
@@ -1037,7 +1037,7 @@ button:focus-visible {
    ========================================================================== */
 
 .brand-strip {
-  background: var(--color-bg-lavender);
+  background: var(--color-bg-blush);
   padding: var(--section-pad) 0;
   text-align: center;
 }
@@ -1406,7 +1406,7 @@ button:focus-visible {
   align-items: center;
   justify-content: center;
   padding: 3.5rem 2rem 2rem;
-  background: rgba(36, 21, 48, 0.82);
+  background: rgba(31, 26, 26, 0.82);
   opacity: 0;
   visibility: hidden;
   overflow-y: auto;
@@ -1440,7 +1440,7 @@ button:focus-visible {
   border-radius: 2px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 50px 90px -30px rgba(15, 8, 20, 0.65);
+  box-shadow: 0 50px 90px -30px rgba(11, 8, 8, 0.65);
 }
 
 .lightbox-panel::before {
@@ -1462,7 +1462,7 @@ button:focus-visible {
 
 .lightbox-panel .work-tag {
   color: var(--color-bg-pearl);
-  background: rgba(36, 21, 48, 0.4);
+  background: rgba(31, 26, 26, 0.4);
 }
 
 .lightbox-caption {
