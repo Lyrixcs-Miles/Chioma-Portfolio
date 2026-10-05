@@ -65,6 +65,13 @@
   .brand-row {
     gap: 2rem;
   }
+
+  /* Desktop-only second row of heart frames (see .work-panel--c/d/e
+     in style.css) — keeps "Selected Work" to its original 3-heart
+     scroll length on tablet and mobile. */
+  .work-panel--extra {
+    display: none;
+  }
 }
 
 /* Mobile */
