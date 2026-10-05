@@ -142,7 +142,7 @@
      low an opacity a ring reads as ambient texture even where it
      happens to sit near a link, rather than a stray UI dot. */
   .nav-collapse .glass-ripples span {
-    border-color: rgba(250, 249, 251, 0.16);
+    border-color: rgba(243, 233, 231, 0.16);
   }
 
   /* Keep the toggle clickable/visible above the drawer at all times —
