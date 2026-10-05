@@ -146,6 +146,15 @@ function buildPortfolioGrid(manifest) {
 // choice, not something that should flex with however many categories
 // exist). To pin a specific photo as a category's teaser pick, name it
 // to sort first within its folder (see scripts/build-image-manifest.py).
+//
+// Deliberately does NOT apply `item.cropPosition` here — that field is
+// tuned for the Portfolio grid's wide 16:9-ish tiles (see
+// buildPortfolioGrid), which is a very different aspect ratio from
+// these heart-shaped frames. A photo needing a specific crop for the
+// heart frame gets a dedicated inline object-position style on its
+// image element in index.html instead (same per-image-override
+// pattern used everywhere else on the site), which this function
+// leaves untouched since it never writes to objectPosition.
 function buildHomeTeaser(manifest) {
   const panels = ['.work-panel--large', '.work-panel--a', '.work-panel--b'];
   const prefix = assetRootPrefix();
@@ -163,7 +172,6 @@ function buildHomeTeaser(manifest) {
     if (img) {
       img.src = prefix + item.src;
       img.alt = item.alt;
-      img.style.objectPosition = item.cropPosition || '';
     }
     if (tag) tag.textContent = categoryLabel(category);
   });

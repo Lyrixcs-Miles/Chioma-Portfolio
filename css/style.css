@@ -981,92 +981,103 @@ button:focus-visible {
 }
 
 .work-grid {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-auto-rows: minmax(140px, 1fr);
-  gap: 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2.5rem 3rem;
+  /* Clearance for the float animation's upward travel and the
+     rotated frames' corners, neither of which should clip against
+     .work-intro above or the CTA link below. */
+  padding: 1.5rem 0 2.5rem;
 }
 
-/* Oct 2026 "rectangles aren't doing any justice" pass. Was a flat
-   rectangular tile — border-radius, a 1px hairline edge, two-layer
-   overlay gradient, otherwise completely static — the one place on
-   the site presenting real photography with no trace of the system's
-   signature "peeking accent shape" device (see DESIGN.md's Shapes
-   section) and no interactive feedback at all. Split each tile into
-   two stacked layers instead of one flat box: `.work-panel-accent` is
-   a solid hot-pink layer filling the tile; `.work-panel-photo` sits on
-   top holding the actual photo, clipped with an asymmetric
-   corner-notch `clip-path` (a different corner per tile, see the
-   per-variant rules below) so the pink layer shows through at that one
-   cut corner — the same "accent shape peeks out from behind the
-   photo" idea the hero/page-header device uses, expressed as a clean
-   chamfered notch instead of a rotated photo over a clipped polygon,
-   since rotating individual tiles inside this tight asymmetric grid
-   risked them visually colliding with their neighbors. `.work-tag`
-   stays a direct child of `.work-panel` (not `.work-panel-photo`), so
-   it's never subject to the clip-path — which is also why every
-   notch corner below is deliberately NOT top-left, where the tag
-   always sits. */
+/* Oct 2026 "heart-shaped frames" pass (supersedes the corner-notch
+   pass right before it — see PROJECT_NOTES.md for why neither the
+   original flat rectangles nor the corner-notch version survived two
+   rounds of feedback). Explicit client direction, a real departure
+   from the system's otherwise-flat/near-zero-radius language — see
+   DESIGN.md's Shapes section for the full reasoning on why this one
+   component gets an organic shape nothing else on the site uses.
+   Three floating, independently-rotated heart frames instead of a
+   grid: `.work-panel` handles the gentle float (`translateY` only,
+   see `work-panel-float` below) and holds the tag; `.work-panel-frame`
+   is the sized, rotated heart box; `.work-panel-accent` (a solid
+   hot-pink heart, sized a few pixels larger via a negative `inset`)
+   sits behind `.work-panel-photo` (the actual photo, clipped to the
+   exact same heart path at `inset: 0`), so the accent shows through
+   as an even pink rim all the way around — a locket frame, not just a
+   clipped photo. Both layers share one `<clipPath id="heart-clip">`
+   defined once in index.html with `clipPathUnits="objectBoundingBox"`
+   so the same path scales to each element's own box. */
 .work-panel {
-  position: relative;
-  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  animation: work-panel-float 6s ease-in-out infinite;
 }
 
 .work-panel--large {
-  grid-column: span 4;
-  grid-row: span 2;
+  width: clamp(220px, 26vw, 300px);
 }
 
 .work-panel--a {
-  grid-column: span 2;
-  grid-row: span 1;
+  width: clamp(170px, 20vw, 230px);
+  margin-top: 2.5rem;
+  animation-delay: -2s;
 }
 
 .work-panel--b {
-  grid-column: span 2;
-  grid-row: span 1;
+  width: clamp(170px, 20vw, 230px);
+  animation-delay: -4s;
+}
+
+@keyframes work-panel-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+.work-panel-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.08;
+}
+
+.work-panel--large .work-panel-frame {
+  transform: rotate(-3deg);
+}
+
+.work-panel--a .work-panel-frame {
+  transform: rotate(2.5deg);
+}
+
+.work-panel--b .work-panel-frame {
+  transform: rotate(-2deg);
 }
 
 .work-panel-accent {
   position: absolute;
-  inset: 0;
-  border-radius: 2px;
+  inset: -10px;
+  clip-path: url(#heart-clip);
   background: var(--color-accent);
+  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.55));
+  transition: filter 0.4s var(--ease-out-expo);
+}
+
+.work-panel:hover .work-panel-accent {
+  filter: drop-shadow(0 26px 38px rgba(0, 0, 0, 0.62));
 }
 
 .work-panel-photo {
   position: absolute;
   inset: 0;
-  overflow: hidden;
-  border-radius: 2px;
-  /* box-shadow, not border — doesn't add to layout box size like a
-     real border would, so it doesn't fight the grid's gap math. Gives
-     each tile a defined edge against the page background and against
-     neighboring tiles whose own edge content (sky, pale clothing)
-     could otherwise blend straight into the page with only the grid
-     gap for separation (Oct 2026 critique: "no proper borders"). Also
-     clipped by the same corner-notch path as the photo it wraps, so
-     the edge reads as one continuous chamfered frame, not a rectangle
-     with a notch cut out of its corner. */
-  box-shadow: 0 0 0 1px rgba(255, 214, 232, 0.18);
-  transition: transform 0.5s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo);
+  clip-path: url(#heart-clip);
+  transition: transform 0.5s var(--ease-out-expo);
 }
 
 .work-panel:hover .work-panel-photo {
-  transform: scale(1.035);
-  box-shadow: 0 24px 44px -24px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 214, 232, 0.24);
-}
-
-.work-panel--large .work-panel-photo {
-  clip-path: polygon(0 0, 100% 0, 100% 88%, 90% 100%, 0 100%);
-}
-
-.work-panel--a .work-panel-photo {
-  clip-path: polygon(0 0, 88% 0, 100% 14%, 100% 100%, 0 100%);
-}
-
-.work-panel--b .work-panel-photo {
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 14% 100%, 0 86%);
+  transform: scale(1.04);
 }
 
 .work-panel .swatch,
@@ -1076,6 +1087,7 @@ button:focus-visible {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 32%;
 }
 
 .work-panel--large .swatch {
@@ -1102,23 +1114,15 @@ button:focus-visible {
 }
 
 .work-tag {
-  position: absolute;
-  top: 1.1rem;
-  left: 1.1rem;
   font-family: var(--font-body);
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-ink);
-  background: rgba(0, 0, 0, 0.72);
+  background: rgba(0, 0, 0, 0.55);
   padding: 0.4rem 0.85rem;
   border-radius: 100px;
-}
-
-.work-panel--large .work-tag {
-  color: var(--color-ink);
-  background: rgba(0, 0, 0, 0.45);
 }
 
 .work-note {
@@ -2061,7 +2065,8 @@ button:focus-visible {
   .hero-title,
   .hero-tagline,
   .hero-actions,
-  .hero-visual .polaroid-stack {
+  .hero-visual .polaroid-stack,
+  .work-panel {
     animation: none;
   }
 

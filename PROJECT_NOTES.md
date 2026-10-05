@@ -751,6 +751,79 @@ as descendant selectors, which still resolve correctly now that
 `<img>` sits one level deeper inside the new `.work-panel-photo`
 wrapper.
 
+### "Selected Work" heart-shaped floating frames, Oct 2026 (supersedes the corner-notch pass above)
+Same day, same component, a third request: "make the images under
+'selected work'... [be] in floating heart shaped frames." This
+directly asked for something DESIGN.md's established language pushes
+against (near-flat, non-decorative, editorial-not-cutesy) — flagged
+that once as a real departure from the rest of the site before
+building it, then built it as asked once the direction was confirmed
+rather than re-litigating it further. The corner-notch CSS from the
+pass above no longer exists; this section replaces it entirely.
+
+**Shape mechanism — SVG `clipPath` with `objectBoundingBox` units, not
+a CSS `clip-path: polygon()`.** A hand-built polygon can approximate a
+heart but reads as faceted/angular; an SVG `<path>` gives an actual
+curved heart silhouette. Defined once in `index.html` —
+`<clipPath id="heart-clip" clipPathUnits="objectBoundingBox">` with
+coordinates already in 0–1 space (no viewBox/scale-transform juggling
+needed) — and referenced from CSS via `clip-path: url(#heart-clip)`
+on both `.work-panel-accent` and `.work-panel-photo`.
+`objectBoundingBox` is what makes the one path scale correctly to each
+element's own box regardless of its actual pixel size, the same way a
+percentage-based `clip-path: polygon()` would, but for an arbitrary
+curved path.
+
+**Frame-ring trick:** `.work-panel-accent` and `.work-panel-photo`
+share the exact same clip path but not the exact same box —
+`.work-panel-accent` is sized a few pixels larger (`inset: -10px`
+instead of `inset: 0`) and sits behind the photo layer. Since
+`clip-path` with `objectBoundingBox` scales to whatever box it's
+applied to, the larger accent layer's heart silhouette is
+proportionally bigger too, so it shows through as an even pink rim
+all the way around the photo's heart — a locket frame, not just a
+clipped photo with a flat background color.
+
+**Why `filter: drop-shadow()` instead of `box-shadow` for depth:**
+`box-shadow` shadows an element's rectangular border-box regardless of
+any `clip-path` applied to it, so a photo clipped into a heart would
+still cast a rectangular shadow — visibly wrong, looks like a
+rectangle floating behind a heart cutout. `filter: drop-shadow()`
+shadows the element's actual rendered alpha shape (the clipped heart
+silhouette), which is what "floating" needed here.
+
+**Why the float animation lives on `.work-panel` (the outer flex-column
+wrapper) and the rotation lives on `.work-panel-frame` (the inner
+box), not both on one element:** the `.work-tag` caption sits as a
+sibling of `.work-panel-frame` inside `.work-panel`, meant to float
+along with its heart but stay level/readable — rotating `.work-panel`
+itself would tilt the caption text too. Splitting the two transforms
+across parent/child keeps the float (`translateY`, on `.work-panel`)
+and the tilt (`rotate`, on `.work-panel-frame`) independent.
+
+**`buildHomeTeaser()` changed**: it used to also set
+`img.style.objectPosition = item.cropPosition` from the manifest, but
+`cropPosition` in `captions.json` is tuned for the Portfolio grid's
+wide 16:9-ish tiles (see "Per-image crop overrides" above) — a
+completely different aspect ratio from a roughly-square heart frame,
+and `buildPortfolioGrid()` still needs that same field for its own
+(correct) purpose. Removed the line from `buildHomeTeaser()` entirely
+rather than adding a second manifest field; a photo needing a specific
+crop for the heart frame gets its own inline `object-position` on the
+`<img>` in `index.html` instead (same per-image-override pattern used
+everywhere else), which `buildHomeTeaser()` no longer touches.
+`lifestyle/garden-cardigan-01.jpg` needed exactly this —
+`object-position: center 70%;` — confirmed by testing several values
+live in-browser; the default `center 32%` (now the `.work-panel img`
+baseline, chosen for the fashion/beauty photos' headroom-heavy
+framing) cropped this particular photo's face out entirely.
+
+**Mobile/responsive:** no breakpoint overrides needed — `.work-grid`'s
+`flex-wrap` plus each tile's `clamp()` width naturally collapses to
+one heart per row on narrow viewports. The old grid-based mobile
+override in `responsive.css` (`.work-grid`/`.work-panel--*` grid-column/
+row resets) was dead code after this change and removed.
+
 ### Gallery-tile swatch bug (brand campaign previews)
 `.gallery-tile .swatch` (the brand-page campaign-preview galleries)
 had never had a positioning rule — `.swatch` spans have no intrinsic
