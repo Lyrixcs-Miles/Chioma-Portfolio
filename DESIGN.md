@@ -1,6 +1,6 @@
 ---
-name: Eullie
-description: Personal brand site for Eullie — fashion/beauty/lifestyle model, content creator, and brand ambassador.
+name: Chioma
+description: Personal brand site for Chioma — fashion/beauty/lifestyle model, content creator, and brand ambassador.
 colors:
   bg: "#FFFFFF"
   bg-pearl: "#FAF9FB"
@@ -140,7 +140,7 @@ components:
     padding: "0.6rem 1.25rem"
 ---
 
-# Design System: Eullie
+# Design System: Chioma
 
 ## Overview
 
