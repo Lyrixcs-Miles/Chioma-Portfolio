@@ -824,6 +824,51 @@ one heart per row on narrow viewports. The old grid-based mobile
 override in `responsive.css` (`.work-grid`/`.work-panel--*` grid-column/
 row resets) was dead code after this change and removed.
 
+### GitHub Pages builds silently broken, fixed with `.nojekyll`
+User reported the live site wasn't showing recent changes (specifically,
+no heart frames) despite everything being pushed. `gh api repos/.../pages`
+showed the deployment's overall `status` as `"errored"`, and
+`gh api repos/.../pages/builds` showed every build since the
+`git filter-branch` history rewrite (the Co-Authored-By cleanup) had
+failed with a generic "Page build failed." — only the two commits made
+directly on GitHub (the CNAME delete/recreate) had built successfully
+in between. **Root cause: this repo was never a Jekyll site, but
+GitHub Pages' legacy pipeline runs every repo through Jekyll by
+default unless a `.nojekyll` file exists at the root.** This project
+had no `.nojekyll` (never needed one until a build actually broke).
+Added an empty `.nojekyll` file, which skips the Jekyll build step
+entirely and serves the repo's files as-is — the standard fix for a
+plain static HTML/CSS/JS site on Pages. **If the live site ever again
+stops reflecting pushed commits, check `gh api repos/Lyrixcs-Miles/
+Chioma-Portfolio/pages` and `.../pages/builds` first** before assuming
+a code/caching issue — confirms in seconds whether this is a
+deployment-pipeline problem rather than something in the pushed
+content itself.
+
+### "Selected Work" — desktop-only second row of hearts, Oct 2026
+Same day, same component: "on desktop put more heart frames with
+images in 'em." Added `.work-panel--c/--d/--e`, each using the second
+photo (`items[1]`) from the same three categories the original three
+hearts already use `items[0]` from — `buildHomeTeaser()`'s panel list
+became an array of `{selector, pick}` pairs instead of a flat selector
+list, with `category = order[i % 3]` so panels 4-6 cycle back through
+fashion/beauty/lifestyle a second time. All six share the shape/float/
+rotation CSS already established; the three new ones just get their
+own `width`/`margin-top`/`animation-delay`/`rotate()` values for
+visual variety, same pattern as the original three. `.work-panel--extra`
+(a shared marker class on the new three) is `display: none` at the
+existing ≤900px tablet breakpoint, so "desktop" in the request is
+literal — tablet and mobile keep the original 3-heart section exactly
+as before, consistent with this project's standing mobile-first
+priority (adding 3 more hearts to an already-long mobile scroll was
+never the ask).
+
+`dirt-lot-bw.jpg` (the fashion category's second pick) needed its own
+crop override for the same reason `garden-cardigan-01.jpg` did
+earlier — `object-position: center 40%;`, tuned live in-browser; the
+default `center 32%` put almost the entire heart over empty dirt-lot
+pavement with the subject a tiny figure in the upper-left.
+
 ### Gallery-tile swatch bug (brand campaign previews)
 `.gallery-tile .swatch` (the brand-page campaign-preview galleries)
 had never had a positioning rule — `.swatch` spans have no intrinsic

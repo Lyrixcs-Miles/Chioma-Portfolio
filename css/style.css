@@ -1033,6 +1033,28 @@ button:focus-visible {
   animation-delay: -4s;
 }
 
+/* Desktop-only second row — a second photo per category, hidden
+   below the tablet breakpoint (see responsive.css) so mobile keeps
+   the original 3-heart scroll length while desktop gets a fuller
+   floating cluster, per feedback ("on desktop put more heart frames
+   with images in 'em"). */
+.work-panel--c {
+  width: clamp(150px, 16vw, 200px);
+  margin-top: 1.5rem;
+  animation-delay: -1s;
+}
+
+.work-panel--d {
+  width: clamp(150px, 16vw, 200px);
+  animation-delay: -3s;
+}
+
+.work-panel--e {
+  width: clamp(150px, 16vw, 200px);
+  margin-top: 3rem;
+  animation-delay: -5s;
+}
+
 @keyframes work-panel-float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-14px); }
@@ -1054,6 +1076,18 @@ button:focus-visible {
 
 .work-panel--b .work-panel-frame {
   transform: rotate(-2deg);
+}
+
+.work-panel--c .work-panel-frame {
+  transform: rotate(3deg);
+}
+
+.work-panel--d .work-panel-frame {
+  transform: rotate(-2.5deg);
+}
+
+.work-panel--e .work-panel-frame {
+  transform: rotate(2deg);
 }
 
 .work-panel-accent {

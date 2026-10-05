@@ -140,12 +140,15 @@ function buildPortfolioGrid(manifest) {
 }
 
 // Homepage "A portfolio in progress" teaser — fills the existing
-// large/a/b panel layout with the first photo from each of the first
-// three categories in manifest order, rather than rebuilding the grid's
-// markup (that asymmetric large+2-small layout is a deliberate design
-// choice, not something that should flex with however many categories
-// exist). To pin a specific photo as a category's teaser pick, name it
-// to sort first within its folder (see scripts/build-image-manifest.py).
+// large/a/b panels with the first photo from each of the first three
+// categories in manifest order, and the desktop-only c/d/e panels
+// (see .work-panel--extra, hidden ≤900px) with each category's second
+// photo, rather than rebuilding the grid's markup (that asymmetric
+// large+2-small layout is a deliberate design choice, not something
+// that should flex with however many categories exist). To pin a
+// specific photo as a category's first/second teaser pick, name it to
+// sort first/second within its folder (see
+// scripts/build-image-manifest.py).
 //
 // Deliberately does NOT apply `item.cropPosition` here — that field is
 // tuned for the Portfolio grid's wide 16:9-ish tiles (see
@@ -156,17 +159,24 @@ function buildPortfolioGrid(manifest) {
 // pattern used everywhere else on the site), which this function
 // leaves untouched since it never writes to objectPosition.
 function buildHomeTeaser(manifest) {
-  const panels = ['.work-panel--large', '.work-panel--a', '.work-panel--b'];
+  const panels = [
+    { selector: '.work-panel--large', pick: 0 },
+    { selector: '.work-panel--a', pick: 0 },
+    { selector: '.work-panel--b', pick: 0 },
+    { selector: '.work-panel--c', pick: 1 },
+    { selector: '.work-panel--d', pick: 1 },
+    { selector: '.work-panel--e', pick: 1 },
+  ];
   const prefix = assetRootPrefix();
   const order = manifestCategoryOrder(manifest);
 
-  panels.forEach((selector, i) => {
-    const category = order[i];
+  panels.forEach(({ selector, pick }, i) => {
+    const category = order[i % 3];
     const items = category ? manifest.categories[category] : null;
-    if (!items || !items.length) return;
+    if (!items || !items[pick]) return;
     const panel = document.querySelector(selector);
     if (!panel) return;
-    const item = items[0];
+    const item = items[pick];
     const img = panel.querySelector('img');
     const tag = panel.querySelector('.work-tag');
     if (img) {
