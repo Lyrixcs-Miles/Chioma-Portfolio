@@ -194,6 +194,65 @@ this file assumes them.
   via the iframe cache-busting workaround — `resize_window` silently
   capped at ~1536px again this session, see the environment quirks
   section) on both a root page and a `brands/*.html` subpage.
+- **Oct 2026 "Editorial Spotlight Pink" palette repaint.** User request:
+  "use one of these color palettes," linking a black/pink palette
+  reference guide (Filmora's black-pink palette article) rather than
+  describing a direction in words. Picked "Editorial Spotlight Pink"
+  from its Elegant & Modern category (`#000000`, `#222222`, `#FF4F8B`,
+  `#FFD6E8`) over the other 15 named options — its own name fit an
+  editorial fashion-model portfolio directly, and its crisp black +
+  hot-pink pairing suited the brand better than the guide's neon or
+  pastel options. A straight token-value swap, same mechanics as the
+  two earlier full-palette changes this project has been through
+  (`:root` names/roles unchanged, only values moved) — see DESIGN.md's
+  Palette History for the full before/after and the exact derivation
+  math for the non-sourced tokens (`--color-bg-pearl`, `--color-accent-
+  soft`, `--color-ink-soft`). The source palette gives only two near-
+  black anchors versus the prior system's five warm-noir tiers, so
+  `--color-bg`/`--color-accent-deep`/`--color-on-accent` all
+  intentionally collapsed to the same literal `#000000` — a starker,
+  more graphic "poster black" than before, not an oversight.
+
+  **Full rgba() audit, same as the two prior palette changes.** Every
+  hardcoded shadow/overlay/ripple `rgba()` literal tied to an old token
+  value was remapped to match the new one, via a scripted regex pass
+  across `css/style.css` (50 replacements) plus 3 manual fixes in
+  `css/responsive.css` — cataloged by grepping every `rgba(` call first
+  (see PROJECT_NOTES.md's established pattern from the "plum to black"
+  rebrand) rather than hand-hunting them. The two old warm-noir shadow
+  families (`rgba(31,26,26,X)` and `rgba(11,8,8,X)`, themselves
+  carryovers from an even earlier palette generation — see DESIGN.md's
+  Elevation & Depth section) both collapsed to `rgba(0,0,0,X)`, since
+  this palette's own darkest token is literal black and there's no
+  longer a distinct second near-black to draw a "deeper" shadow tier
+  from — the two depth tiers are now differentiated by alpha/blur
+  alone. Also swept CSS comments for stale color-name references
+  ("dusty-rose," "dusty rose") that would otherwise describe the new
+  vivid hot-pink accent as if it were still the old muted dusty rose.
+
+  **`.impeccable/design.json` regenerated in full**, not just the
+  colors — per `CLAUDE.md`'s "regenerate both together" instruction.
+  While in there, also fixed sidecar drift that predated this palette
+  change: the `donts` array still said "the system's list pattern is
+  hairline-divided text, not bordered cards" despite `.focus-item`'s
+  card reversal from an earlier pass in this same session, and the
+  `Portfolio Tile`/`Site Navigation` component snippets had their own
+  literal-color drift from the live CSS (`rgba(255,255,255,.3)` and
+  `rgba(250,249,251,.14)` that matched neither the old nor new token
+  values). Added two components that existed in DESIGN.md but were
+  never captured in the sidecar: Focus Card (`.focus-item`) and Footer
+  Form Card (`.footer-form-card`).
+
+  Verified visually (desktop via a working `resize_window` this
+  session, plus mobile via the iframe workaround) across the homepage
+  hero/about-teaser/offer-cards/brand-strip/footer/closing-CTA, the
+  Portfolio page's filter pills and lightbox, and a brand page's
+  glance-list and campaign-preview swatches — checking in particular
+  that the swatch gradients still show a visible luminance gap (the
+  exact bug class the "plum to black" and dark-world repaints both hit
+  once already) and that text stays legible against both near-black
+  tiers. Detector run clean after the DESIGN.md/sidecar update (only
+  the pre-existing padding-transition exception).
 - Shared across every page: `css/style.css` (base + design system),
   `css/responsive.css` (900px/600px breakpoints), `js/main.js` (glass
   nav toggle/scroll-shrink, portfolio filters, lightbox, ripple,

@@ -1,8 +1,9 @@
 /* ==========================================================================
    Chioma — Main Stylesheet
-   Palette: persistent dark-noir grounds (no white/light sections),
-   dusty rose as the one accent, warm cinematic photo grade applied
-   site-wide. Cormorant Garamond for display, Manrope for body/UI.
+   Palette: persistent true-black grounds (no white/light sections),
+   hot pink as the one accent ("Editorial Spotlight Pink"), warm
+   cinematic photo grade applied site-wide. Cormorant Garamond for
+   display, Manrope for body/UI.
    ========================================================================== */
 
 /* Cross-document continuity: page navigations cross-fade instead of
@@ -33,25 +34,36 @@
    (the polaroid card's paper mat, the inverse button) use the new
    `--color-ivory-surface` token instead of bg-pearl, since bg-pearl's
    role is now "secondary dark surface," not "bright surface." */
+/* Oct 2026 "Editorial Spotlight Pink" repaint — see DESIGN.md's Palette
+   History for the full before/after. Sourced from a black/pink palette
+   reference (Filmora's black-pink palette guide), not generated: the
+   four anchor hexes are #000000, #222222, #FF4F8B, #FFD6E8. This
+   palette gives only two distinct near-black tones (vs. the prior
+   system's five warm-noir tiers), so --color-bg/--color-accent-deep/
+   --color-on-accent intentionally collapse to the same literal
+   #000000 — a starker, more graphic "poster black" read than the
+   previous warm-noir system had, not an oversight. --color-bg-pearl
+   is the one interpolated (not sourced) value, a midpoint needed to
+   keep a 3-tier dark-surface system with only 2 given blacks. */
 :root {
-  --color-bg: #13100F;           /* primary dark ground — replaces white */
-  --color-bg-pearl: #1D1716;     /* secondary dark surface — about-teaser, focus-section, brand-gallery, footer */
-  --color-bg-blush: #201616;     /* deepest warm-dark tier — hero, page-header, brand-strip; subtle rose-warmth vs. flat --color-bg */
+  --color-bg: #000000;           /* primary dark ground */
+  --color-bg-pearl: #111111;     /* secondary dark surface — about-teaser, focus-section, brand-gallery, footer; interpolated midpoint, not a sourced palette value */
+  --color-bg-blush: #222222;     /* lightest dark tier — hero, page-header, brand-strip */
 
-  --color-accent: #CBA3A8;       /* dusty rose — promoted to primary interactive/CTA/link color now that noir is the page ground itself */
-  --color-accent-soft: #E4CBCE;  /* paler rose — decorative/structural only (gradients, hairline tints) */
-  --color-accent-deep: #060504;  /* truest black — deepest shadow/gradient stop */
+  --color-accent: #FF4F8B;       /* hot pink — primary interactive/CTA/link color, sourced directly from the palette */
+  --color-accent-soft: #FF85B0;  /* paler rose — decorative/structural only (gradients, hairline tints); derived midpoint between --color-accent and --color-ink */
+  --color-accent-deep: #000000;  /* truest black — deepest shadow/gradient stop; same literal value as --color-bg in this palette (see note above) */
 
-  --color-ink: #F3E9E7;          /* primary text — warm ivory, replaces soft black */
-  --color-ink-soft: #A3908D;     /* secondary/muted text — warm grey-rose, tinted from the accent hue */
-  --color-on-accent: #171212;    /* dark text atop solid rose-accent surfaces (buttons) — reuses the old soft-noir value */
+  --color-ink: #FFD6E8;          /* primary text — pale pink, sourced directly from the palette */
+  --color-ink-soft: #C0718C;     /* secondary/muted text — desaturated rose-mauve, blended from the accent hue toward neutral gray */
+  --color-on-accent: #000000;    /* dark text atop solid accent surfaces (buttons) — true black for maximum contrast against the hot-pink fill */
 
-  --color-ivory-surface: #F3E9E7; /* the one deliberately BRIGHT surface in an otherwise all-dark system — polaroid card mat, inverse button fill; same value as --color-ink, named separately because the role (a bright card-like object) differs from "text color" */
+  --color-ivory-surface: #FFD6E8; /* the one deliberately BRIGHT surface in an otherwise all-dark system — polaroid card mat, inverse button fill; same value as --color-ink, named separately because the role (a bright card-like object) differs from "text color" */
 
   --font-heading: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   --font-body: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
 
-  --rule-soft: 1px solid rgba(243, 233, 231, 0.14);  /* light hairline, was dark-on-light */
+  --rule-soft: 1px solid rgba(255, 214, 232, 0.14);  /* light hairline, was dark-on-light */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 
   --section-pad: 7rem;
@@ -103,7 +115,7 @@ a {
    black-and-white shots reads as one deliberately graded body of work
    instead of an assortment of snapshots. saturate() pulls color shots
    toward the same muted family without flattening them to grayscale;
-   sepia() nudges everything warm, toward the dusty-rose accent's hue
+   sepia() nudges everything warm, toward the accent's pink/rose hue
    family; contrast()/brightness() give it a touch more "film," less
    "camera roll." Applied once here rather than per-component so a
    newly added photo anywhere inherits it automatically. */
@@ -175,15 +187,15 @@ header {
      boosted the pink into a muddy brown/taupe cast (confirmed live,
      Oct 2026 critique) — not a hex-value problem, a blend problem.
      Higher opacity + no saturation boost reads as genuine soft black. */
-  background: rgba(23, 18, 18, 0.9);
+  background: rgba(0, 0, 0, 0.9);
   backdrop-filter: blur(18px) saturate(100%);
   -webkit-backdrop-filter: blur(18px) saturate(100%);
-  border-bottom: 1px solid rgba(243, 233, 231, 0.14);
+  border-bottom: 1px solid rgba(255, 214, 232, 0.14);
   transition: padding 0.45s var(--ease-out-expo), box-shadow 0.45s var(--ease-out-expo), transform 0.45s var(--ease-out-expo);
 }
 
 .site-nav.is-shadow {
-  box-shadow: 0 20px 40px -18px rgba(11, 8, 8, 0.45);
+  box-shadow: 0 20px 40px -18px rgba(0, 0, 0, 0.45);
 }
 
 .site-nav.is-hidden {
@@ -220,7 +232,7 @@ header {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  border: 1px solid rgba(243, 233, 231, 0.35);
+  border: 1px solid rgba(255, 214, 232, 0.35);
   opacity: 0;
   animation: ripple-pulse 4s ease-out infinite;
 }
@@ -261,7 +273,7 @@ header {
 }
 
 /* Light text — the header glass is now the same dark noir as the mobile
-   drawer (rgba(31,26,26,X)), nearly identical to --color-ink, which
+   drawer (rgba(0, 0, 0,X)), nearly identical to --color-ink, which
    would be invisible-on-invisible if links kept their original ink
    color from the site's light-background default. */
 .site-nav ul li a {
@@ -316,7 +328,7 @@ header {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(31, 26, 26, 0.35);
+  background: rgba(0, 0, 0, 0.35);
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.35s var(--ease-out-expo);
@@ -380,13 +392,13 @@ button:focus-visible {
   background: var(--color-accent);
   padding: 1.05rem 2.1rem;
   border-radius: 2px;
-  box-shadow: 0 14px 28px -14px rgba(31, 26, 26, 0.55);
+  box-shadow: 0 14px 28px -14px rgba(0, 0, 0, 0.55);
   transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo);
 }
 
 .btn-primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 20px 34px -12px rgba(31, 26, 26, 0.6);
+  box-shadow: 0 20px 34px -12px rgba(0, 0, 0, 0.6);
 }
 
 /* Dark fill + ivory text, not the old light-fill version — this
@@ -407,7 +419,7 @@ button:focus-visible {
   background: var(--color-on-accent);
   padding: 1.05rem 2.1rem;
   border-radius: 2px;
-  box-shadow: 0 14px 28px -14px rgba(11, 8, 8, 0.35);
+  box-shadow: 0 14px 28px -14px rgba(0, 0, 0, 0.35);
   transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo);
 }
 
@@ -602,7 +614,7 @@ button:focus-visible {
   background: var(--color-ivory-surface);
   padding: 0.6rem 0.6rem 1.6rem;
   border-radius: 2px;
-  box-shadow: 0 32px 60px -22px rgba(31, 26, 26, 0.5);
+  box-shadow: 0 32px 60px -22px rgba(0, 0, 0, 0.5);
   cursor: grab;
   user-select: none;
   transform: translate(-50%, -50%) translate(var(--tx, 0%), var(--ty, 0%)) translate(var(--drag, 0px), 0) rotate(var(--rot, 0deg));
@@ -700,7 +712,7 @@ button:focus-visible {
    panel. js/main.js's initHeaderPhoto() randomly picks one of a fixed set
    of photos into the .page-header-photo img on each load (fresh pairing
    per visit, not a fixed per-page assignment). Two-layer composition
-   echoes the hero's silhouette-back/front bleed: a dusty-rose clipped shape
+   echoes the hero's silhouette-back/front bleed: a hot-pink clipped shape
    peeks out from behind a slightly rotated, larger-than-the-box photo
    card, rather than a flat single rectangle. Neither layer clips to the
    .page-header-photo-frame box (no overflow: hidden there) so the back
@@ -733,7 +745,7 @@ button:focus-visible {
      outlined — the photo sits recessed inside the frame, not
      floating next to it. */
   border: 10px solid var(--color-accent-deep);
-  box-shadow: 0 32px 60px -22px rgba(31, 26, 26, 0.5);
+  box-shadow: 0 32px 60px -22px rgba(0, 0, 0, 0.5);
   transform: rotate(-4deg) translate(-4%, -3%) scale(1.06);
 }
 
@@ -750,8 +762,8 @@ button:focus-visible {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 75% 15%, rgba(243, 233, 231, 0.3), transparent 55%),
-    linear-gradient(195deg, rgba(23, 18, 18, 0) 55%, rgba(23, 18, 18, 0.28) 100%);
+    radial-gradient(circle at 75% 15%, rgba(255, 214, 232, 0.3), transparent 55%),
+    linear-gradient(195deg, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.28) 100%);
   mix-blend-mode: soft-light;
   pointer-events: none;
 }
@@ -849,15 +861,15 @@ button:focus-visible {
      .focus-section's --color-bg-pearl here, but stays correct if this
      component ever lands on a different section background). Edge
      reuses the same box-shadow-as-border device as photo tiles. */
-  background: rgba(243, 233, 231, 0.04);
-  box-shadow: 0 0 0 1px rgba(243, 233, 231, 0.12);
+  background: rgba(255, 214, 232, 0.04);
+  box-shadow: 0 0 0 1px rgba(255, 214, 232, 0.12);
   transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo), background 0.4s var(--ease-out-expo);
 }
 
 .focus-item:hover {
   transform: translateY(-6px);
-  background: rgba(243, 233, 231, 0.07);
-  box-shadow: 0 24px 44px -24px rgba(11, 8, 8, 0.6), 0 0 0 1px rgba(243, 233, 231, 0.18);
+  background: rgba(255, 214, 232, 0.07);
+  box-shadow: 0 24px 44px -24px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 214, 232, 0.18);
 }
 
 /* Large muted italic numeral above each item — same italic-serif
@@ -986,7 +998,7 @@ button:focus-visible {
      neighboring tiles whose own edge content (sky, pale clothing)
      could otherwise blend straight into the page with only the grid
      gap for separation (Oct 2026 critique: "no proper borders"). */
-  box-shadow: 0 0 0 1px rgba(243, 233, 231, 0.18);
+  box-shadow: 0 0 0 1px rgba(255, 214, 232, 0.18);
 }
 
 .work-panel--large {
@@ -1030,8 +1042,8 @@ button:focus-visible {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 75% 15%, rgba(243, 233, 231, 0.3), transparent 55%),
-    linear-gradient(195deg, rgba(23, 18, 18, 0) 55%, rgba(23, 18, 18, 0.28) 100%);
+    radial-gradient(circle at 75% 15%, rgba(255, 214, 232, 0.3), transparent 55%),
+    linear-gradient(195deg, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.28) 100%);
   mix-blend-mode: soft-light;
   pointer-events: none;
 }
@@ -1046,14 +1058,14 @@ button:focus-visible {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-ink);
-  background: rgba(19, 16, 15, 0.72);
+  background: rgba(0, 0, 0, 0.72);
   padding: 0.4rem 0.85rem;
   border-radius: 100px;
 }
 
 .work-panel--large .work-tag {
   color: var(--color-ink);
-  background: rgba(19, 16, 15, 0.45);
+  background: rgba(0, 0, 0, 0.45);
 }
 
 .work-note {
@@ -1132,7 +1144,7 @@ button:focus-visible {
      ratios). See .work-panel's comment for why: defines each tile's
      edge against the page and against neighbors whose own edges could
      otherwise blend straight into the gap. */
-  box-shadow: 0 0 0 1px rgba(243, 233, 231, 0.18);
+  box-shadow: 0 0 0 1px rgba(255, 214, 232, 0.18);
 }
 
 .portfolio-item[hidden] {
@@ -1171,8 +1183,8 @@ button:focus-visible {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 75% 15%, rgba(243, 233, 231, 0.3), transparent 55%),
-    linear-gradient(195deg, rgba(23, 18, 18, 0) 55%, rgba(23, 18, 18, 0.28) 100%);
+    radial-gradient(circle at 75% 15%, rgba(255, 214, 232, 0.3), transparent 55%),
+    linear-gradient(195deg, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.28) 100%);
   mix-blend-mode: soft-light;
   pointer-events: none;
 }
@@ -1210,7 +1222,7 @@ button:focus-visible {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-ink);
-  background: rgba(31, 26, 26, 0.55);
+  background: rgba(0, 0, 0, 0.55);
   padding: 0.4rem 0.85rem;
   border-radius: 100px;
   opacity: 0;
@@ -1326,7 +1338,7 @@ button:focus-visible {
   overflow: hidden;
   /* See .work-panel's comment above for why box-shadow instead of a
      real border. */
-  box-shadow: 0 0 0 1px rgba(243, 233, 231, 0.18);
+  box-shadow: 0 0 0 1px rgba(255, 214, 232, 0.18);
 }
 
 .gallery-tile .swatch {
@@ -1339,8 +1351,8 @@ button:focus-visible {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 75% 15%, rgba(243, 233, 231, 0.3), transparent 55%),
-    linear-gradient(195deg, rgba(23, 18, 18, 0) 55%, rgba(23, 18, 18, 0.28) 100%);
+    radial-gradient(circle at 75% 15%, rgba(255, 214, 232, 0.3), transparent 55%),
+    linear-gradient(195deg, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.28) 100%);
   mix-blend-mode: soft-light;
   pointer-events: none;
 }
@@ -1429,12 +1441,12 @@ button:focus-visible {
 
 .cta-close p {
   /* Dark, not light — .cta-close's background is var(--color-accent),
-     now a light-mid dusty rose (the one full-color-bleed moment in an
+     now a vivid hot pink (the one full-color-bleed moment in an
      otherwise dark site), so its body copy needs dark text like its
      heading (--color-on-accent) does, just at reduced opacity for a
      secondary-text weight. Was light ivory at 0.85 when the CTA
      background was dark noir, pre-redesign. */
-  color: rgba(23, 18, 18, 0.72);
+  color: rgba(0, 0, 0, 0.72);
   max-width: 46ch;
   margin: 0 auto 2.5rem;
   line-height: 1.75;
@@ -1603,8 +1615,8 @@ button:focus-visible {
    Fields stack full-width (not the old wrapping flex row) since the
    card is a narrower column than the old full-bleed row was. */
 .footer-form-card {
-  background: rgba(203, 163, 168, 0.06);
-  box-shadow: 0 0 0 1px rgba(243, 233, 231, 0.14);
+  background: rgba(255, 79, 139, 0.06);
+  box-shadow: 0 0 0 1px rgba(255, 214, 232, 0.14);
   border-radius: 2px;
   padding: 2.25rem 2rem;
 }
@@ -1827,7 +1839,7 @@ button:focus-visible {
   align-items: center;
   justify-content: center;
   padding: 3.5rem 2rem 2rem;
-  background: rgba(31, 26, 26, 0.82);
+  background: rgba(0, 0, 0, 0.82);
   opacity: 0;
   visibility: hidden;
   overflow-y: auto;
@@ -1861,7 +1873,7 @@ button:focus-visible {
   border-radius: 2px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 50px 90px -30px rgba(11, 8, 8, 0.65);
+  box-shadow: 0 50px 90px -30px rgba(0, 0, 0, 0.65);
 }
 
 .lightbox-panel::before {
@@ -1869,8 +1881,8 @@ button:focus-visible {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 75% 15%, rgba(243, 233, 231, 0.3), transparent 55%),
-    linear-gradient(195deg, rgba(23, 18, 18, 0) 55%, rgba(23, 18, 18, 0.28) 100%);
+    radial-gradient(circle at 75% 15%, rgba(255, 214, 232, 0.3), transparent 55%),
+    linear-gradient(195deg, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.28) 100%);
   mix-blend-mode: soft-light;
   pointer-events: none;
 }
@@ -1885,7 +1897,7 @@ button:focus-visible {
 
 .lightbox-panel .work-tag {
   color: var(--color-ink);
-  background: rgba(31, 26, 26, 0.4);
+  background: rgba(0, 0, 0, 0.4);
 }
 
 .lightbox-caption {
@@ -1927,7 +1939,7 @@ button:focus-visible {
 .ripple {
   position: absolute;
   border-radius: 50%;
-  background: var(--ripple-color, rgba(23, 18, 18, 0.22));
+  background: var(--ripple-color, rgba(0, 0, 0, 0.22));
   transform: scale(0);
   pointer-events: none;
   animation: ripple-expand 0.6s var(--ease-out-expo);
@@ -1944,7 +1956,7 @@ button:focus-visible {
    noir), so its ripple flipped dark to stay visible against it —
    same reasoning as .cta-close p above. */
 .btn-primary {
-  --ripple-color: rgba(23, 18, 18, 0.3);
+  --ripple-color: rgba(0, 0, 0, 0.3);
 }
 
 /* .btn-primary-inverse's fill stays the one deliberately bright
@@ -1953,23 +1965,23 @@ button:focus-visible {
    split out because a transparent pill now sits on the dark page
    itself and needs a light ripple instead. */
 .btn-primary-inverse {
-  --ripple-color: rgba(243, 233, 231, 0.25);
+  --ripple-color: rgba(255, 214, 232, 0.25);
 }
 
 .portfolio-filters button {
-  --ripple-color: rgba(243, 233, 231, 0.3);
+  --ripple-color: rgba(255, 214, 232, 0.3);
 }
 
 .portfolio-item,
 .lightbox-close {
-  --ripple-color: rgba(243, 233, 231, 0.35);
+  --ripple-color: rgba(255, 214, 232, 0.35);
 }
 
 /* Flipped light — was a dark ripple on the already-dark nav glass
    (low visibility even before the redesign; fixed while already
    auditing every ripple color for the new dark-everywhere world). */
 .nav-toggle {
-  --ripple-color: rgba(243, 233, 231, 0.3);
+  --ripple-color: rgba(255, 214, 232, 0.3);
 }
 
 @media (prefers-reduced-motion: reduce) {
