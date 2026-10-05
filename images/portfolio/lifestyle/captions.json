@@ -1,0 +1,16 @@
+{
+  "garden-cardigan-01.jpg": {
+    "caption": "Lifestyle — garden, golden hour.",
+    "alt": "Lifestyle portrait smiling in a white cardigan, garden setting with mountains behind."
+  },
+  "garden-cardigan-02.jpg": {
+    "caption": "Lifestyle — garden, golden hour.",
+    "alt": "Lifestyle portrait in a white cardigan and jeans, garden setting with mountains behind.",
+    "wide": true,
+    "cropPosition": "50% 48%"
+  },
+  "garden-casual.jpg": {
+    "caption": "Lifestyle — garden, candid.",
+    "alt": "Candid lifestyle portrait laughing over the shoulder, oversized white top and jeans, garden setting."
+  }
+}

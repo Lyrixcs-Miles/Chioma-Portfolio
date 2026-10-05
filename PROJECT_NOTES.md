@@ -279,7 +279,7 @@ this file assumes them.
 |---|---|
 | `index.html` (Home) | Full build: masthead hero w/ looping typewriter + real-photo "polaroid stack" (swipeable/autoplaying, replaces the old duotone silhouette), About teaser, Portfolio teaser (real photography), "What I Offer" services, Brand strip, closing CTA. |
 | `about.html` | Full build: page-header (real photo, see "Page-header photo" below), "At a Glance" facts + bio copy, "Where I Create" list, closing CTA. |
-| `portfolio.html` | Full build: page-header (real photo), filterable contact-sheet grid (14 tiles: 5 fashion, 6 beauty, 3 lifestyle) with real photography, working lightbox, closing CTA. |
+| `portfolio.html` | Full build: page-header (real photo), filterable contact-sheet grid (15 tiles: 5 fashion, 7 beauty, 3 lifestyle, built from `images/portfolio/manifest.json` — see "Image manifest" below) with real photography, working lightbox, closing CTA. |
 | `brands/index.html` | Full build: page-header (real photo), partner-credit row list, closing CTA. |
 | `brands/azhyre-tech.html`, `azhyre-fashion.html`, `serenq.html` | Full build: page-header (real photo + real website links the user added), Partnership glance-list + bio copy, 3-tile campaign-preview gallery (still placeholder swatches), closing CTA. |
 | `contact.html` | Full build: page-header (real photo), email + socials (**real values, user-supplied**), "Good to Know" list. No closing CTA section (page IS the destination). |
@@ -624,6 +624,91 @@ than a CSS rule, since the right value is specific to that one photo's
 framing. **If a newly added wide/large tile crops awkwardly, check
 this per-image object-position pattern before reaching for a different
 crop ratio.**
+
+### Image manifest (folder-driven portfolio, Oct 2026)
+Everything in "Real photography" above described the Portfolio grid,
+homepage teaser, hero polaroid stack, and page-header photo pool as
+hand-coded HTML/JS — each photo added by hand to `portfolio.html`'s
+grid markup, the 3 homepage teaser `<img>` tags, the 6 hero
+`.polaroid-card` divs, and a `HEADER_PHOTOS` array in `main.js`. That
+had a real, confirmed-live cost: `images/portfolio/beauty/mirror-
+selfie-04.jpg` existed on disk and was wired into `HEADER_PHOTOS`, but
+nobody had added it to the Portfolio grid itself — it was simply
+invisible there, with no error or indication anything was missing.
+
+Replaced with a build-then-fetch pattern, consistent with the site's
+no-backend/no-build-step constraints (see `PRODUCT.md`): **`python
+scripts/build-image-manifest.py`** scans every
+`images/portfolio/<category>/` folder on disk and writes
+`images/portfolio/manifest.json`; **`js/main.js`** fetches that file
+client-side on every page load and uses it to build all four
+photo-driven sections above, replacing whatever static markup was
+already in each page if the fetch succeeds. Adding a photo is now
+"drop the file in its category folder, re-run the script, commit
+`manifest.json`" — no HTML or JS edits. A brand-new category is the
+same: a new folder is picked up automatically (new filter pill, new
+grid tiles), confirmed by creating a throwaway `editorial-test/`
+category with one photo, reloading, seeing its filter pill and tile
+appear, then deleting it and regenerating the real manifest.
+
+**Caption quality vs. zero-effort defaults.** A photo with no metadata
+gets an auto-generated caption/alt from its filename (e.g.
+`garden-casual.jpg` → "Lifestyle — Garden casual.") — serviceable but
+not as considered as the original hand-written copy. An optional
+`captions.json` inside a category folder overrides `caption`/`alt`/
+`wide`/`cropPosition`/`order` per filename; all 15 existing photos got
+one, copying their exact original hand-written caption/alt text
+verbatim, so migrating to the new system produced zero copy
+regressions. See `images/portfolio/fashion/captions.json` for a real
+example, or the script's own header comment for the full schema.
+
+**The "wide" tile and "order" fields exist because of two regressions
+caught in testing, not speculative features:**
+- `.portfolio-item--wide`/`.work-panel--large` need SOME tiles wider
+  than others for the "contact sheet," not-a-uniform-grid feel the
+  Portfolio page's own thesis comment calls for (see its FORM note).
+  The script auto-assigns a wide tile (first photo, then every 5th) if
+  a category's `captions.json` never sets `wide` explicitly — but the
+  first pass mixed that auto-rule with the fashion category's one
+  explicit `wide: true` override and produced *two* wide fashion tiles
+  instead of one. Fixed by making the auto-rule category-wide binary:
+  if ANY photo in a category sets `wide` explicitly, every other photo
+  in that category defaults to `false` (no auto-assignment at all)
+  rather than mixing manual and automatic choices.
+- Natural filename sort reordered fashion so `dirt-lot-bw.jpg` (a dim,
+  center-framed black-and-white dusk photo) became category-first
+  instead of `park-halter-trousers-01.jpg` (the photo that originally
+  fed the homepage's large teaser panel, with its own tuned
+  `cropPosition`) — confirmed visually live, the dusk photo looked
+  flat and oddly cropped at the teaser's large-panel aspect ratio.
+  Added an optional `order` field (lower sorts first; unset photos
+  keep their natural relative order) specifically so a favorite can be
+  pinned as a category's "first" photo — which is also what the
+  homepage teaser and hero polaroid stack pick from — without renaming
+  the actual file. Set `park-halter-trousers-01.jpg`'s `order: 0` to
+  restore the original teaser pick.
+
+**Fetch-failure fallback.** `js/main.js`'s manifest fetch only runs
+after the nav/typewriter/sticky-header/footer-form setup (none of
+which depend on photos), and every manifest-dependent `build*`
+function only replaces a section's DOM if the fetch actually
+succeeded — so a failed fetch (most likely: the page opened via
+`file://` instead of a local server, same caveat `CLAUDE.md`'s
+Commands section already flags for root-relative links) just leaves
+whatever static HTML is already committed in the page, same as before
+this system existed. Nothing goes blank.
+
+**Dev-server caching gotcha hit again while testing this.** Reusing an
+already-open tab's cached `js/main.js` after editing it (even via the
+iframe cache-busting trick used for CSS elsewhere in this file) can
+leave the *old* script's top-level `const` declarations already
+executed in that page's global scope, so a freshly-fetched copy of the
+same script throws `Identifier '...' has already been declared` on
+load. Restarting the dev server on a new port (a fresh origin, so a
+genuinely empty HTTP cache) and navigating fresh resolved it. If a
+future session edits `main.js` and sees a redeclaration error that
+makes no sense against the current file contents, suspect this before
+suspecting the code.
 
 ### Gallery-tile swatch bug (brand campaign previews)
 `.gallery-tile .swatch` (the brand-page campaign-preview galleries)

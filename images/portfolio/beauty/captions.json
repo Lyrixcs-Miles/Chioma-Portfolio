@@ -1,0 +1,32 @@
+{
+  "balloon-portrait-01.jpg": {
+    "caption": "Beauty — portrait, styled set with balloon backdrop.",
+    "alt": "Beauty portrait with braided hair, seated in front of a pink and white balloon backdrop.",
+    "wide": true
+  },
+  "balloon-portrait-02.jpg": {
+    "caption": "Beauty — portrait, styled set with balloon backdrop.",
+    "alt": "Beauty portrait, closer crop, braided hair, balloon backdrop."
+  },
+  "striped-wall-bw.jpg": {
+    "caption": "Beauty — close portrait, black and white.",
+    "alt": "Black and white close beauty portrait against a corrugated wall, wearing glasses."
+  },
+  "mirror-selfie-01.jpg": {
+    "caption": "Beauty — mirror portrait, black and white.",
+    "alt": "Black and white mirror portrait in a hoodie, head tilted, looking down at the phone screen."
+  },
+  "mirror-selfie-02.jpg": {
+    "caption": "Beauty — mirror portrait, black and white.",
+    "alt": "Black and white mirror portrait in a hoodie, closer crop, looking down at the phone screen.",
+    "wide": true
+  },
+  "mirror-selfie-03.jpg": {
+    "caption": "Beauty — mirror portrait, black and white.",
+    "alt": "Black and white mirror portrait in a hoodie, hand resting on top of head, looking down at the phone screen."
+  },
+  "mirror-selfie-04.jpg": {
+    "caption": "Beauty — mirror portrait, black and white.",
+    "alt": "Black and white mirror portrait in a hoodie, seated, looking directly at the camera."
+  }
+}
