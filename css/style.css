@@ -1,7 +1,8 @@
 /* ==========================================================================
    Chioma — Main Stylesheet
-   Palette: white / ivory / whisper blush grounds, soft noir black +
-   dusty rose accents. Cormorant Garamond for display, Manrope for body/UI.
+   Palette: persistent dark-noir grounds (no white/light sections),
+   dusty rose as the one accent, warm cinematic photo grade applied
+   site-wide. Cormorant Garamond for display, Manrope for body/UI.
    ========================================================================== */
 
 /* Cross-document continuity: page navigations cross-fade instead of
@@ -17,23 +18,40 @@
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Oct 2026 redesign — persistent dark world (was white/blush, dark
+   accents only). See DESIGN.md's Colors section and Palette History
+   for the full rationale. Token NAMES and ROLES are unchanged (bg =
+   page ground, ink = primary text, accent = primary interactive
+   color, on-accent = text atop a solid accent fill) — only the VALUES
+   flipped, which is why most component CSS below needed zero edits.
+   The two things that DON'T follow that flip automatically:
+   (1) anywhere that explicitly borrowed the old light `--color-bg-
+   pearl` for "light text on a dark surface" (the nav links, tag
+   badges on photos, the lightbox) now uses `--color-ink` directly,
+   since ink itself is the light tone now; (2) a few places that need
+   to stay a deliberately BRIGHT surface regardless of the dark page
+   (the polaroid card's paper mat, the inverse button) use the new
+   `--color-ivory-surface` token instead of bg-pearl, since bg-pearl's
+   role is now "secondary dark surface," not "bright surface." */
 :root {
-  --color-bg: #FFFFFF;
-  --color-bg-pearl: #FAF8F7;
-  --color-bg-blush: #F7EAEA;
+  --color-bg: #13100F;           /* primary dark ground — replaces white */
+  --color-bg-pearl: #1D1716;     /* secondary dark surface — about-teaser, focus-section, brand-gallery, footer */
+  --color-bg-blush: #201616;     /* deepest warm-dark tier — hero, page-header, brand-strip; subtle rose-warmth vs. flat --color-bg */
 
-  --color-accent: #171212;       /* soft noir — primary accent, CTAs (warm black, not pure #000) */
-  --color-accent-soft: #CBA3A8;  /* dusty rose — secondary accent, decorative only (fails text contrast on light grounds) */
-  --color-accent-deep: #0B0808;  /* deepest noir for gradients/shadows — the system's darkest value */
+  --color-accent: #CBA3A8;       /* dusty rose — promoted to primary interactive/CTA/link color now that noir is the page ground itself */
+  --color-accent-soft: #E4CBCE;  /* paler rose — decorative/structural only (gradients, hairline tints) */
+  --color-accent-deep: #060504;  /* truest black — deepest shadow/gradient stop */
 
-  --color-ink: #1F1A1A;          /* primary text — soft black, intentionally not pure #000 */
-  --color-ink-soft: #6F5F61;     /* secondary/muted text, tinted rose-grey from the accent hue */
-  --color-on-accent: #FAF8F7;    /* text on solid noir surfaces */
+  --color-ink: #F3E9E7;          /* primary text — warm ivory, replaces soft black */
+  --color-ink-soft: #A3908D;     /* secondary/muted text — warm grey-rose, tinted from the accent hue */
+  --color-on-accent: #171212;    /* dark text atop solid rose-accent surfaces (buttons) — reuses the old soft-noir value */
+
+  --color-ivory-surface: #F3E9E7; /* the one deliberately BRIGHT surface in an otherwise all-dark system — polaroid card mat, inverse button fill; same value as --color-ink, named separately because the role (a bright card-like object) differs from "text color" */
 
   --font-heading: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   --font-body: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
 
-  --rule-soft: 1px solid rgba(23, 18, 18, 0.16);
+  --rule-soft: 1px solid rgba(243, 233, 231, 0.14);  /* light hairline, was dark-on-light */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 
   --section-pad: 7rem;
@@ -78,9 +96,21 @@ a {
   text-decoration: none;
 }
 
+/* Unified warm cinematic grade — Oct 2026 redesign. Every real photo
+   on the site now (favicon/icons are the only non-photo-tag graphics,
+   so this is safe as a blanket rule) passes through the same filter
+   chain, so a mix of full-color phone shots and pre-existing
+   black-and-white shots reads as one deliberately graded body of work
+   instead of an assortment of snapshots. saturate() pulls color shots
+   toward the same muted family without flattening them to grayscale;
+   sepia() nudges everything warm, toward the dusty-rose accent's hue
+   family; contrast()/brightness() give it a touch more "film," less
+   "camera roll." Applied once here rather than per-component so a
+   newly added photo anywhere inherits it automatically. */
 img {
   max-width: 100%;
   display: block;
+  filter: saturate(0.78) sepia(0.16) contrast(1.08) brightness(0.96);
 }
 
 .container {
@@ -241,7 +271,7 @@ header {
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--color-bg-pearl);
+  color: var(--color-ink);
   padding-bottom: 0.35rem;
 }
 
@@ -359,6 +389,12 @@ button:focus-visible {
   box-shadow: 0 20px 34px -12px rgba(31, 26, 26, 0.6);
 }
 
+/* Dark fill + ivory text, not the old light-fill version — this
+   button only ever appears inside .cta-close (confirmed: no other
+   usage site-wide), and .cta-close's own background is now the full
+   rose accent-bleed instead of dark noir. An ivory-on-rose button
+   there reads as barely-there (both light-ish tones); a dark button
+   is the one thing that actually contrasts against a rose section. */
 .btn-primary-inverse {
   position: relative;
   display: inline-block;
@@ -367,8 +403,8 @@ button:focus-visible {
   font-size: 0.82rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-accent);
-  background: var(--color-bg-pearl);
+  color: var(--color-ivory-surface);
+  background: var(--color-on-accent);
   padding: 1.05rem 2.1rem;
   border-radius: 2px;
   box-shadow: 0 14px 28px -14px rgba(11, 8, 8, 0.35);
@@ -377,7 +413,7 @@ button:focus-visible {
 
 .btn-primary-inverse:hover {
   transform: translateY(-3px);
-  background: #FFFFFF;
+  background: var(--color-accent-deep);
 }
 
 .btn-secondary {
@@ -563,7 +599,7 @@ button:focus-visible {
   left: 50%;
   width: 72%;
   aspect-ratio: 4 / 5;
-  background: var(--color-bg-pearl);
+  background: var(--color-ivory-surface);
   padding: 0.6rem 0.6rem 1.6rem;
   border-radius: 2px;
   box-shadow: 0 32px 60px -22px rgba(31, 26, 26, 0.5);
@@ -690,6 +726,13 @@ button:focus-visible {
   inset: 0;
   border-radius: 2px;
   overflow: hidden;
+  /* Thick dark frame, not a hairline — Oct 2026 redesign, echoing the
+     actor-portfolio reference's framed About photo. `border` (not
+     box-shadow) so the photo `img` below, positioned `inset: 0`
+     within this box, is genuinely inset from it rather than just
+     outlined — the photo sits recessed inside the frame, not
+     floating next to it. */
+  border: 10px solid var(--color-accent-deep);
   box-shadow: 0 32px 60px -22px rgba(31, 26, 26, 0.5);
   transform: rotate(-4deg) translate(-4%, -3%) scale(1.06);
 }
@@ -766,7 +809,16 @@ button:focus-visible {
    Focus areas (editorial contributor-list, not icon cards)
    ========================================================================== */
 
+/* position: relative — containing block for the reused .glass-ripples
+   decorative texture (Oct 2026 layout pass: these long text-only list
+   sections, with no photography at all, read as flat empty stretches
+   on the persistent dark ground, especially on mobile where there's
+   no asymmetric grid to lean on and everything just stacks as plain
+   text — confirmed by the user, mobile prioritized). Reuses the exact
+   ambient-ring motif already established in the nav rather than
+   inventing a new decorative device. */
 .focus-section {
+  position: relative;
   background: var(--color-bg-pearl);
   padding: var(--section-pad) 0;
 }
@@ -809,11 +861,22 @@ button:focus-visible {
   padding: var(--section-pad) 0;
 }
 
+/* Oct 2026 layout pass: was a plain 2-column text/text split, which on
+   the all-dark ground (no light/dark section alternation to lean on
+   anymore) read as a huge flat empty stretch — confirmed by the user
+   ("too flat and plain"). Added a photo column reusing the exact
+   .page-header-photo-frame markup/CSS from the page-header component
+   (no new styles needed) so the homepage's About teaser gets the same
+   visual anchor every other page already has at its own header. */
 .about-grid {
   display: grid;
-  grid-template-columns: 0.85fr 1.15fr;
-  gap: 4rem;
+  grid-template-columns: 0.8fr 0.75fr 1.05fr;
+  gap: 3rem;
   align-items: start;
+}
+
+.about-grid .page-header-photo-frame {
+  max-width: 280px;
 }
 
 .about-grid h2 {
@@ -875,7 +938,7 @@ button:focus-visible {
      neighboring tiles whose own edge content (sky, pale clothing)
      could otherwise blend straight into the page with only the grid
      gap for separation (Oct 2026 critique: "no proper borders"). */
-  box-shadow: 0 0 0 1px rgba(23, 18, 18, 0.35);
+  box-shadow: 0 0 0 1px rgba(243, 233, 231, 0.18);
 }
 
 .work-panel--large {
@@ -935,14 +998,14 @@ button:focus-visible {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-ink);
-  background: rgba(250, 249, 251, 0.88);
+  background: rgba(19, 16, 15, 0.72);
   padding: 0.4rem 0.85rem;
   border-radius: 100px;
 }
 
 .work-panel--large .work-tag {
-  color: var(--color-bg-pearl);
-  background: rgba(31, 26, 26, 0.35);
+  color: var(--color-ink);
+  background: rgba(19, 16, 15, 0.45);
 }
 
 .work-note {
@@ -1021,7 +1084,7 @@ button:focus-visible {
      ratios). See .work-panel's comment for why: defines each tile's
      edge against the page and against neighbors whose own edges could
      otherwise blend straight into the gap. */
-  box-shadow: 0 0 0 1px rgba(23, 18, 18, 0.35);
+  box-shadow: 0 0 0 1px rgba(243, 233, 231, 0.18);
 }
 
 .portfolio-item[hidden] {
@@ -1072,8 +1135,14 @@ button:focus-visible {
    (confirmed via computed styles during the Oct 2026 critique).
    Paired with accent-soft instead, matching every other swatch's
    dark+light pattern so it actually shows a visible gradient. */
-.swatch-1 { background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-soft) 100%); }
-.swatch-2 { background: linear-gradient(200deg, var(--color-accent-soft) 0%, var(--color-accent) 100%); }
+/* Both re-paired with accent-deep instead of accent/accent-soft —
+   post-redesign, accent and accent-soft are both light rose tones
+   (promoted/paled respectively when noir became the page ground), so
+   pairing them together left almost no luminance range, same flat-
+   gradient problem swatch-1 had pre-redesign for the opposite reason
+   (see the Oct 2026 critique comment below). */
+.swatch-1 { background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-deep) 100%); }
+.swatch-2 { background: linear-gradient(200deg, var(--color-accent-soft) 0%, var(--color-accent-deep) 100%); }
 .swatch-3 { background: linear-gradient(20deg, var(--color-bg-blush) 0%, var(--color-accent-soft) 100%); }
 .swatch-4 { background: linear-gradient(160deg, var(--color-accent-deep) 0%, var(--color-accent-soft) 100%); }
 .swatch-5 { background: linear-gradient(210deg, var(--color-bg-blush) 0%, var(--color-accent) 90%); }
@@ -1092,7 +1161,7 @@ button:focus-visible {
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-bg-pearl);
+  color: var(--color-ink);
   background: rgba(31, 26, 26, 0.55);
   padding: 0.4rem 0.85rem;
   border-radius: 100px;
@@ -1112,6 +1181,7 @@ button:focus-visible {
    ========================================================================== */
 
 .brand-strip {
+  position: relative;
   background: var(--color-bg-blush);
   padding: var(--section-pad) 0;
   text-align: center;
@@ -1178,7 +1248,7 @@ button:focus-visible {
   overflow: hidden;
   /* See .work-panel's comment above for why box-shadow instead of a
      real border. */
-  box-shadow: 0 0 0 1px rgba(23, 18, 18, 0.35);
+  box-shadow: 0 0 0 1px rgba(243, 233, 231, 0.18);
 }
 
 .gallery-tile .swatch {
@@ -1280,7 +1350,13 @@ button:focus-visible {
 }
 
 .cta-close p {
-  color: rgba(250, 249, 251, 0.85);
+  /* Dark, not light — .cta-close's background is var(--color-accent),
+     now a light-mid dusty rose (the one full-color-bleed moment in an
+     otherwise dark site), so its body copy needs dark text like its
+     heading (--color-on-accent) does, just at reduced opacity for a
+     secondary-text weight. Was light ivory at 0.85 when the CTA
+     background was dark noir, pre-redesign. */
+  color: rgba(23, 18, 18, 0.72);
   max-width: 46ch;
   margin: 0 auto 2.5rem;
   line-height: 1.75;
@@ -1543,14 +1619,14 @@ button:focus-visible {
 }
 
 .lightbox-panel .work-tag {
-  color: var(--color-bg-pearl);
+  color: var(--color-ink);
   background: rgba(31, 26, 26, 0.4);
 }
 
 .lightbox-caption {
   margin-top: 1rem;
   font-size: 0.8rem;
-  color: var(--color-bg-pearl);
+  color: var(--color-ink);
   text-align: center;
 }
 
@@ -1560,7 +1636,7 @@ button:focus-visible {
   right: 0;
   background: none;
   border: none;
-  color: var(--color-bg-pearl);
+  color: var(--color-ink);
   font-size: 1.9rem;
   line-height: 1;
   cursor: pointer;
@@ -1599,13 +1675,24 @@ button:focus-visible {
   }
 }
 
+/* .btn-primary's fill is now the light-mid rose accent (was dark
+   noir), so its ripple flipped dark to stay visible against it —
+   same reasoning as .cta-close p above. */
 .btn-primary {
-  --ripple-color: rgba(250, 249, 251, 0.45);
+  --ripple-color: rgba(23, 18, 18, 0.3);
 }
 
-.btn-primary-inverse,
+/* .btn-primary-inverse's fill stays the one deliberately bright
+   surface (--color-ivory-surface), so its dark ripple is still
+   correct post-redesign — unlike .portfolio-filters button below,
+   split out because a transparent pill now sits on the dark page
+   itself and needs a light ripple instead. */
+.btn-primary-inverse {
+  --ripple-color: rgba(243, 233, 231, 0.25);
+}
+
 .portfolio-filters button {
-  --ripple-color: rgba(23, 18, 18, 0.22);
+  --ripple-color: rgba(243, 233, 231, 0.3);
 }
 
 .portfolio-item,
@@ -1613,8 +1700,11 @@ button:focus-visible {
   --ripple-color: rgba(250, 249, 251, 0.35);
 }
 
+/* Flipped light — was a dark ripple on the already-dark nav glass
+   (low visibility even before the redesign; fixed while already
+   auditing every ripple color for the new dark-everywhere world). */
 .nav-toggle {
-  --ripple-color: rgba(23, 18, 18, 0.25);
+  --ripple-color: rgba(243, 233, 231, 0.3);
 }
 
 @media (prefers-reduced-motion: reduce) {

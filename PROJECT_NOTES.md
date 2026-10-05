@@ -41,6 +41,43 @@ this file assumes them.
   1px tile edge plus a stronger two-layer overlay gradient to every
   photo tile/page-header photo/lightbox panel site-wide (see
   `DESIGN.md`'s Cards/Tiles section for the exact values).
+- **Oct 2026 full dark-world redesign**: the entire palette flipped
+  from light grounds/dark text to a persistent dark ground/light text,
+  fused from two real reference sites the user pointed at (an
+  actor-portfolio and a fashion-photographer template) rather than a
+  generated concept roll. Every `:root` token in `css/style.css` was
+  redefined (same names, inverted values); dusty rose promoted to the
+  primary interactive/CTA color; a site-wide `img` filter grades every
+  real photo (color and pre-existing black-and-white alike) through
+  one consistent warm cinematic look; `.page-header-photo` gained a
+  thick dark frame; the closing CTA section is now a full-bleed rose
+  moment (was full-bleed dark) — the one deliberate color event in an
+  otherwise dark site. The homepage hero's polaroid stack was
+  explicitly kept as-is structurally, not replaced with a single
+  photo, per direct user confirmation. Full before/after values,
+  component-by-component reasoning for every flipped color (including
+  the several ripple/border colors that needed manual contrast
+  auditing rather than a blind flip), and the recorded direction
+  contract (also in `index.html`'s opening HTML comment) are in
+  `DESIGN.md`.
+- **Oct 2026 layout-richness follow-up**: right after the dark-world
+  flip, the user flagged it as "too flat and plain" — on the dark
+  ground, with no light/dark section alternation left to lean on, the
+  homepage's text-only About teaser and the `.focus-list`/brand-strip
+  sections read as large empty stretches, especially on mobile (which
+  the user explicitly prioritized) where everything just stacks into
+  plain text with no grid asymmetry to break it up. Fixed with two
+  targeted additions, not a new redesign pass: (1) the homepage About
+  teaser now reuses the exact `.page-header-photo-frame` markup/CSS
+  (no new styles) as a third grid column, capped to `max-width: 280px`
+  via `.about-grid .page-header-photo-frame`; (2) `.focus-section`
+  (reused on Home/About/Contact) and `.brand-strip` (Home only) each
+  gained a `.glass-ripples` instance — the exact same ring-pulse
+  decoration already used in the nav, reused for its texture alone,
+  **not** its glass/backdrop-blur surface (see `DESIGN.md`'s amended
+  Don't rule on this distinction) — which required adding
+  `position: relative` to both section rules so the ripples'
+  `position: absolute; inset: 0` had a containing block.
 - Shared across every page: `css/style.css` (base + design system),
   `css/responsive.css` (900px/600px breakpoints), `js/main.js` (glass
   nav toggle/scroll-shrink, portfolio filters, lightbox, ripple,
@@ -590,6 +627,25 @@ something to animate from.
 
 ## Known environment quirks (this dev machine / session)
 
+- **Reassigning an existing `<iframe>`'s `src` to the same URL can serve
+  a stale cached CSS file**, even after the source file changed on
+  disk and even with a cache-busting query string on the iframe's own
+  `src` — Chrome's HTTP cache still served the old `css/style.css` to
+  the iframe's `<link>` tag in this environment (python's
+  `http.server` sends no cache-control headers, so default heuristic
+  caching applies). Confirmed via `getComputedStyle` showing a stale
+  value, then confirmed the live server WAS serving the updated file
+  (`fetch()`'d it directly), isolating the cache as the cause. A
+  top-level `navigate()` call on the real tab did *not* show this
+  problem (probably a different cache-validation path for real
+  navigations vs. programmatic iframe `src` changes) — only reused
+  iframes during mobile-viewport checks were affected. **Fix:** after
+  setting an iframe's `src`, also cache-bust the stylesheet `<link>`
+  itself from inside the iframe's own document (`link.href =
+  link.href.split('?')[0] + '?v=' + Date.now()`), not just the
+  iframe's `src`. If a future mobile-viewport check via iframe looks
+  unexpectedly unchanged after an edit, suspect this before suspecting
+  the CSS.
 - **Background/unfocused tabs throttle `setTimeout`-driven loops** (the
   typewriter loop, the polaroid stack's autoplay timer) — Chrome slows
   or effectively pauses timers in a hidden/unfocused tab, so verifying

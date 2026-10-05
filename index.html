@@ -14,22 +14,27 @@
 </head>
 <body>
   <!--
-    THESIS: A personal brand front door reads as a fashion lookbook's opening
-    spread, not a template influencer landing page with a centered headshot
-    and a CTA button.
-    OWN-WORLD: Editorial lookbook/comp-card grammar — white/ivory ground,
-    whisper-blush feature panels, soft noir-black ink and CTAs, dusty rose
-    secondary accent; oversized Cormorant Garamond cover-line display,
-    Manrope kickers/UI/body; thin noir hairline rules; duotone noir/rose
-    clipped silhouette panels standing in for photography; asymmetric
-    bleed layout.
-    STORY: A visitor understands within seconds who Chioma is, sees proof
-    of an editorial eye, and is pulled toward Portfolio or Work With Me.
-    FIRST VIEWPORT: Asymmetric masthead — small kicker top-left, oversized
-    "Chioma" cover-line bleeding right behind a duotone silhouette panel,
-    tagline and dual CTA sit lower-left, off-center.
-    FORM: Lookbook-cover concept; brief-pinned world (palette/type/nav
-    dictated by the client, no concept roll); single homepage build.
+    THESIS: A portfolio reads as one continuous cinematic reel shot
+    under one light, not a sequence of alternating light/dark website
+    sections stitched from unrelated snapshots.
+    OWN-WORLD: Persistent dark-noir ground (no white/blush breaks)
+    running through every page; every real photo passes through one
+    shared warm cinematic grade so mixed color/black-and-white source
+    shoots read as one deliberately graded body of work; dusty rose as
+    the single accent, carrying CTAs/links/active-states; featured
+    photos sit in a thick dark frame, not a hairline; the closing CTA
+    is the one full-bleed rose moment in an otherwise dark site.
+    Cormorant Garamond display, Manrope body, carried over unchanged.
+    STORY: A visitor lands inside Chioma's world immediately, scrolls
+    through full-bleed photo/text passages that never jar between
+    sections, and leaves with one unified impression of her work.
+    FIRST VIEWPORT: The swipeable/keyboard-navigable polaroid photo
+    stack (kept, not replaced, per direction confirmation) now sits on
+    the dark ground instead of blush, graded like every other photo.
+    FORM: Redesign fused from two real reference sites the user
+    pointed at directly (an actor-portfolio and a fashion-photographer
+    template) rather than a generated concept roll — see DESIGN.md's
+    Palette History for the full before/after and reasoning.
   -->
 
   <header>
@@ -107,6 +112,14 @@
     <!-- About teaser -->
     <section class="about-teaser">
       <div class="container about-grid">
+        <figure class="reveal">
+          <div class="page-header-photo-frame">
+            <div class="page-header-photo-back"></div>
+            <div class="page-header-photo">
+              <img data-header-photo src="images/portfolio/fashion/tree-road-front-bw.jpg" alt="Black and white fashion portrait facing the camera on a tree-lined avenue." loading="lazy">
+            </div>
+          </div>
+        </figure>
         <div class="reveal">
           <p class="section-kicker">About</p>
           <h2>An emerging name, an established eye.</h2>
@@ -161,6 +174,7 @@
 
     <!-- Services -->
     <section class="focus-section">
+      <div class="glass-ripples" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="container">
         <p class="kicker">What I Offer</p>
         <div class="focus-list">
@@ -182,6 +196,7 @@
 
     <!-- Brand strip -->
     <section class="brand-strip">
+      <div class="glass-ripples" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="container reveal">
         <p class="kicker">In Partnership With</p>
         <div class="brand-row">
