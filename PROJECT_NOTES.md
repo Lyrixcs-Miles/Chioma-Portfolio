@@ -35,6 +35,12 @@ this file assumes them.
   pass — if you ever add a new dark tint, derive it from the current
   `--color-ink`/`--color-accent-deep` hex rather than copying an old
   plum rgba triple from memory or an old commit.
+- **Oct 2026 "doesn't look professional" visual-craft pass**: fixed the
+  hero's huge dead space and a broken-looking polaroid crop (see "Two
+  bugs found" under "Hero polaroid stack" below), and added a visible
+  1px tile edge plus a stronger two-layer overlay gradient to every
+  photo tile/page-header photo/lightbox panel site-wide (see
+  `DESIGN.md`'s Cards/Tiles section for the exact values).
 - Shared across every page: `css/style.css` (base + design system),
   `css/responsive.css` (900px/600px breakpoints), `js/main.js` (glass
   nav toggle/scroll-shrink, portfolio filters, lightbox, ripple,
@@ -451,6 +457,37 @@ in `main.js` drives everything else:
 - No-JS fallback: fixed (non-random) `nth-child` scatter values in CSS
   so the hero never shows a dead, unrotated stack of identical photos
   if JS fails to run.
+
+**Two bugs found in the Oct 2026 "doesn't look professional" critique:**
+- **Hero dead space.** `.hero-visual` had no `max-width`, so
+  `.polaroid-stack`'s `aspect-ratio: 3/4` derived its height purely
+  from the full bled grid-column width (~845px at common desktop
+  widths) → ~1126px tall, against `.hero-copy`'s ~413px (confirmed via
+  `getBoundingClientRect`). `.hero-grid`'s `align-items: center` then
+  split that ~713px difference into huge empty blush-pink space above
+  *and* below the text block — visually, almost all of it landed below
+  the buttons since the kicker/wordmark/paragraph/buttons block itself
+  is top-weighted. Fixed with `.hero-visual { max-width: 560px; }`,
+  which keeps the signature oversized-bleeding-photo effect (still
+  bleeds past the column edge via the existing negative margins) while
+  bringing the two columns' heights within ~1.8x of each other instead
+  of ~2.7x — close enough that centered alignment reads as centered.
+  **If you change the hero copy's content length (shorter/longer
+  tagline, more/fewer buttons) or the stack's aspect-ratio, recheck
+  this balance** — the right `max-width` depends on both.
+- **Back-card crop landing on dead space.** `.polaroid-card img` had no
+  `object-position` (default 50% 50%, dead center). On
+  `mirror-selfie-04.jpg` specifically, a back-of-stack card only
+  reveals a thin sliver past the scatter offset, and that sliver landed
+  on the photo's near-black jeans — looked exactly like a broken/empty
+  image, not a styling choice. Fixed with a blanket `object-position:
+  50% 22%` (biased toward the upper third, where the face/subject
+  sits in these portrait phone photos) on `.polaroid-card img`.
+  **Check any newly added polaroid-stack photo against this default**
+  the same way the header-photo pool's additions were checked (see
+  "Pool widened" above) — if the default crop still looks bad for a
+  specific photo, override `object-position` on that `<img>` inline,
+  same pattern as the portfolio grid's per-image overrides below.
 
 ### Page-header photo (About/Portfolio/Brands/Contact)
 The smaller `.silhouette-frame.small` panel used in every other

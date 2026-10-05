@@ -520,6 +520,18 @@ button:focus-visible {
 .hero-visual {
   position: relative;
   z-index: 1;
+  /* max-width caps the polaroid stack's rendered size — without it, the
+     stack's `aspect-ratio: 3/4` was deriving its height purely from the
+     grid column's full bled width (~845px at common desktop widths),
+     making it ~1126px tall against .hero-copy's ~413px. .hero-grid's
+     `align-items: center` then split that ~713px gap into huge empty
+     space above AND below the text block (confirmed via
+     getBoundingClientRect during the Oct 2026 critique). Capping the
+     width the stack is allowed to bleed to keeps the signature
+     oversized-photo-bleeding-past-the-column effect while bringing the
+     two columns' heights close enough that `align-items: center`
+     actually reads as centered, not lopsided. */
+  max-width: 560px;
   margin-left: -8rem;
   margin-right: calc(-1 * max(0px, (100vw - 1200px) / 2 + 1.5rem));
 }
@@ -570,6 +582,18 @@ button:focus-visible {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* Biased toward the top third rather than dead-center: these are
+     portrait phone photos with the face/subject in the upper portion
+     and plainer clothing/background below, and a center crop on a
+     back-stack card (which only reveals a thin sliver past the
+     scatter offset) could land squarely on a dark, featureless area —
+     confirmed on mirror-selfie-04.jpg, whose default-centered crop
+     landed on near-black jeans and read as a broken/empty card (Oct
+     2026 critique). Check each new polaroid photo against this
+     default before assuming it crops well; override per-image via an
+     inline style if it doesn't, same pattern as the portfolio grid's
+     "Per-image crop overrides" in PROJECT_NOTES.md. */
+  object-position: 50% 22%;
 }
 
 .polaroid-caption {
@@ -682,7 +706,9 @@ button:focus-visible {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 75% 20%, rgba(255, 255, 255, 0.22), transparent 60%);
+  background:
+    radial-gradient(circle at 75% 15%, rgba(255, 255, 255, 0.3), transparent 55%),
+    linear-gradient(195deg, rgba(23, 18, 18, 0) 55%, rgba(23, 18, 18, 0.28) 100%);
   mix-blend-mode: soft-light;
   pointer-events: none;
 }
@@ -843,6 +869,13 @@ button:focus-visible {
   border-radius: 2px;
   overflow: hidden;
   min-height: 200px;
+  /* box-shadow, not border — doesn't add to layout box size like a
+     real border would, so it doesn't fight the grid's gap math. Gives
+     each tile a defined edge against the page background and against
+     neighboring tiles whose own edge content (sky, pale clothing)
+     could otherwise blend straight into the page with only the grid
+     gap for separation (Oct 2026 critique: "no proper borders"). */
+  box-shadow: 0 0 0 1px rgba(23, 18, 18, 0.35);
 }
 
 .work-panel--large {
@@ -885,7 +918,9 @@ button:focus-visible {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 75% 20%, rgba(255, 255, 255, 0.22), transparent 60%);
+  background:
+    radial-gradient(circle at 75% 15%, rgba(255, 255, 255, 0.3), transparent 55%),
+    linear-gradient(195deg, rgba(23, 18, 18, 0) 55%, rgba(23, 18, 18, 0.28) 100%);
   mix-blend-mode: soft-light;
   pointer-events: none;
 }
@@ -981,6 +1016,12 @@ button:focus-visible {
   padding: 0;
   cursor: pointer;
   text-align: left;
+  /* box-shadow, not the `border` above (left at none — a real border
+     would add to the box's layout size and disturb the grid's aspect
+     ratios). See .work-panel's comment for why: defines each tile's
+     edge against the page and against neighbors whose own edges could
+     otherwise blend straight into the gap. */
+  box-shadow: 0 0 0 1px rgba(23, 18, 18, 0.35);
 }
 
 .portfolio-item[hidden] {
@@ -1018,7 +1059,9 @@ button:focus-visible {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 75% 20%, rgba(255, 255, 255, 0.22), transparent 60%);
+  background:
+    radial-gradient(circle at 75% 15%, rgba(255, 255, 255, 0.3), transparent 55%),
+    linear-gradient(195deg, rgba(23, 18, 18, 0) 55%, rgba(23, 18, 18, 0.28) 100%);
   mix-blend-mode: soft-light;
   pointer-events: none;
 }
@@ -1133,6 +1176,9 @@ button:focus-visible {
   aspect-ratio: 4 / 5;
   border-radius: 2px;
   overflow: hidden;
+  /* See .work-panel's comment above for why box-shadow instead of a
+     real border. */
+  box-shadow: 0 0 0 1px rgba(23, 18, 18, 0.35);
 }
 
 .gallery-tile .swatch {
@@ -1144,7 +1190,9 @@ button:focus-visible {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 75% 20%, rgba(255, 255, 255, 0.22), transparent 60%);
+  background:
+    radial-gradient(circle at 75% 15%, rgba(255, 255, 255, 0.3), transparent 55%),
+    linear-gradient(195deg, rgba(23, 18, 18, 0) 55%, rgba(23, 18, 18, 0.28) 100%);
   mix-blend-mode: soft-light;
   pointer-events: none;
 }
@@ -1479,7 +1527,9 @@ button:focus-visible {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 75% 20%, rgba(255, 255, 255, 0.22), transparent 60%);
+  background:
+    radial-gradient(circle at 75% 15%, rgba(255, 255, 255, 0.3), transparent 55%),
+    linear-gradient(195deg, rgba(23, 18, 18, 0) 55%, rgba(23, 18, 18, 0.28) 100%);
   mix-blend-mode: soft-light;
   pointer-events: none;
 }

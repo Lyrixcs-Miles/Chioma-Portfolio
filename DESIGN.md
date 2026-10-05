@@ -278,8 +278,9 @@ The site's recurring "contributor page" list pattern, reused with different cont
 
 ### Cards / Tiles
 - **Corner:** 2px radius, `overflow: hidden`.
+- **Edge:** every tile (`.portfolio-item`, `.work-panel`, `.gallery-tile`) gets a 1px `box-shadow: 0 0 0 1px rgba(23,18,18,.35)` — not a real `border`, so it doesn't add to the box's layout size against the grid's `aspect-ratio`/gap math. Added Oct 2026 (critique: "no proper borders") — at a tight 1.25rem grid gap, two adjacent tiles with similarly light edge content (sky, pale clothing) could blend into each other and into the page background with nothing but the gap to separate them.
 - **Background:** the full Portfolio grid and the homepage portfolio teaser now hold real photography (`<img>`, `object-fit: cover`); brand campaign-preview galleries still use duotone gradient "swatches" (`.swatch-1` through `.swatch-6`, defined in the palette family) standing in for real photography until their own photos arrive.
-- **Overlay:** every tile — photo or swatch — gets the same radial soft-light highlight, via a `::after` on the tile itself (`.portfolio-item::after`, `.work-panel::after`, `.gallery-tile::after`) so it works whether the tile holds an `<img>` or a swatch span.
+- **Overlay:** every tile — photo or swatch — gets the same two-layer gradient via a `::after` on the tile itself (`.portfolio-item::after`, `.work-panel::after`, `.gallery-tile::after`; the page-header photo's `::after` and the lightbox panel's `::before` share the identical values): a soft-light radial highlight (`circle at 75% 15%, rgba(255,255,255,.3)`) plus a subtle bottom-edge vignette (`linear-gradient(195deg, transparent 55%, rgba(23,18,18,.28) 100%)`). Strengthened from a highlight-only version Oct 2026 (critique: "no color grading") — the original was tuned subtle enough it read as inert rather than as a deliberate grade.
 - **States:** `.portfolio-item` scales its image/swatch slightly and reveals a "View" pill on hover/focus; filtered-out tiles fade+scale out via `.is-hidden` before being set `hidden` (see PROJECT_NOTES.md for the CSS-specificity gotcha this required).
 
 ### Navigation (signature component, glass)
