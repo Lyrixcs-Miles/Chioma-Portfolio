@@ -78,6 +78,24 @@ this file assumes them.
   Don't rule on this distinction) — which required adding
   `position: relative` to both section rules so the ripples'
   `position: absolute; inset: 0` had a containing block.
+
+  **Follow-up bug, same day:** the user then reported mobile as "not
+  balanced at all." The About-teaser photo added above was the cause —
+  `.about-grid .page-header-photo-frame`'s `max-width: 280px` had no
+  `margin: auto`, so as a block element narrower than its grid column
+  it just hugged the column's start (left) edge per normal block
+  layout; `.page-header-photo`'s own `rotate(-4deg) translate(-4%,-3%)
+  scale(1.06)` transform then shifted it left again on top of that.
+  Confirmed via `elementFromPoint` at 390px width: the photo's actual
+  visual footprint ran ~x:-18 to x:306 in a 372px content column —
+  nowhere near centered, with a large dead gap on the right. Fixed
+  with `margin: 0 auto` on the same rule. **If you ever cap another
+  photo-frame component to a fixed `max-width` inside a wider column,
+  add `margin: 0 auto` (or `justify-self: center` if it's a direct
+  grid item) in the same edit — a capped block element does not
+  center itself by default, and this component's own rotate/scale
+  transform makes an off-center miss more visually obvious than it
+  would be for an unrotated element.**
 - Shared across every page: `css/style.css` (base + design system),
   `css/responsive.css` (900px/600px breakpoints), `js/main.js` (glass
   nav toggle/scroll-shrink, portfolio filters, lightbox, ripple,

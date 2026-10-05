@@ -876,6 +876,16 @@ button:focus-visible {
 }
 
 .about-grid .page-header-photo-frame {
+  /* margin: 0 auto — without it, a block element narrower than its
+     column just hugs the column's start (left) edge per normal block
+     layout, and .page-header-photo's own rotate/scale/translate
+     transform on top of that shifts it left again, landing it almost
+     flush against the viewport edge with a big dead gap on the right
+     — confirmed via elementFromPoint at mobile width (390px): the
+     photo's visual footprint ran roughly x:-18 to x:306, nowhere near
+     centered in a 372px content column. Mobile-prioritized per the
+     user; this centers it at every width. */
+  margin: 0 auto;
   max-width: 280px;
 }
 
