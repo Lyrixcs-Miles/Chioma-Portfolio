@@ -20,6 +20,21 @@ this file assumes them.
   to a different subject — every file was updated to match each time,
   including `contact.html`'s email, phone numbers, and socials — see
   "Real contact details" below).
+- **Palette was rebranded from plum to black** at Chioma's request
+  ("she likes black"): the system's old royal-plum/soft-orchid palette
+  (which had an explicit, brief-driven "No-Black Rule") was replaced
+  with a soft-noir-black/dusty-rose one — same five-role token
+  structure (`--color-accent`/`-soft`/`-deep`, `--color-ink`/`-soft`,
+  `--color-on-accent`), new hex values, `--color-bg-lavender` renamed
+  to `--color-bg-blush`. Full before/after values and the renamed
+  "Soft-Noir Rule" live in `DESIGN.md`'s Colors section and its
+  "Palette History" note — read that before touching any color value.
+  Every hardcoded `rgba(36,21,48,…)`/`rgba(15,8,20,…)` shadow/overlay
+  tint in `css/style.css` and `css/responsive.css` was updated to the
+  new `rgba(31,26,26,…)`/`rgba(11,8,8,…)` noir equivalents in the same
+  pass — if you ever add a new dark tint, derive it from the current
+  `--color-ink`/`--color-accent-deep` hex rather than copying an old
+  plum rgba triple from memory or an old commit.
 - Shared across every page: `css/style.css` (base + design system),
   `css/responsive.css` (900px/600px breakpoints), `js/main.js` (glass
   nav toggle/scroll-shrink, portfolio filters, lightbox, ripple,
@@ -146,7 +161,7 @@ for this gotcha**: `.ripple-surface` deliberately does NOT set
 ripple-eligible selector sets its own `position` directly instead.
 
 ### Glass nav (header + mobile drawer) and the backdrop-filter containing-block trap
-The site header (`.site-nav`) is a sticky, dark-plum glass bar
+The site header (`.site-nav`) is a sticky, dark-noir glass bar
 (`backdrop-filter: blur`), and on mobile the hamburger opens
 `.nav-collapse` as a fixed off-canvas drawer (not the old in-flow
 accordion) sliding in over a dimming `.nav-scrim`. Both share the same
