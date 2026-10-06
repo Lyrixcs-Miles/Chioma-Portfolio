@@ -293,6 +293,13 @@ Each `.work-panel` is no longer a grid cell: `.work-grid` is a centered, wrappin
 
 **Desktop-only second row, same day.** Per feedback ("on desktop put more heart frames with images in 'em"), three more hearts (`.work-panel--c/--d/--e`, each category's second photo) sit alongside the original three, all six wrapping into a loose two-row cluster on wide viewports. Shared `.work-panel--extra` marker hides those three at the ≤900px tablet breakpoint (see `responsive.css`), so mobile keeps the original 3-heart scroll length rather than doubling it — "desktop" was explicit in the request, and the earlier mobile-first priority this project has been held to elsewhere argued against growing the mobile experience too.
 
+### Magazine devices (Oct 2026 "add character" pass)
+Client asked for more character so the site doesn't read as generic/AI-made; references were black-magazine cover/spread boards on Pinterest (giant cropped mastheads behind the model, vertical cover-lines, drop caps, print texture). Each device is type or texture placed directly on the seamless ground — none adds a surface, per the Seamless-Ground Rule.
+- **Ghost word** (`.has-ghost` section + `<span class="ghost-word" aria-hidden="true">`): a giant italic Cormorant word (`clamp(7rem, 21vw, 18rem)`), outline-only (`-webkit-text-stroke: 1px rgba(255,133,176,.22)`, transparent fill), cropped off the viewport edge behind the section's content. `--right` anchors it right; `--low` drops it to the section's bottom so it sits behind a photo cluster instead of a heading. Homepage only: "About" (right, behind the bio copy) and "Work" (low-left, beside the second row of hearts). **Never let a ghost word cross a heading** — the first placement of "Work" did and read as clutter. Two per page max.
+- **Edition line** (`.edition-line`, hero only): a vertical uppercase cover-line ("Portfolio Edition — 2026 — …") up the hero's left edge, `0.65rem`/`0.32em` tracking, `--color-ink-soft`. Hidden below 1320px, where there's no margin outside the 1200px column for it.
+- **Drop cap** (`.drop-cap::first-letter`): 4.6em italic Cormorant in `--color-accent`, floated — opens the homepage About passage.
+- **Print grain** (`body::after`): a fixed, static SVG fractal-noise layer at 0.07 opacity over the whole viewport, `pointer-events: none`. No animation.
+
 ## Components
 
 ### Buttons

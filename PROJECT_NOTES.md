@@ -292,6 +292,15 @@ this file assumes them.
   **If the user asks for more "character" again, add it inside
   sections (photography, type), not as section fills or boxes.**
 
+- **Oct 2026 "add character" pass** (right after the Seamless-Ground
+  commit `6518cea`, which is the rollback point if this is disliked):
+  homepage-only ghost words, hero edition line, About drop cap, and a
+  site-wide print-grain overlay — see DESIGN.md's "Magazine devices".
+  Gotchas: the grain is `body::after` at `z-index: 9999` with
+  `pointer-events: none` — keep the `pointer-events` if you ever touch
+  it or it blocks every click on the site. A ghost word's section
+  needs `.has-ghost` (positioning + lifts `.container` above the word).
+
 ## Build status per page
 
 | Page | Status |

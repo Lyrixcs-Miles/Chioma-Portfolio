@@ -488,10 +488,117 @@ button:focus-visible {
 }
 
 /* ==========================================================================
+   Magazine devices (Oct 2026 "add character" pass) — borrowed from
+   black-magazine cover/spread layouts (Pinterest reference boards):
+   giant cropped type set behind the content, a vertical cover-line
+   running up the page edge, a drop cap opening a passage, and print
+   grain over everything. All type or texture sitting directly on the
+   seamless ground — none of them adds a surface or box.
+   ========================================================================== */
+
+/* Print grain: a fixed, static fractal-noise layer over the whole
+   viewport, so the flat digital black reads like ink on paper. Static
+   (no animation) and pointer-events: none, so it costs nothing after
+   first paint and never intercepts input. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Ghost word: a giant outlined italic word cropped behind a section's
+   content, like a cover masthead running under the photo. Outline-
+   only (no fill) at low alpha so body copy over it stays fully
+   legible. Bleeds off the viewport edge on purpose; html/body already
+   clip horizontal overflow. */
+.has-ghost {
+  position: relative;
+}
+
+.has-ghost > .container {
+  position: relative;
+  z-index: 1;
+}
+
+.ghost-word {
+  position: absolute;
+  top: calc(var(--section-pad) * 0.35);
+  left: -0.06em;
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(7rem, 21vw, 18rem);
+  line-height: 0.8;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 133, 176, 0.22);
+  pointer-events: none;
+  user-select: none;
+}
+
+.ghost-word--right {
+  left: auto;
+  right: -0.04em;
+}
+
+/* Sits low, behind a photo cluster rather than a heading — the word
+   reads in the gaps between photos, like cover type running behind
+   the model. */
+.ghost-word--low {
+  top: auto;
+  bottom: calc(var(--section-pad) * 0.9);
+}
+
+/* Edition line: the cover-line detail ("Vol. VIII — Autumn/Winter
+   Edition") set vertically up the hero's left edge. Only shown when
+   the viewport is wide enough to leave a real margin outside the
+   1200px column; narrower, it would collide with the hero copy. */
+.edition-line {
+  position: absolute;
+  left: 1.5rem;
+  bottom: var(--section-pad);
+  z-index: 2;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+  opacity: 0.8;
+}
+
+@media (max-width: 1320px) {
+  .edition-line {
+    display: none;
+  }
+}
+
+/* Drop cap: a passage opener in the display face, the way a feature
+   story starts in print. */
+.drop-cap::first-letter {
+  float: left;
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 4.6em;
+  line-height: 0.82;
+  color: var(--color-accent);
+  margin: 0.08em 0.12em 0 0;
+}
+
+/* ==========================================================================
    Hero
    ========================================================================== */
 
 .hero {
+  position: relative;
   background: radial-gradient(ellipse 45% 60% at 78% 50%, rgba(255, 79, 139, 0.09), transparent 70%);
   padding: var(--section-pad) 0;
   overflow: hidden;
