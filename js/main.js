@@ -9,9 +9,10 @@
 // chance to rebuild its DOM from real folder contents before the
 // filter/lightbox/ripple wiring runs against the final markup. If the
 // fetch fails (e.g. opened via file:// instead of a local server — see
-// CLAUDE.md), every one of those sections just keeps whatever static
+// PROJECT_NOTES.md), every one of those sections just keeps whatever static
 // HTML is already committed in the page, so the site never goes blank.
 document.addEventListener('DOMContentLoaded', async () => {
+  initIntroSkip();
   initNavToggle();
   initTypewriter();
   initStickyNav();
@@ -22,6 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     buildPolaroidCards(manifest);
     buildHomeTeaser(manifest);
     buildPortfolioGrid(manifest);
+    buildBrandGallery(manifest);
   }
 
   initPolaroidStack();
@@ -62,7 +64,7 @@ async function loadImageManifest() {
     if (!res.ok) throw new Error(`manifest fetch returned ${res.status}`);
     return await res.json();
   } catch (err) {
-    console.warn('Image manifest unavailable — keeping the page\'s static fallback content. (Opened via file:// instead of a local server? See CLAUDE.md.)', err);
+    console.warn('Image manifest unavailable — keeping the page\'s static fallback content. (Opened via file:// instead of a local server? See PROJECT_NOTES.md.)', err);
     return null;
   }
 }
@@ -387,6 +389,36 @@ function initHeartZoom() {
 
     open = { close };
   }
+}
+
+// Brand pages' "Campaign Preview" row: if images/brands/<this page's
+// name>/ has photos (manifest "brands" key, see
+// scripts/build-image-manifest.py), they replace the placeholder swatch
+// tiles — up to six. No photos yet, or no manifest: the swatches stay.
+const BRAND_GALLERY_MAX = 6;
+
+function buildBrandGallery(manifest) {
+  const grid = document.querySelector('.brand-gallery-grid');
+  if (!grid || !manifest.brands) return;
+  const slug = (window.location.pathname.split('/').pop() || '').replace(/\.html$/, '');
+  const items = (manifest.brands[slug] || []).slice(0, BRAND_GALLERY_MAX);
+  if (!items.length) return;
+
+  const prefix = assetRootPrefix();
+  grid.innerHTML = '';
+  items.forEach((item) => {
+    const tile = document.createElement('div');
+    tile.className = 'gallery-tile';
+    const img = document.createElement('img');
+    img.src = prefix + item.src;
+    img.alt = item.alt;
+    img.loading = 'lazy';
+    if (item.cropPosition) img.style.objectPosition = item.cropPosition;
+    tile.appendChild(img);
+    grid.appendChild(tile);
+  });
+  const note = grid.parentElement.querySelector('.work-note');
+  if (note) note.hidden = true;
 }
 
 // Hero polaroid stack — rebuilds the card list from up to two photos per
@@ -802,6 +834,18 @@ function initRipples() {
   document.querySelectorAll(RIPPLE_SELECTOR).forEach(attachRipple);
 }
 
+// First-visit intro (index.html): the inline <head> script decides
+// whether to show it and lifts it on its own timer; this only lets a
+// tap/click or key press lift it early.
+function initIntroSkip() {
+  const intro = document.querySelector('.site-intro');
+  const root = document.documentElement;
+  if (!intro || !root.classList.contains('show-intro')) return;
+  const lift = () => root.classList.remove('show-intro');
+  intro.addEventListener('click', lift);
+  document.addEventListener('keydown', lift, { once: true });
+}
+
 // Scroll reveal: content below the masthead eases in as it scrolls into
 // view, one magazine page at a time. Elements opt in by matching
 // REVEAL_SELECTOR (tagged here, so no per-page markup is needed) or by
@@ -914,13 +958,102 @@ function initPortfolioFilters() {
   });
 }
 
+// Portfolio lightbox — a contact-sheet viewer, not a single-photo popup:
+// opens on the tapped tile, then steps through every tile currently
+// visible in the grid (so a category filter also filters what you can
+// page through) with ‹ › buttons, arrow keys, or a horizontal swipe,
+// wrapping at either end. A film-negative "03 / 15" counter matches the
+// grid's frame numbers. Photos are shown whole (object-fit: contain),
+// never cropped. Neighbours are preloaded so stepping feels instant.
 function initLightbox() {
-  const triggers = document.querySelectorAll('[data-lightbox]');
+  const grid = document.querySelector('.portfolio-grid');
   const overlay = document.querySelector('.lightbox-overlay');
   const stage = overlay ? overlay.querySelector('.lightbox-content') : null;
-  if (!triggers.length || !overlay || !stage) return;
+  if (!grid || !overlay || !stage) return;
 
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let lastTrigger = null;
+  let sequence = [];
+  let index = 0;
+
+  // Built once; open()/show() only swap its contents.
+  stage.innerHTML = `
+    <button type="button" class="lightbox-close" aria-label="Close">&times;</button>
+    <div class="lightbox-panel">
+      <span class="work-tag"></span>
+    </div>
+    <button type="button" class="lightbox-nav lightbox-nav--prev" aria-label="Previous photo">&lsaquo;</button>
+    <button type="button" class="lightbox-nav lightbox-nav--next" aria-label="Next photo">&rsaquo;</button>
+    <div class="lightbox-meta">
+      <p class="lightbox-counter" aria-live="polite"></p>
+      <p class="lightbox-caption"></p>
+    </div>`;
+  const closeBtn = stage.querySelector('.lightbox-close');
+  const panel = stage.querySelector('.lightbox-panel');
+  const tag = panel.querySelector('.work-tag');
+  const counter = stage.querySelector('.lightbox-counter');
+  const caption = stage.querySelector('.lightbox-caption');
+  const prevBtn = stage.querySelector('.lightbox-nav--prev');
+  const nextBtn = stage.querySelector('.lightbox-nav--next');
+  if (!reduceMotion) [closeBtn, prevBtn, nextBtn].forEach(attachRipple);
+
+  const pad = (n) => String(n).padStart(2, '0');
+
+  function visibleTiles() {
+    return [...grid.querySelectorAll('[data-lightbox]')]
+      .filter((t) => !t.hidden && !t.classList.contains('is-hidden'));
+  }
+
+  function preload(i) {
+    const t = sequence[(i + sequence.length) % sequence.length];
+    if (t && t.dataset.image) new Image().src = t.dataset.image;
+  }
+
+  function show(i, direction = 0) {
+    index = (i + sequence.length) % sequence.length;
+    const trigger = sequence[index];
+    const triggerImg = trigger.querySelector('img');
+
+    const oldImg = panel.querySelector('img:not(.is-leaving)');
+    const img = document.createElement('img');
+    img.src = trigger.dataset.image || '';
+    img.alt = triggerImg ? triggerImg.alt : '';
+    img.draggable = false;
+    if (!reduceMotion && direction) {
+      img.className = 'is-entering';
+      img.style.setProperty('--from', `${direction * 6}%`);
+    }
+    panel.insertBefore(img, tag);
+    if (oldImg) {
+      oldImg.classList.add('is-leaving');
+      oldImg.style.setProperty('--to', `${direction * -6}%`);
+      setTimeout(() => oldImg.remove(), reduceMotion ? 0 : 450);
+    }
+    void img.offsetWidth; // commit the entering state so the slide runs
+    img.classList.remove('is-entering');
+
+    tag.textContent = trigger.dataset.label || trigger.dataset.category || '';
+    tag.hidden = !tag.textContent;
+    caption.textContent = trigger.dataset.caption || '';
+    counter.textContent = `${pad(index + 1)} / ${pad(sequence.length)}`;
+    const single = sequence.length < 2;
+    prevBtn.hidden = single;
+    nextBtn.hidden = single;
+    preload(index + 1);
+    preload(index - 1);
+  }
+
+  function open(trigger) {
+    lastTrigger = trigger;
+    sequence = visibleTiles();
+    if (!sequence.includes(trigger)) sequence = [trigger];
+    panel.querySelectorAll('img').forEach((im) => im.remove());
+    show(sequence.indexOf(trigger));
+    overlay.classList.add('is-open');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    closeBtn.focus();
+  }
 
   function close() {
     overlay.classList.remove('is-open');
@@ -929,68 +1062,46 @@ function initLightbox() {
     if (lastTrigger) lastTrigger.focus();
   }
 
-  function open(trigger) {
-    lastTrigger = trigger;
-    const imageSrc = trigger.dataset.image || '';
-    const category = trigger.dataset.label || trigger.dataset.category || '';
-    const captionText = trigger.dataset.caption || '';
+  const step = (d) => show(index + d, d);
 
-    stage.innerHTML = '';
-
-    const closeBtn = document.createElement('button');
-    closeBtn.type = 'button';
-    closeBtn.className = 'lightbox-close';
-    closeBtn.setAttribute('aria-label', 'Close');
-    closeBtn.innerHTML = '&times;';
-    closeBtn.addEventListener('click', close);
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      attachRipple(closeBtn);
-    }
-
-    const panel = document.createElement('div');
-    panel.className = 'lightbox-panel';
-    if (imageSrc) {
-      const triggerImg = trigger.querySelector('img');
-      const img = document.createElement('img');
-      img.src = imageSrc;
-      img.alt = triggerImg ? triggerImg.alt : '';
-      panel.appendChild(img);
-    }
-    if (category) {
-      const tag = document.createElement('span');
-      tag.className = 'work-tag';
-      tag.textContent = category;
-      panel.appendChild(tag);
-    }
-
-    stage.appendChild(closeBtn);
-    stage.appendChild(panel);
-
-    if (captionText) {
-      const caption = document.createElement('p');
-      caption.className = 'lightbox-caption';
-      caption.textContent = captionText;
-      stage.appendChild(caption);
-    }
-
-    overlay.classList.add('is-open');
-    overlay.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-    closeBtn.focus();
-  }
-
-  triggers.forEach((trigger) => {
-    trigger.addEventListener('click', (e) => {
-      e.preventDefault();
-      open(trigger);
-    });
+  // Delegated so tiles rebuilt from the manifest (buildPortfolioGrid)
+  // are covered without re-binding.
+  grid.addEventListener('click', (e) => {
+    const trigger = e.target.closest('[data-lightbox]');
+    if (!trigger) return;
+    e.preventDefault();
+    open(trigger);
   });
+
+  closeBtn.addEventListener('click', close);
+  prevBtn.addEventListener('click', () => step(-1));
+  nextBtn.addEventListener('click', () => step(1));
 
   overlay.addEventListener('click', (e) => {
     if (e.target === overlay) close();
   });
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && overlay.classList.contains('is-open')) close();
+    if (!overlay.classList.contains('is-open')) return;
+    if (e.key === 'Escape') close();
+    else if (e.key === 'ArrowRight') step(1);
+    else if (e.key === 'ArrowLeft') step(-1);
   });
+
+  // Swipe: a mostly-horizontal drag of 50px+ on the photo steps; anything
+  // else (a tap, a vertical scroll attempt) is ignored.
+  let startX = null;
+  let startY = null;
+  panel.addEventListener('pointerdown', (e) => {
+    startX = e.clientX;
+    startY = e.clientY;
+  });
+  panel.addEventListener('pointerup', (e) => {
+    if (startX === null) return;
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+    startX = null;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) step(dx < 0 ? 1 : -1);
+  });
+  panel.addEventListener('pointercancel', () => { startX = null; });
 }
