@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chioma | Offers</title>
+  <meta name="description" content="Discount codes and current offers from Chioma and her brand partners.">
+  <link rel="icon" href="images/icons/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#000000">
+
+  <!-- Link previews (WhatsApp, iMessage, Instagram, LinkedIn, X...).
+       Image URL must be absolute for scrapers. -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Chioma">
+  <meta property="og:title" content="Chioma | Portfolio">
+  <meta property="og:description" content="Chioma's portfolio: fashion, beauty, and lifestyle work.">
+  <meta property="og:url" content="https://soma.azhyre.co.za/portfolio.html">
+  <meta property="og:image" content="https://soma.azhyre.co.za/images/og/og-cover.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Chioma, model, creator, brand ambassador.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <!--
+    THESIS: the portfolio reads as a magazine contact sheet, varied crop
+    and scale per frame, not a uniform photo-grid gallery.
+    OWN-WORLD: inherited from index.html.
+    STORY: a visitor filters by category and opens a frame to see it at
+    scale, exactly the browsing behaviour a real lookbook rewards.
+    FIRST VIEWPORT: page-header masthead, then filter pills, then the
+    asymmetric contact-sheet grid.
+    FORM: established-world extension, no concept roll.
+  -->
+
+  <header>
+    <nav class="site-nav">
+      <div class="glass-ripples" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="nav-inner container">
+        <a href="index.html" class="logo">Chioma</a>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+        </button>
+        <div class="nav-scrim"></div>
+        <div class="nav-collapse">
+          <div class="glass-ripples" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="portfolio.html">Portfolio</a><a href="offers.html">Offers</a></li>
+            <li><a href="offers.html" aria-current="page">Offers</a></li>
+            <li><a href="brands/index.html">Brands</a></li>
+            <li><a href="contact.html">Work With Me</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-header">
+      <div class="container page-header-grid">
+        <div>
+          <p class="kicker">Offers</p>
+          <h1>Codes &amp; offers.</h1>
+          <p class="page-header-intro">
+            Discount codes from my brand partners. Copy a code and paste it at checkout.
+          </p>
+        </div>
+        <figure class="page-header-visual">
+          <div class="page-header-photo-frame">
+            <div class="page-header-photo-back"></div>
+            <div class="page-header-photo">
+              <img data-header-photo src="images/portfolio/fashion/fashion-01.jpg" alt="Portrait for the offers page." loading="lazy">
+            </div>
+          </div>
+        </figure>
+      </div>
+    </section>
+
+    <!-- OFFERS: copy one card per offer, then paste the Shopify code and details.
+         Replace CODE-HERE with the code exactly as it appears in Shopify, and
+         change the brand, title, and details. Delete any card you don't need. -->
+    <section class="offers-section">
+      <div class="container">
+        <p class="kicker">Current offers</p>
+        <div class="focus-list offer-list">
+          <article class="focus-item offer-card">
+            <p class="offer-brand">Brand name</p>
+            <h3>Offer title here</h3>
+            <p>Short details: what it applies to and when it ends.</p>
+            <div class="offer-code">
+              <code>CODE-HERE</code>
+              <button type="button" class="btn-secondary offer-copy" data-copy="CODE-HERE">Copy code</button>
+            </div>
+          </article>
+          <article class="focus-item offer-card">
+            <p class="offer-brand">Brand name</p>
+            <h3>Second offer title</h3>
+            <p>Short details: what it applies to and when it ends.</p>
+            <div class="offer-code">
+              <code>CODE-HERE</code>
+              <button type="button" class="btn-secondary offer-copy" data-copy="CODE-HERE">Copy code</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CAMPAIGNS: paste an embed code (YouTube, Instagram, TikTok, Vimeo) into
+         an .embed-frame, or swap the placeholder for a photo in a second
+         .embed-frame. Delete the "embed-frame-empty" label once you paste. -->
+    <section class="campaigns-section">
+      <div class="container">
+        <p class="kicker">Campaigns</p>
+        <h2>Watch and browse.</h2>
+        <div class="embed-grid">
+          <div class="embed-frame">
+            <span class="embed-frame-empty">Video slot</span>
+          </div>
+          <div class="embed-frame embed-frame--portrait">
+            <span class="embed-frame-empty">Image slot</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-close">
+      <div class="container reveal">
+        <h2>Ready to work together?</h2>
+        <p>
+          For bookings, collaborations, and brand partnerships, reach out.
+        </p>
+        <a href="contact.html" class="btn-primary-inverse">Work With Me</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-top">
+      <div class="footer-contact">
+        <div class="footer-brand">
+          <a href="index.html" class="footer-wordmark">Chioma</a>
+          <p>Fashion, beauty, and lifestyle — model, content creator, and brand ambassador for Azhyre Tech, Azhyre Fashion, and SerenQ.</p>
+        </div>
+        <div class="footer-form-card">
+          <p class="footer-label">Send a Quick Message</p>
+          <form class="footer-form">
+            <div class="footer-form-field">
+              <label for="footer-name">Name</label>
+              <input type="text" id="footer-name" name="name" placeholder="Your name" required>
+            </div>
+            <div class="footer-form-field">
+              <label for="footer-email">Email</label>
+              <input type="email" id="footer-email" name="email" placeholder="you@email.com" required>
+            </div>
+            <div class="footer-form-field">
+              <label for="footer-message">Message</label>
+              <input type="text" id="footer-message" name="message" placeholder="A line about your project" required>
+            </div>
+            <button type="submit" class="btn-primary">Send →</button>
+          </form>
+          <p class="footer-form-note" aria-live="polite"></p>
+        </div>
+      </div>
+      <div class="footer-link-columns">
+        <div>
+          <p class="footer-label">Navigate</p>
+          <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="portfolio.html">Portfolio</a>
+            <a href="brands/index.html">Brands</a>
+            <a href="contact.html">Work With Me</a>
+          </div>
+        </div>
+        <div>
+          <p class="footer-label">Connect</p>
+          <div class="footer-links">
+            <a href="mailto:chioma@azhyre.co.za">chioma@azhyre.co.za</a>
+            <a href="https://www.instagram.com/itsschibaby">Instagram</a>
+            <a href="https://www.tiktok.com/@itssoma75">TikTok</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Chioma. All rights reserved.</p>
+      <a href="#">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <div class="lightbox-overlay" aria-hidden="true">
+    <div class="lightbox-content"></div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
