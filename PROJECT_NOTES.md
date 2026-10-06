@@ -273,6 +273,25 @@ this file assumes them.
 - Fonts: Google Fonts CDN (`Cormorant Garamond` + `Manrope`), loaded
   per-page via `<link>` in `<head>` with `display=swap`.
 
+- **Oct 2026 Seamless-Ground pass.** User: "i want the site to somewhat
+  flow and fade into each other without it looking all boxes." A first
+  attempt (feathered grey tier bands per section, several offset pink
+  glows, glowing focus cards, a gradient-ramped pink CTA band, and
+  scroll-driven `animation-timeline: view()` fade-ins) was reverted
+  unshipped after the user called it "scattered and messy not
+  seamless." What shipped instead removes surfaces rather than
+  softening them: no section sets a `background` fill anymore (one
+  continuous `body` black), `.focus-item` and `.footer-form-card` lost
+  their card surface/ring, the section-level `.glass-ripples` were
+  deleted from `.focus-section`/`.brand-strip` markup on Home/About/
+  Contact (the nav's own ripples are untouched), and `.cta-close`
+  became a pink radial glow behind ink text. `.btn-primary-inverse`
+  existed only for the pink CTA band, so it was deleted from CSS, from
+  `RIPPLE_SELECTOR` in `main.js`, and swapped to `.btn-primary` on all
+  7 pages with a closing CTA. See DESIGN.md's Seamless-Ground Rule.
+  **If the user asks for more "character" again, add it inside
+  sections (photography, type), not as section fills or boxes.**
+
 ## Build status per page
 
 | Page | Status |

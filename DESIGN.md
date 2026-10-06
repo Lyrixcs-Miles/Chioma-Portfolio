@@ -198,15 +198,19 @@ Full palette strategy — five named roles, each owning a field-scale region rat
 
 ### Neutral
 - **True Black Ground** (`#000000`, `--color-bg`): primary page background. Holds for every page, with no light-background sections anywhere except the pink CTA fill.
-- **Secondary Dark** (`#111111`, `--color-bg-pearl`): the about-teaser, focus-section, brand-gallery, and footer surfaces — a slightly lifted dark tier against the primary ground. An interpolated midpoint, not sourced directly from the palette (see Palette History).
-- **Charcoal** (`#222222`, `--color-bg-blush`): hero, page-header, and brand-strip surfaces — the lightest of the three dark tiers, sourced directly from the palette.
+- **Secondary Dark** (`#111111`, `--color-bg-pearl`): formerly the about-teaser/focus/brand-gallery/footer fill — no section uses it as a fill since the Seamless-Ground pass (see Named Rules); kept as a token for gradient stops. An interpolated midpoint, not sourced directly from the palette (see Palette History).
+- **Charcoal** (`#222222`, `--color-bg-blush`): formerly the hero/page-header/brand-strip fill; now only a gradient stop (page-header accent shape, swatches) since the Seamless-Ground pass.
 - **Pale Pink Ink** (`#FFD6E8`, `--color-ink`): primary text — sourced directly from the palette.
 - **Muted Rose-Mauve** (`#C0718C`, `--color-ink-soft`): secondary/muted text, blended from the accent hue toward neutral gray rather than sourced directly.
 - **True Black On-Accent** (`#000000`, `--color-on-accent`): dark text atop solid pink-accent fills (buttons, the CTA heading). Identical to `--color-bg`/`--color-accent-deep` in this palette — see Named Rules below.
 - **Ivory Surface** (`#FFD6E8`, `--color-ivory-surface`): the one deliberately BRIGHT surface in an otherwise all-dark system — the polaroid card's paper mat background, and the "Work With Me" button's ivory text atop its dark fill on the pink CTA section. Same value as Pale Pink Ink, kept as a separate token because the role (a bright card-like object / a guaranteed-bright text color) is distinct from "body text."
 
 ### Named Rules
-**The Persistent-Ground Rule.** The page background is true black on every page and every in-page section — `--color-bg`, `--color-bg-pearl`, and `--color-bg-blush` are all near-black, never white or light. The site never alternates back to a light section. The one confirmed exception is `.cta-close`, a deliberate full-bleed pink moment — don't add a second one; its force depends on staying singular.
+**The Persistent-Ground Rule.** The page background is true black on every page and every in-page section — `--color-bg`, `--color-bg-pearl`, and `--color-bg-blush` are all near-black, never white or light. The site never alternates back to a light section.
+
+**The Seamless-Ground Rule (Oct 2026, supersedes per-section tiers).** Client direction: sections should "flow and fade into each other without it looking all boxes." No section paints its own background anymore — every section sits on the one continuous `body` black, so there is no seam anywhere between sections, and `--color-bg-pearl`/`--color-bg-blush` no longer fill any section (they survive only as gradient stops inside swatches/the page-header shape). Atmosphere comes only from soft radial pink glows that fade to transparent well inside their own section (`.hero`, `.page-header`, `.cta-close`). The ambient `.glass-ripples` rings were removed from `.focus-section`/`.brand-strip` in the same pass (they read as scattered). **A first attempt — feathered grey tier bands, multiple offset glows, glowing cards, a pink band with a gradient ramp, and scroll-driven fade-ins — was rejected as "scattered and messy, not seamless."** Lesson: seamless here means *fewer* surfaces, not softer edges on the same number of surfaces. Don't reintroduce a full-width section fill, a section-level card/box, or per-section decoration.
+
+**The Pink-Glow CTA.** `.cta-close` is the page's one pink moment — no longer a full-bleed solid pink band (it was the biggest box on the page) but a pink radial glow pooled behind centered ink-colored text, with a standard `.btn-primary`. Don't add a second glow of this strength; its force depends on staying singular.
 
 **The True-Black Rule** (supersedes the prior Soft-Noir Rule). Every near-black value in the system — `--color-bg`, `--color-accent-deep`, `--color-on-accent` — is literal `#000000`; `--color-bg-pearl` (`#111111`) and `--color-bg-blush` (`#222222`) are the only lifted dark tiers, both neutral gray rather than warm-tinted. This is a deliberate reversal of the prior system's "never flat #000000 / always warm black" rule: the Editorial Spotlight Pink palette is intentionally starker and more graphic, with no warm undertone in its blacks. Don't reintroduce warm-tinted near-blacks or treat flat `#000000` as a mistake to "fix" — it's the current system's literal ground value.
 
@@ -294,12 +298,14 @@ Each `.work-panel` is no longer a grid cell: `.work-grid` is a centered, wrappin
 ### Buttons
 - **Shape:** 2px radius, solid fill, uppercase Manrope 700 label.
 - **Primary** (`.btn-primary`): rose fill, dark (`--color-on-accent`) text, lift + deepen shadow on hover (`translateY(-3px)`), dark ripple on click.
-- **Primary Inverse** (`.btn-primary-inverse`): dark (`--color-on-accent`) fill, ivory (`--color-ivory-surface`) text — used only inside `.cta-close`, where the section background is itself the full rose accent, so this is the one button that needs to read dark-on-rose instead of the system default.
+- **Primary Inverse** (removed Oct 2026 with the Seamless-Ground pass — `.cta-close` now uses `.btn-primary`; history kept below) (`.btn-primary-inverse`): dark (`--color-on-accent`) fill, ivory (`--color-ivory-surface`) text — used only inside `.cta-close`, where the section background is itself the full rose accent, so this is the one button that needs to read dark-on-rose instead of the system default.
 - **Secondary/Text** (`.btn-secondary`, `.text-link`): no fill; a rose-tint underline that solidifies to ivory ink on hover.
 - **Filter pills** (`.portfolio-filters button`): transparent/outlined at rest, solid rose when `.active`; light ripple on click.
 
 ### Editorial List (signature component)
 The site's recurring "contributor page" list pattern, reused with different content on four different pages: `.focus-list`/`.focus-item` (3-column, heading+paragraph — Home's "What I Offer", About's "Where I Create", Contact's "Good to Know") and `.glance-list`/`.glance-item` (a `<dt>/<dd>` fact-list variant — About's "At a Glance", each brand page's "Partnership" block, still plain hairline-divided text, unchanged by the card pass below).
+
+**Seamless-Ground update, Oct 2026 (supersedes the card pass described next):** `.focus-item` no longer has a card surface or ring — open columns separated by the grid gap, keeping the numeral/italic-heading device. `.footer-form-card` likewise lost its tinted surface and ring (just a `max-width: 34rem` column). The paragraph below is history.
 
 **Oct 2026 "lacks character" card pass (`.focus-item` only):** this is a deliberate reversal of the system's earlier "no bordered card grids" stance, made at the client's explicit direction ("make 'what I offer' in cards or something visually appealing"). Each `.focus-item` is now a standalone surface — `background: rgba(255,214,232,.04)`, a 1px light-tinted `box-shadow` ring (same hairline-via-shadow technique as the Cards/Tiles edge treatment, not a layout-affecting `border`), 2px radius — that lifts and brightens on hover (`translateY(-6px)`, deeper shadow, brighter background), all on `transform`/`box-shadow`/`background`, never layout properties. The old cell-divider borders (`border-right`/`border-bottom: var(--rule-soft)` between items) are gone; the grid gap alone now separates cards. `.glance-list` keeps the original plain hairline-divided text — the card treatment is scoped to `.focus-item` only, not the whole Editorial List pattern.
 
@@ -356,7 +362,7 @@ The form card itself reuses the exact card-edge language `.focus-item` establish
 
 ### Do:
 - **Do** keep every dark/neutral value one of the system's two literal blacks (`#000000` or `#222222`) or the interpolated `#111111` midpoint — check new colors against the True-Black Rule.
-- **Do** keep the dark ground persistent across every page/section; the pink CTA is the system's one full-bleed-color moment, and its force depends on staying singular.
+- **Do** keep the dark ground persistent and continuous across every page/section — no section gets its own background fill (see the Seamless-Ground Rule); the pink CTA glow is the system's one strong color moment.
 - **Do** run every new real photo through the site-wide `img` filter (`saturate(0.78) sepia(0.16) contrast(1.08) brightness(0.96)`) rather than hand-grading individual images — it's what keeps mixed color/black-and-white shoots reading as one body of work.
 - **Do** reuse the editorial-list pattern (`.focus-list`/`.glance-list`) for any new "several short facts" content. `.focus-item` is now a bordered-surface card (see Editorial List → Oct 2026 card pass); `.glance-list` stays plain hairline-divided text — match whichever of the two the new content is closer to, rather than inventing a third treatment.
 - **Do** use `--ease-out-expo` (`cubic-bezier(0.16, 1, 0.3, 1)`) for all deliberate motion; it's the system's one easing curve.

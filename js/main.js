@@ -572,7 +572,7 @@ function initPolaroidStack() {
 // Tactile click/tap feedback on solid buttons, filter pills, and
 // portfolio tiles. Skipped entirely under reduced motion, and skipped
 // for keyboard activation (no pointer coordinate, no visual to anchor).
-const RIPPLE_SELECTOR = '.btn-primary, .btn-primary-inverse, .portfolio-filters button, .portfolio-item, .lightbox-close, .nav-toggle';
+const RIPPLE_SELECTOR = '.btn-primary, .portfolio-filters button, .portfolio-item, .lightbox-close, .nav-toggle';
 
 function createRipple(x, y, el) {
   const rect = el.getBoundingClientRect();
