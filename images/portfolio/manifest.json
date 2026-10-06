@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-06T03:11:15Z",
+  "generatedAt": "2026-10-06T03:12:08Z",
   "categoryOrder": [
     "fashion",
     "beauty",
@@ -116,13 +116,6 @@
         "src": "images/portfolio/lifestyle/garden-casual.jpg",
         "caption": "Lifestyle — garden, candid.",
         "alt": "Candid lifestyle portrait laughing over the shoulder, oversized white top and jeans, garden setting.",
-        "wide": false
-      },
-      {
-        "file": "zz-auto-test.jpg",
-        "src": "images/portfolio/lifestyle/zz-auto-test.jpg",
-        "caption": "Lifestyle — Zz auto test.",
-        "alt": "Lifestyle photo: Zz auto test.",
         "wide": false
       }
     ]
