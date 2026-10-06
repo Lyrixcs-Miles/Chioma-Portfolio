@@ -5,7 +5,6 @@ technical implementation details that don't belong in `PRODUCT.md`
 (product truth) or `DESIGN.md` (visual system). Read those two first;
 this file assumes them.
 
-<!-- impeccable:project-notes 1 -->
 
 ## Orientation
 
@@ -14,7 +13,7 @@ this file assumes them.
 - Deployed via GitHub Pages at `soma.azhyre.co.za` (see `CNAME`) — an
   invented subdomain (echoing her TikTok handle `@itssoma75`), not a
   literal rendering of her name; `azhyre.co.za` itself belongs to the
-  Azhyre brand family and wasn't Claude's to invent.
+  Azhyre brand family and wasn't the project's to invent.
 - Site name is **Chioma** (renamed from an earlier "Lettie" placeholder
   during the original build, then from "Eullie" when the site changed
   to a different subject — every file was updated to match each time,
@@ -243,8 +242,8 @@ this file assumes them.
   ("dusty-rose," "dusty rose") that would otherwise describe the new
   vivid hot-pink accent as if it were still the old muted dusty rose.
 
-  **`.impeccable/design.json` regenerated in full**, not just the
-  colors — per `CLAUDE.md`'s "regenerate both together" instruction.
+  **The local design sidecar (kept out of git) regenerated in full**, not just the
+  colors, so both files stay in step.
   While in there, also fixed sidecar drift that predated this palette
   change: the `donts` array still said "the system's list pattern is
   hairline-divided text, not bordered cards" despite `.focus-item`'s
@@ -314,7 +313,7 @@ this file assumes them.
 |---|---|
 | `index.html` (Home) | Full build: masthead hero w/ looping typewriter + real-photo "polaroid stack" (swipeable/autoplaying, replaces the old duotone silhouette), About teaser, Portfolio teaser (real photography), "What I Offer" services, Brand strip, closing CTA. |
 | `about.html` | Full build: page-header (real photo, see "Page-header photo" below), "At a Glance" facts + bio copy, "Where I Create" list, closing CTA. |
-| `portfolio.html` | Full build: page-header (real photo), filterable contact-sheet grid (15 tiles: 5 fashion, 7 beauty, 3 lifestyle, built from `images/portfolio/manifest.json` — see "Image manifest" below) with real photography, working lightbox, closing CTA. |
+| `portfolio.html` | Full build: page-header (real photo), filterable contact-sheet grid (50 tiles: 17 fashion, 22 beauty, 11 lifestyle, built from `images/portfolio/manifest.json` — see "Image manifest" below) with real photography, working lightbox, closing CTA. |
 | `brands/index.html` | Full build: page-header (real photo), partner-credit row list, closing CTA. |
 | `brands/azhyre-tech.html`, `azhyre-fashion.html`, `serenq.html` | Full build: page-header (real photo + real website links the user added), Partnership glance-list + bio copy, 3-tile campaign-preview gallery (still placeholder swatches), closing CTA. |
 | `contact.html` | Full build: page-header (real photo), email + socials (**real values, user-supplied**), "Good to Know" list. No closing CTA section (page IS the destination). |
@@ -329,8 +328,12 @@ HTML comment `<!-- Placeholder ... -->` to find the exact spot.
   in-voice as an editable draft, not confirmed fact.
 - **Brand/campaign imagery** on the 3 brand pages — every gallery tile
   there is still a CSS gradient "swatch" (`.swatch-1`–`.swatch-6`)
-  standing in for real photography. No files exist yet in
-  `images/brands/`. This is now the **only** remaining placeholder
+  standing in for real photography. **Now folder-driven (Oct 2026):**
+  drop photos into `images/brands/<page-name>/` (`azhyre-tech`,
+  `azhyre-fashion`, `serenq` — each has a README.txt), re-run
+  `scripts/build-image-manifest.py`, and `buildBrandGallery()` swaps
+  up to six of them in for the swatches and hides the "coming soon"
+  note. Still empty as of this writing. This is now the **only** remaining placeholder
   imagery on the site — the hero, the Portfolio grid, the homepage
   teaser, and every page-header visual all use real photos now (see
   "Real photography" / "Hero polaroid stack" / "Page-header photo"
@@ -340,11 +343,17 @@ HTML comment `<!-- Placeholder ... -->` to find the exact spot.
   is unconfirmed; the glance-list "Role: Brand Ambassador" / "Status:
   Ongoing partnership" entries are safe generic placeholders, not
   confirmed facts.
-- **`images/icons/favicon.ico`** — referenced by every page's
-  `<link rel="icon">`, file does not exist (harmless 404, not visible
-  to users, but worth adding a real favicon before launch).
 
-**Already resolved, not placeholder:** contact email(s), phone numbers,
+**Already resolved, not placeholder:** the site icon set and link-
+preview card (Oct 2026) — `images/icons/` (`favicon.ico` 16–64px,
+`apple-touch-icon.png`, `icon-192/512.png`: a pink italic Cormorant
+"C" on black) and `images/og/og-cover.jpg` (1200×630: wordmark +
+kicker + a graded hero photo), plus `site.webmanifest` and full
+Open Graph / Twitter tags on all 8 pages (og:title/description copy
+each page's own `<title>`/meta description; og:image is an absolute
+URL because scrapers require it). These were generated with Pillow
+from the site's own fonts — if you regenerate, keep the same paths.
+Also: contact email(s), phone numbers,
 Instagram/TikTok handles, and the three brand website links — the user
 filled these in directly.
 
@@ -449,8 +458,8 @@ accordion) sliding in over a dimming `.nav-scrim`. Both share the same
 dark glass + `.glass-ripples` decorative rings.
 
 **Oct 2026 critique fixes (three separate issues found in one pass,
-via a dual-agent `/impeccable critique` — see `.impeccable/critique/`
-for the full report):**
+via a two-pass design critique; the full report is kept locally,
+not in the repository):**
 - **Muddy nav color.** `backdrop-filter: blur(...) saturate(160%)` was
   tuned for the old lavender-tinted background — boosting the
   saturation of a faint lavender bleed-through read as rich glass.
@@ -743,7 +752,7 @@ after the nav/typewriter/sticky-header/footer-form setup (none of
 which depend on photos), and every manifest-dependent `build*`
 function only replaces a section's DOM if the fetch actually
 succeeded — so a failed fetch (most likely: the page opened via
-`file://` instead of a local server, same caveat `CLAUDE.md`'s
+`file://` instead of a local server, same caveat the
 Commands section already flags for root-relative links) just leaves
 whatever static HTML is already committed in the page, same as before
 this system existed. Nothing goes blank.
@@ -879,7 +888,7 @@ User reported the live site wasn't showing recent changes (specifically,
 no heart frames) despite everything being pushed. `gh api repos/.../pages`
 showed the deployment's overall `status` as `"errored"`, and
 `gh api repos/.../pages/builds` showed every build since the
-`git filter-branch` history rewrite (the Co-Authored-By cleanup) had
+`git filter-branch` history rewrite (the commit-message cleanup) had
 failed with a generic "Page build failed." — only the two commits made
 directly on GitHub (the CNAME delete/recreate) had built successfully
 in between. **Root cause: this repo was never a Jekyll site, but
@@ -1107,9 +1116,32 @@ existing bio/bio-copy paragraphs on Home/About/brand pages were
 already reasonable in-voice drafts (not "content goes here" filler)
 and didn't need rewriting, just the self-referential sentences cut.
 
+### First-visit intro + page-turn transitions (Oct 2026)
+- **Intro** (`index.html` only): decided by an inline `<head>` script
+  *before first paint* (so the homepage never flashes before the
+  cover) via `localStorage['chioma-intro-seen']`; skipped under
+  reduced motion. That inline script also lifts the cover on its own
+  2.3s timer, so it clears even if `main.js` fails — `initIntroSkip()`
+  only adds tap/key-to-skip. While `.show-intro` is on `<html>`, the
+  hero's CSS entrance animations are paused (`animation-play-state`)
+  so they play for real when the cover lifts. To see it again in
+  testing: `localStorage.removeItem('chioma-intro-seen')`.
+- **Page turn**: `::view-transition-old/new(root)` keyframes
+  (`page-turn-out`/`-in`) replace the plain crossfade; `header` has
+  `view-transition-name: site-header` so the nav holds still. Header
+  must stay a single element per page for that name to be unique.
+
 ### Lightbox
-Fixed overlay, single reusable `.lightbox-overlay > .lightbox-content`
-DOM built fresh per-open in `main.js`. Width is capped against *both*
+Fixed overlay, single reusable `.lightbox-overlay > .lightbox-content`;
+since Oct 2026 its inner DOM is built **once** in `initLightbox()` and
+`show()` swaps the photo. It's now a viewer: ‹ › buttons, arrow keys,
+and horizontal swipe (≥50px, mostly-horizontal) step through every
+tile *currently visible* in the grid (so a category filter limits the
+sequence), wrapping at both ends, with a "03 / 15" counter; neighbours
+are preloaded. Photos use `object-fit: contain` (whole photo,
+letterboxed) — the grid crops, the viewer doesn't. Click handling is
+delegated on `.portfolio-grid` so manifest-rebuilt tiles need no
+re-binding. Width is capped against *both*
 `90vw`/`720px` AND a viewport-height-derived limit
 (`calc((100vh - 6rem) * 4 / 5)`) so the close button and caption can
 never overflow off-screen on a short viewport — an earlier version
@@ -1140,6 +1172,95 @@ transition) before setting `hidden = true` after a 350ms timeout on
 hide, and reverses the order on show (`hidden = false` → double
 `requestAnimationFrame` → remove `.is-hidden`) so the fade actually has
 something to animate from.
+
+## Publishing pass (Oct 2026)
+
+Everything shipped in one pass, recorded here so the next change starts
+from the current state.
+
+### Photo set replaced
+- The earlier portfolio photos (Euleth-era content) were removed from
+  `images/portfolio/{fashion,beauty,lifestyle}/`. Their history is still
+  in git (everything before commit `ffeaf4e`); nothing was lost.
+- The Chioma photo set (50 files, previously in `images/Show`, then
+  `images/portfolio/show`) was grouped by eye into the three categories:
+  fashion 17 (pink-top and grey-top outfit shots), beauty 22 (close
+  face-and-hair portraits, including the B&W close-ups), lifestyle 11
+  (cafe, booth, and window shots).
+- Files are named `<category>-NN.jpg`, resized to 1600px on the long
+  side, saved as JPEG at quality 85 with metadata stripped (no
+  generation or camera tags in the published files).
+- Each folder got a fresh `captions.json` with short per-group captions.
+  Captions are generic per group; refine them per photo as needed.
+- The static fallback `<img>` references in the HTML were pointed at the
+  new filenames, so nothing 404s with JavaScript off. The tuned inline
+  crops on those static images were written for the old photos and may
+  need re-tuning (see "Per-image crop overrides").
+
+### Automatic manifest (GitHub Action)
+- `.github/workflows/update-image-manifest.yml` reruns
+  `scripts/build-image-manifest.py` on every push that touches
+  `images/portfolio/**` or the script itself, then commits the regenerated
+  `images/portfolio/manifest.json` back to `main` as `github-actions[bot]`.
+  The manifest file itself is excluded from the trigger, so the bot's
+  commit cannot loop.
+- Verified end to end: a temporary photo added in one push appeared in
+  the manifest and on the live site; removing it in a second push removed
+  it from both (the live URL then returned 404).
+- Because the bot commits to `main`, run `git pull` before pushing from
+  a local clone, or the push is rejected.
+- `workflow_dispatch` is enabled, so the job can be rerun by hand from
+  the Actions tab.
+
+### GitHub Pages and Actions outage
+- Deployments stalled from roughly 19:50 onward. GitHub's status page
+  reported a Partially Degraded Actions incident. Pages deployments and
+  Actions jobs both queue on the same backlog, so a stuck deployment is
+  not necessarily a bug in the repository.
+- Diagnosis commands: `gh api repos/<owner>/<repo>/pages/builds/latest`,
+  `gh run list --workflow=update-image-manifest.yml`, and the status
+  summary at githubstatus.com.
+- `.nojekyll` at the repository root skips the legacy Jekyll build, which
+  this plain static site does not need.
+
+### Brand campaign galleries
+- `images/brands/<brand-page-slug>/` feeds each brand page's campaign
+  row (up to six photos). Each folder has a README.txt explaining this.
+- The manifest stores these under a `brands` key, separate from the
+  portfolio categories, and `buildBrandGallery()` replaces the swatch
+  tiles when a folder has photos. Until then the swatches stay.
+
+### First-visit intro, social previews, and icons
+- `index.html` shows a short intro overlay once per browser
+  (`localStorage` key `chioma-intro-seen`). It is skipped under reduced
+  motion, lifts on a timer, and lifts on click or any key. Its script
+  runs before first paint so the homepage never flashes behind it.
+- Social/link previews use Open Graph and Twitter card tags pointing at
+  `https://soma.azhyre.co.za/` and `images/og/og-cover.jpg` (1200x630).
+  Scrapers need absolute URLs, so the og tags must stay absolute.
+- `site.webmanifest` and the icons in `images/icons/` (favicon,
+  apple-touch-icon, 192px and 512px PNG) supply the install and home-screen
+  metadata.
+
+### Repository hygiene
+- `skills-lock.json` was tracked by mistake. It is now untracked and
+  gitignored; the file stays on the local machine only.
+- Tracked files, commit messages, and published images carry no co-author
+  trailers and no credits other than the project owner.
+
+### Open items
+- **Off-scale font sizes** (the design check flags them): the intro mark
+  (`.site-intro-mark`, up to 15rem), the ghost words (`.ghost-word`, up
+  to 18rem), the marquee (`.marquee-track span`, up to 4.75rem), the heart
+  zoom caption (`.heart-zoom-caption`, 1.3rem), and the lightbox arrows
+  (`.lightbox-nav`, 2.6rem and 2.2rem). These are either documented as
+  intentional display exceptions or moved onto existing type steps. Not
+  yet decided; no suppression has been added.
+- **Header padding transition** (`css/style.css`, the scroll-shrink
+  rule) is the known, confirmed exception documented in DESIGN.md.
+- **Three script false positives** in `js/main.js`: a comment that
+  mentions the image tag, and two runtime-built image templates whose
+  source is set in code before use.
 
 ## Known environment quirks (this dev machine / session)
 
@@ -1196,8 +1317,8 @@ first. The two shadow-tint families (`rgba(36,21,48,X)` vs the deeper
 `rgba(15,8,20,X)` on `.btn-primary-inverse` and `.lightbox-panel`) are
 similarly intentional, not an inconsistency to unify.
 
-`.impeccable/design.json` is the sidecar the impeccable skill's
-`document.md` spec calls for — it carries what `DESIGN.md`'s
+The local design sidecar (kept out of git) is the companion file the design-system
+spec calls for — it carries what `DESIGN.md`'s
 frontmatter schema can't hold (shadows, motion tokens, full
 component HTML/CSS snippets, narrative/rules). If you regenerate
 `DESIGN.md`, regenerate this alongside it.
@@ -1211,4 +1332,4 @@ currently holds placeholder copy") — that's now out of date given the
 build described above, though the underlying "don't fabricate facts"
 principle still holds. Not fixed here since this file's job is to
 record state, not repair `PRODUCT.md` drift unasked — run
-`/impeccable doctor` or do a quick manual pass when convenient.
+a quick manual consistency pass when convenient.
