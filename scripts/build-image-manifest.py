@@ -33,6 +33,13 @@ real example):
       }
     }
 
+Brand campaign galleries: each brand page's "Campaign Preview" row is
+filled from images/brands/<page-name>/ (e.g. images/brands/serenq/ for
+brands/serenq.html) — drop campaign photos in that folder, re-run this
+script, and they replace the placeholder swatch tiles (up to six, in
+the same filename / captions.json "order" as above). An empty folder
+keeps the swatches. These go in the same manifest under "brands".
+
 All five fields are optional. "wide" marks a tile as the larger
 contact-sheet frame. If NO image in a category sets "wide" explicitly,
 the script auto-assigns one (the first image, then every 5th) for
@@ -56,6 +63,7 @@ from datetime import datetime, timezone
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PORTFOLIO_DIR = os.path.join(PROJECT_ROOT, "images", "portfolio")
+BRANDS_DIR = os.path.join(PROJECT_ROOT, "images", "brands")
 MANIFEST_PATH = os.path.join(PORTFOLIO_DIR, "manifest.json")
 
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
@@ -94,7 +102,7 @@ def load_captions(category_dir):
             return {}
 
 
-def build_category(category, category_dir):
+def build_category(category, category_dir, src_root="images/portfolio"):
     captions = load_captions(category_dir)
     label = category_label(category)
     files = [
@@ -130,7 +138,7 @@ def build_category(category, category_dir):
             wide = False if any_explicit_wide else ((i == 0) or (i > 0 and i % 5 == 0))
         entry = {
             "file": filename,
-            "src": f"images/portfolio/{category}/{filename}",
+            "src": f"{src_root}/{category}/{filename}",
             "caption": caption,
             "alt": alt,
             "wide": bool(wide),
@@ -176,10 +184,23 @@ def main():
 
     category_order = [c for c in category_order if c in categories]
 
+    # Brand campaign galleries — one folder per brand page.
+    brands = {}
+    if os.path.isdir(BRANDS_DIR):
+        for brand in sorted(os.listdir(BRANDS_DIR)):
+            brand_dir = os.path.join(BRANDS_DIR, brand)
+            if not os.path.isdir(brand_dir) or brand.startswith("."):
+                continue
+            items = build_category(brand, brand_dir, src_root="images/brands")
+            print(f"brands/{brand}: {len(items)} image(s)")
+            if items:
+                brands[brand] = items
+
     manifest = {
         "generatedAt": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "categoryOrder": category_order,
         "categories": categories,
+        "brands": brands,
     }
 
     with open(MANIFEST_PATH, "w", encoding="utf-8") as f:
