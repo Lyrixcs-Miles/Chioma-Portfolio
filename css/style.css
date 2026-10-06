@@ -13,10 +13,36 @@
   navigation: auto;
 }
 
-::view-transition-old(root),
+/* Page turn (Oct 2026): the outgoing page swings away to the left on
+   its spine and fades, the incoming one slides in from the right — a
+   magazine page turning rather than a plain crossfade. The header has
+   its own transition name so the nav holds still while the page turns
+   beneath it. */
+::view-transition-old(root) {
+  animation: page-turn-out 0.5s cubic-bezier(0.55, 0, 0.75, 0.2) both;
+  transform-origin: left center;
+}
+
 ::view-transition-new(root) {
-  animation-duration: 0.4s;
-  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  animation: page-turn-in 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
+}
+
+header {
+  view-transition-name: site-header;
+}
+
+@keyframes page-turn-out {
+  to {
+    opacity: 0;
+    transform: perspective(1800px) rotateY(10deg) translateX(-5%);
+  }
+}
+
+@keyframes page-turn-in {
+  from {
+    opacity: 0;
+    transform: translateX(6%);
+  }
 }
 
 /* Oct 2026 redesign — persistent dark world (was white/blush, dark
@@ -639,6 +665,61 @@ body::after {
   line-height: 0.82;
   color: var(--color-accent);
   margin: 0.08em 0.12em 0 0;
+}
+
+/* ==========================================================================
+   First-visit intro (homepage only) — the issue's cover: a pink italic
+   "C" inks in on black with an edition line beneath, then the cover
+   lifts to reveal the homepage. Shown/hidden purely by the
+   .show-intro class the inline <head> script in index.html manages;
+   main.js only adds tap-to-skip. While it's up, the hero's own entrance
+   animations are paused so they play for real once the cover lifts.
+   ========================================================================== */
+
+.site-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 800;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 1.25rem;
+  background: var(--color-bg);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.8s var(--ease-out-expo), visibility 0s linear 0.8s;
+  cursor: pointer;
+}
+
+.show-intro .site-intro {
+  opacity: 1;
+  visibility: visible;
+  transition: none;
+}
+
+.site-intro-mark {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(9rem, 32vw, 15rem);
+  line-height: 0.8;
+  color: var(--color-accent);
+  animation: ink-reveal 1s var(--ease-out-expo) both 0.15s;
+}
+
+.site-intro-line {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+  animation: fade-up 0.8s var(--ease-out-expo) both 0.7s;
+}
+
+.show-intro .hero,
+.show-intro .hero * {
+  animation-play-state: paused !important;
 }
 
 /* ==========================================================================
@@ -1711,9 +1792,18 @@ body::after {
   box-shadow: 0 0 0 1px rgba(255, 214, 232, 0.18);
 }
 
-.gallery-tile .swatch {
+.gallery-tile .swatch,
+.gallery-tile img {
   position: absolute;
   inset: 0;
+}
+
+/* Real campaign photos (buildBrandGallery in main.js) replace the
+   swatches once a brand's images/brands/<page>/ folder has any. */
+.gallery-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .gallery-tile::after {
@@ -2275,7 +2365,8 @@ body::after {
   border-radius: 2px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 50px 90px -30px rgba(0, 0, 0, 0.65);
+  touch-action: pan-y;  /* horizontal drags are ours (swipe to step) */
+  user-select: none;
 }
 
 .lightbox-panel::before {
@@ -2294,19 +2385,109 @@ body::after {
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  /* Whole photo, never cropped — the viewer is where you go to see
+     what the grid tiles cut off. Letterboxes onto the dark backdrop. */
+  object-fit: contain;
+  transition: opacity 0.45s var(--ease-out-expo), translate 0.45s var(--ease-out-expo);
+}
+
+/* Stepping: the new photo slides in from the side you're heading
+   toward while the old one slides out the other way (--from/--to set
+   in main.js from the step direction). */
+.lightbox-panel img.is-entering {
+  opacity: 0;
+  translate: var(--from, 0) 0;
+  transition: none;
+}
+
+.lightbox-panel img.is-leaving {
+  opacity: 0;
+  translate: var(--to, 0) 0;
 }
 
 .lightbox-panel .work-tag {
+  /* Positioned so it paints above the (absolutely positioned) photo. */
+  position: absolute;
+  top: 0.9rem;
+  left: 0.9rem;
+  z-index: 1;
   color: var(--color-ink);
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.lightbox-meta {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+/* Film-negative frame counter — same register as the grid's 01A marks. */
+.lightbox-counter {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  color: var(--color-accent);
+  margin-bottom: 0.4rem;
 }
 
 .lightbox-caption {
-  margin-top: 1rem;
   font-size: 0.8rem;
   color: var(--color-ink);
-  text-align: center;
+}
+
+.lightbox-nav {
+  position: absolute;
+  top: calc(50% - 1.5rem);
+  width: 3rem;
+  height: 3rem;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-heading);
+  font-size: 2.6rem;
+  line-height: 1;
+  color: var(--color-ink);
+  background: none;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: color 0.3s var(--ease-out-expo), translate 0.3s var(--ease-out-expo);
+}
+
+.lightbox-nav:hover {
+  color: var(--color-accent);
+}
+
+.lightbox-nav--prev {
+  left: -4.5rem;
+}
+
+.lightbox-nav--next {
+  right: -4.5rem;
+}
+
+.lightbox-nav--prev:hover {
+  translate: -4px 0;
+}
+
+.lightbox-nav--next:hover {
+  translate: 4px 0;
+}
+
+/* No room outside the panel on phones — the arrows sit over its edges
+   on a dark disc instead (swipe works too). */
+@media (max-width: 900px) {
+  .lightbox-nav {
+    background: rgba(0, 0, 0, 0.45);
+    font-size: 2.2rem;
+  }
+
+  .lightbox-nav--prev {
+    left: 0.5rem;
+  }
+
+  .lightbox-nav--next {
+    right: 0.5rem;
+  }
 }
 
 .lightbox-close {
@@ -2366,7 +2547,8 @@ body::after {
 }
 
 .portfolio-item,
-.lightbox-close {
+.lightbox-close,
+.lightbox-nav {
   --ripple-color: rgba(255, 214, 232, 0.35);
 }
 
@@ -2417,6 +2599,10 @@ body::after {
   ::view-transition-old(root),
   ::view-transition-new(root) {
     animation: none !important;
+  }
+
+  .site-intro {
+    display: none;
   }
 
   .lightbox-content,
