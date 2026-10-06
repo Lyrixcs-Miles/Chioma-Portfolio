@@ -72,6 +72,27 @@
   .work-panel--extra {
     display: none;
   }
+
+  /* Ghost words: once the layout stacks to one column there's no empty
+     column for the word to sit behind — absolutely positioned, it just
+     ends up hidden behind a photo with stray letter fragments poking
+     out. Instead it becomes an in-flow section opener: a giant cropped
+     outline word on its own line at the top of the section. (Tucking
+     the content up under its baseline was tried — the rotated photo
+     frames and kickers collided with it.) --right keeps its side via
+     text-align, so the pages still alternate left/right as you scroll. */
+  .ghost-word {
+    position: static;
+    display: block;
+    padding: 0 1rem;
+    margin-bottom: 0.3em;
+    font-size: 30vw;
+    -webkit-text-stroke-color: rgba(255, 133, 176, 0.3);
+  }
+
+  .ghost-word--right {
+    text-align: right;
+  }
 }
 
 /* Mobile */
@@ -204,9 +225,17 @@
     gap: 1.25rem;
   }
 
-  .work-cta,
-  .brand-strip .work-cta {
+  /* .brand-strip's CTA stays centered — it sits under the centered
+     brand-name column, and left-aligning it there read as a mistake. */
+  .work-cta {
     text-align: left;
+  }
+
+  /* The closing CTA's glow is sized in % of the section, so on a
+     narrow phone the desktop ellipse collapses into a tall blob —
+     widen it to span the screen. */
+  .cta-close {
+    background: radial-gradient(ellipse 95% 60% at 50% 50%, rgba(255, 79, 139, 0.26), rgba(255, 79, 139, 0.08) 55%, transparent 80%);
   }
 
   /* .cta-close was left-aligned here along with the rest of the

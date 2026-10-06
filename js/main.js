@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   initPortfolioFilters();
   initLightbox();
   initRipples();
+  initScrollReveal();
 });
 
 // ==========================================================================
@@ -598,6 +599,54 @@ function attachRipple(el) {
 function initRipples() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   document.querySelectorAll(RIPPLE_SELECTOR).forEach(attachRipple);
+}
+
+// Scroll reveal: content below the masthead eases in as it scrolls into
+// view, one magazine page at a time. Elements opt in by matching
+// REVEAL_SELECTOR (tagged here, so no per-page markup is needed) or by
+// carrying a hand-placed .reveal class. Siblings revealed together get a
+// short stagger. Ghost words get their own slower side-slide. Nothing is
+// hidden until this runs (.reveal-armed is only added by JS), so with JS
+// off or under reduced motion every element simply stays visible.
+const REVEAL_SELECTOR = [
+  '.section-kicker', 'main .kicker', 'main h2',
+  '.work-intro p', '.about-copy', '.work-cta',
+  '.focus-item', '.brand-row a', '.glance-item', '.bio-copy p',
+  '.contact-block', '.brand-index-row', '.gallery-tile',
+  '.footer-top > *'
+].join(', ');
+
+function initScrollReveal() {
+  if (!('IntersectionObserver' in window)) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  document.querySelectorAll(REVEAL_SELECTOR).forEach((el) => {
+    // The masthead has its own authored entrance; and anything already
+    // inside a revealing container would just double-animate.
+    if (el.closest('.hero, .page-header')) return;
+    if (el.parentElement.closest('.reveal')) return;
+    el.classList.add('reveal');
+  });
+
+  const targets = [...document.querySelectorAll('.reveal, .ghost-word')];
+  targets.forEach((el) => {
+    // Stagger among revealed siblings (cards in a row, brand names…),
+    // capped so a long list doesn't make the last item wait forever.
+    const siblings = [...el.parentElement.children].filter((c) => c.classList.contains('reveal'));
+    const index = Math.min(siblings.indexOf(el), 4);
+    if (index > 0) el.style.setProperty('--reveal-delay', `${index * 110}ms`);
+    el.classList.add('reveal-armed');
+  });
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-visible');
+      io.unobserve(entry.target);
+    });
+  }, { rootMargin: '0px 0px -12% 0px' });
+
+  targets.forEach((el) => io.observe(el));
 }
 
 // Mobile off-canvas drawer: toggling .nav-collapse now also toggles a

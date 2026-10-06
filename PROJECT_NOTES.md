@@ -300,6 +300,13 @@ this file assumes them.
   `pointer-events: none` — keep the `pointer-events` if you ever touch
   it or it blocks every click on the site. A ghost word's section
   needs `.has-ghost` (positioning + lifts `.container` above the word).
+  Second round, same day: ghost words + drop caps carried to About,
+  Contact, and the three brand pages; homepage type band (`.marquee`);
+  Portfolio frame numbers (`.portfolio-item::before` — that pseudo-
+  element is now taken, so any future tile decoration needs a child
+  element instead). Don't use Unicode ornament glyphs (✦ etc.) inside
+  Cormorant italic — the font lacks them and the fallback looks broken;
+  draw them with CSS.
 
 ## Build status per page
 
@@ -372,6 +379,21 @@ Facebook name differing from its "Eullie" brand name; not a mistake to
 - Cross-document **View Transitions** (`@view-transition { navigation: auto; }`
   in `style.css`) give page-to-page navigation a cross-fade. Native
   CSS, zero JS, silently no-ops in unsupported browsers.
+- **Scroll reveal (Oct 2026, replaces the old CSS-only `.reveal`
+  load fade, which fired off-screen and was never seen):**
+  `initScrollReveal()` in `main.js` tags `REVEAL_SELECTOR` matches with
+  `.reveal` (skipping anything inside `.hero`/`.page-header` or inside
+  an already-revealing ancestor), arms them with `.reveal-armed`, and
+  an IntersectionObserver adds `.is-visible`. Gotcha when testing via
+  the Chrome extension: a background/hidden tab renders no frames, so
+  IntersectionObserver never fires and everything below the fold looks
+  "stuck" — take a screenshot (forces render) or check
+  `document.visibilityState` before concluding it's broken. Another:
+  `.portfolio-grid [data-category]` tiles own a `transform`
+  transition for filtering, so they're deliberately not in the
+  reveal selector.
+- **Mobile ghost words** switch to `position: static` at ≤900px (see
+  DESIGN.md) — if you add one to a new section, check it at 390px.
 - `prefers-reduced-motion: reduce` is respected everywhere — see the
   media query near the bottom of `style.css`. Ripples and the
   typewriter are skipped at the JS level too (`main.js` checks
