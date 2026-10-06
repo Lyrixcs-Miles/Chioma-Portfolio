@@ -895,6 +895,40 @@ a code/caching issue — confirms in seconds whether this is a
 deployment-pipeline problem rather than something in the pushed
 content itself.
 
+### Heart frames — random rotation + tap-to-zoom, Oct 2026
+
+`buildHomeTeaser()` now shuffles the entire manifest into the six
+hearts on load (the old fixed "first/second photo per category" picks
+are gone); `initHeartCycle()` swaps one visible heart every 3.2s;
+`initHeartZoom()` handles tap/Enter to enlarge. Gotchas:
+- **Heart crops follow the photo, not the slot.** Inline
+  `object-position` styles on the static `<img>`s in `index.html` are
+  read once by `collectHeartCrops()` into a map keyed by photo src, and
+  re-applied wherever that photo lands. To tune a photo's heart crop,
+  edit (or add) the inline style on any static heart `<img>` showing
+  that photo — `item.cropPosition` from the manifest is still
+  deliberately ignored here (it's tuned for Portfolio tiles).
+- **Don't gate DOM state changes on `requestAnimationFrame`** in this
+  code: the first version did, and in a backgrounded tab rAF never
+  fires, so the zoom backdrop never darkened and `open` was never
+  reset (every later tap did nothing). Now uses a forced reflow
+  (`void el.offsetWidth`) before adding the class, plus a timer
+  fallback alongside the close animation's `onfinish`.
+- **Zoom is two beats** (heart flies to center, then opens into the
+  full uncropped photo via `.is-full`). The full photo is sized from
+  the source `<img>`'s `naturalWidth/Height`, so it must already be
+  loaded — it always is, since it's the one on screen. The heart's
+  fade uses the individual `scale`/`translate` CSS properties, not
+  `transform`, so it composes with the WAAPI `transform` fly-in.
+  To screenshot the open state in the extension's (hidden, timer-
+  throttled) tab, stub `window.setTimeout` to drop ≥4000ms delays
+  before clicking, so the auto-close never fires.
+- **Testing via the Chrome extension:** its tab reports
+  `document.visibilityState === 'hidden'`, so the rotation interval
+  (which skips hidden tabs) never swaps there. Call
+  `swapHeartPhoto(panel, entry)` from the console (`heartPool` is a
+  top-level `let`) to exercise the crossfade directly.
+
 ### "Selected Work" — desktop-only second row of hearts, Oct 2026
 Same day, same component: "on desktop put more heart frames with
 images in 'em." Added `.work-panel--c/--d/--e`, each using the second

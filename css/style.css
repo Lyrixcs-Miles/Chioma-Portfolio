@@ -1132,6 +1132,8 @@ body::after {
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  cursor: zoom-in;
+  -webkit-tap-highlight-color: transparent;
   animation: work-panel-float 6s ease-in-out infinite;
 }
 
@@ -1262,6 +1264,146 @@ body::after {
     linear-gradient(195deg, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.28) 100%);
   mix-blend-mode: soft-light;
   pointer-events: none;
+}
+
+/* Random rotation (initHeartCycle in main.js): the incoming photo is
+   stacked over the outgoing one and fades in, then the old one is
+   removed. */
+.work-panel-photo img {
+  transition: opacity 0.9s var(--ease-out-expo);
+}
+
+.work-panel-photo img.is-entering {
+  opacity: 0;
+}
+
+.work-panel:focus-visible {
+  outline: none;
+}
+
+.work-panel:focus-visible .work-panel-accent {
+  background: var(--color-ink);
+}
+
+/* While a heart is zoomed open its enlarged copy stands in for it, so
+   the original frame and tag hide (visibility, not display, so the
+   slot keeps its size). The tag would otherwise show through the dim
+   backdrop right where the zoomed caption sits. */
+.work-panel.is-zoomed .work-panel-frame,
+.work-panel.is-zoomed .work-tag {
+  visibility: hidden;
+}
+
+/* Tap-to-zoom overlay (initHeartZoom in main.js). The heart copy is
+   rendered at its full size and animated in from the small heart's
+   position/rotation/scale via the Web Animations API; this CSS only
+   lays out the resting state and fades the backdrop and caption.
+   Above the nav (500) and lightbox (600); the print grain (9999)
+   still sits over it, as it does over everything. */
+.heart-zoom {
+  position: fixed;
+  inset: 0;
+  z-index: 700;
+  display: grid;
+  place-items: center;
+  cursor: zoom-out;
+}
+
+.heart-zoom-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.86);
+  opacity: 0;
+  transition: opacity 0.5s var(--ease-out-expo);
+}
+
+.heart-zoom.is-open .heart-zoom-scrim {
+  opacity: 1;
+}
+
+/* The stage is exactly the heart's box (the full photo is absolutely
+   centered on it, the caption hangs below the full photo), so the
+   heart sits dead-center in the viewport — the zoom math in main.js
+   measures from the viewport center. */
+.heart-zoom-stage {
+  position: relative;
+  margin: 0;
+}
+
+.heart-zoom-heart {
+  position: relative;
+  aspect-ratio: 1.08;
+  will-change: transform;
+  transition: opacity 0.45s var(--ease-out-expo), scale 0.6s var(--ease-out-expo);
+}
+
+/* Second beat: the heart swells slightly and fades as the full,
+   uncropped photo scales up into its place. `scale` (the individual
+   property) so it composes with the WAAPI `transform` fly-in rather
+   than fighting it. */
+.heart-zoom.is-full .heart-zoom-heart {
+  opacity: 0;
+  scale: 1.06;
+}
+
+.heart-zoom-full {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  scale: 0.88;
+  opacity: 0;
+  border: 6px solid var(--color-accent);
+  border-radius: 2px;
+  box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.7);
+  transition: opacity 0.5s var(--ease-out-expo), scale 0.7s var(--ease-out-expo);
+  pointer-events: none;
+}
+
+.heart-zoom.is-full .heart-zoom-full {
+  opacity: 1;
+  scale: 1;
+}
+
+.heart-zoom-full img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.heart-zoom-heart .work-panel-accent {
+  filter: drop-shadow(0 40px 60px rgba(0, 0, 0, 0.6));
+}
+
+.heart-zoom-heart img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 32%;
+}
+
+.heart-zoom-caption {
+  position: absolute;
+  top: calc(100% + 1.75rem);
+  left: 50%;
+  width: max-content;
+  max-width: 86vw;
+  transform: translateX(-50%);
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: 1.3rem;
+  text-align: center;
+  color: var(--color-ink);
+  opacity: 0;
+  transition: opacity 0.3s var(--ease-out-expo);
+}
+
+.heart-zoom.is-full .heart-zoom-caption {
+  opacity: 1;
+  transition: opacity 0.6s var(--ease-out-expo) 0.3s;
 }
 
 .work-tag {

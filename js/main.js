@@ -30,6 +30,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   initLightbox();
   initRipples();
   initScrollReveal();
+  initHeartCycle();
+  initHeartZoom();
 });
 
 // ==========================================================================
@@ -140,52 +142,251 @@ function buildPortfolioGrid(manifest) {
   });
 }
 
-// Homepage "A portfolio in progress" teaser — fills the existing
-// large/a/b panels with the first photo from each of the first three
-// categories in manifest order, and the desktop-only c/d/e panels
-// (see .work-panel--extra, hidden ≤900px) with each category's second
-// photo, rather than rebuilding the grid's markup (that asymmetric
-// large+2-small layout is a deliberate design choice, not something
-// that should flex with however many categories exist). To pin a
-// specific photo as a category's first/second teaser pick, name it to
-// sort first/second within its folder (see
-// scripts/build-image-manifest.py).
+// Homepage "A portfolio in progress" teaser — the heart frames.
+// buildHomeTeaser() fills every heart with a random, non-repeating pick
+// from the whole manifest on each page load (all categories pooled), and
+// initHeartCycle() then keeps swapping one heart at a time to a photo
+// not currently on screen. The heart markup itself (sizes, rotations,
+// the desktop-only c/d/e extras) stays hand-built in index.html.
 //
-// Deliberately does NOT apply `item.cropPosition` here — that field is
-// tuned for the Portfolio grid's wide 16:9-ish tiles (see
-// buildPortfolioGrid), which is a very different aspect ratio from
-// these heart-shaped frames. A photo needing a specific crop for the
-// heart frame gets a dedicated inline object-position style on its
-// image element in index.html instead (same per-image-override
-// pattern used everywhere else on the site), which this function
-// leaves untouched since it never writes to objectPosition.
-function buildHomeTeaser(manifest) {
-  const panels = [
-    { selector: '.work-panel--large', pick: 0 },
-    { selector: '.work-panel--a', pick: 0 },
-    { selector: '.work-panel--b', pick: 0 },
-    { selector: '.work-panel--c', pick: 1 },
-    { selector: '.work-panel--d', pick: 1 },
-    { selector: '.work-panel--e', pick: 1 },
-  ];
-  const prefix = assetRootPrefix();
-  const order = manifestCategoryOrder(manifest);
+// Crops: `item.cropPosition` is tuned for the Portfolio grid's tiles,
+// not these near-square hearts, so it's deliberately not used here.
+// Heart-specific crops still live as inline object-position styles on
+// the static <img>s in index.html — collectHeartCrops() reads those
+// once, keyed by photo, so a tuned crop follows its photo into
+// whichever heart it lands in rather than staying stuck to a slot.
+let heartPool = [];
+const heartCrops = new Map();
 
-  panels.forEach(({ selector, pick }, i) => {
-    const category = order[i % 3];
-    const items = category ? manifest.categories[category] : null;
-    if (!items || !items[pick]) return;
-    const panel = document.querySelector(selector);
-    if (!panel) return;
-    const item = items[pick];
-    const img = panel.querySelector('img');
-    const tag = panel.querySelector('.work-tag');
-    if (img) {
-      img.src = prefix + item.src;
-      img.alt = item.alt;
-    }
-    if (tag) tag.textContent = categoryLabel(category);
+function collectHeartCrops() {
+  document.querySelectorAll('.work-panel-photo img').forEach((img) => {
+    const pos = img.style.objectPosition;
+    const src = (img.getAttribute('src') || '').replace(/^(\.\.\/)+/, '');
+    if (pos) heartCrops.set(src, pos);
   });
+}
+
+function shuffle(list) {
+  const a = [...list];
+  for (let i = a.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function applyHeartPhoto(panel, entry, img) {
+  const { item, category } = entry;
+  img.src = assetRootPrefix() + item.src;
+  img.alt = item.alt;
+  img.dataset.caption = item.caption || item.alt;
+  img.style.objectPosition = heartCrops.get(item.src) || '';
+  panel.dataset.src = item.src;
+  const tag = panel.querySelector('.work-tag');
+  if (tag) tag.textContent = categoryLabel(category);
+}
+
+function buildHomeTeaser(manifest) {
+  const panels = [...document.querySelectorAll('.work-panel')];
+  if (!panels.length) return;
+  collectHeartCrops();
+  heartPool = manifestCategoryOrder(manifest).flatMap((category) =>
+    (manifest.categories[category] || []).map((item) => ({ category, item })));
+  if (heartPool.length < panels.length) return;
+
+  const picks = shuffle(heartPool);
+  panels.forEach((panel, i) => {
+    const img = panel.querySelector('.work-panel-photo img');
+    if (img) applyHeartPhoto(panel, picks[i], img);
+  });
+}
+
+// Swaps one visible heart every few seconds to a photo that isn't on
+// any heart right now, crossfading the new image in over the old one.
+// Runs only while the section is on screen and the tab is visible; the
+// heart currently zoomed open (see initHeartZoom) is left alone. Off
+// under reduced motion — the hearts keep their random load-time picks.
+const HEART_SWAP_MS = 3200;
+
+function initHeartCycle() {
+  const grid = document.querySelector('.work-grid');
+  if (!grid || heartPool.length < 2) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  let inView = false;
+  let lastPanel = null;
+  new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; }).observe(grid);
+
+  setInterval(() => {
+    if (!inView || document.hidden) return;
+    const all = [...grid.querySelectorAll('.work-panel')];
+    const candidates = all.filter((p) => p.offsetParent !== null && !p.classList.contains('is-zoomed') && p !== lastPanel);
+    if (!candidates.length) return;
+    const panel = candidates[Math.floor(Math.random() * candidates.length)];
+    const showing = new Set(all.map((p) => p.dataset.src));
+    const options = heartPool.filter((e) => !showing.has(e.item.src));
+    if (!options.length) return;
+    lastPanel = panel;
+    swapHeartPhoto(panel, options[Math.floor(Math.random() * options.length)]);
+  }, HEART_SWAP_MS);
+}
+
+function swapHeartPhoto(panel, entry) {
+  const layer = panel.querySelector('.work-panel-photo');
+  const oldImg = layer && layer.querySelector('img:last-of-type');
+  if (!oldImg) return;
+  const img = document.createElement('img');
+  img.className = 'is-entering';
+  img.draggable = false;
+  applyHeartPhoto(panel, entry, img);
+  oldImg.after(img);
+  // Wait for the new photo to decode so the fade never reveals a blank
+  // heart, then drop the old image once the crossfade has finished.
+  (img.decode ? img.decode() : Promise.resolve()).catch(() => {}).then(() => {
+    void img.offsetWidth; // commit the hidden state so the fade runs
+    img.classList.remove('is-entering');
+    setTimeout(() => oldImg.remove(), 1000);
+  });
+}
+
+// Tap/click (or Enter/Space) a heart: a copy of it lifts out of the
+// page and grows to the middle of the screen over a dimmed backdrop,
+// then opens out into the whole uncropped photo (the heart shape crops
+// a lot) with its caption beneath; after a beat it folds back into the
+// heart, which shrinks back into its slot and the original reappears. Tap again, tap the
+// backdrop, or press Escape to send it back early.
+//
+// The copy is built at its FINAL (large) size and animated from a
+// scaled-down transform to none — so it ends at native resolution and
+// stays sharp, rather than upscaling a small rasterized heart.
+const HEART_HOLD_MS = 4500;
+
+function initHeartZoom() {
+  const panels = document.querySelectorAll('.work-panel');
+  if (!panels.length) return;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let open = null;
+
+  panels.forEach((panel) => {
+    panel.setAttribute('role', 'button');
+    panel.setAttribute('tabindex', '0');
+    panel.setAttribute('aria-label', 'Enlarge photo');
+    panel.addEventListener('click', () => (open ? open.close() : zoom(panel)));
+    panel.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      e.preventDefault();
+      if (open) open.close(); else zoom(panel);
+    });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && open) open.close();
+  });
+
+  function zoom(panel) {
+    const frame = panel.querySelector('.work-panel-frame');
+    const srcImg = panel.querySelector('.work-panel-photo img:last-of-type');
+    if (!frame || !srcImg) return;
+
+    const rect = frame.getBoundingClientRect();
+    const baseW = frame.offsetWidth;
+    const m = new DOMMatrixReadOnly(getComputedStyle(frame).transform);
+    const rot = Math.atan2(m.b, m.a) * (180 / Math.PI);
+
+    const targetW = Math.min(window.innerWidth * 0.86, window.innerHeight * 0.62 * 1.08, 560);
+    const scale = baseW / targetW;
+    const offset = (r) => `translate(${r.left + r.width / 2 - window.innerWidth / 2}px, ${r.top + r.height / 2 - window.innerHeight / 2}px) rotate(${rot}deg) scale(${scale})`;
+    // The pink rim is a fixed 10px on the small heart; keep it the same
+    // proportion of the big one so the frame doesn't thin out.
+    const rim = 10 / scale;
+
+    // The uncropped photo the heart opens into: the whole image at its
+    // own aspect ratio, as large as fits the screen (leaving room for
+    // the caption below), so nothing the heart's shape cut off stays
+    // hidden.
+    const ratio = srcImg.naturalWidth && srcImg.naturalHeight
+      ? srcImg.naturalWidth / srcImg.naturalHeight
+      : 3 / 4;
+    const maxW = Math.min(window.innerWidth * 0.9, 760);
+    const maxH = window.innerHeight * 0.7;
+    const fullW = Math.min(maxW, maxH * ratio);
+    const fullH = fullW / ratio;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'heart-zoom';
+    overlay.innerHTML = `
+      <div class="heart-zoom-scrim"></div>
+      <figure class="heart-zoom-stage">
+        <div class="heart-zoom-heart" style="width:${targetW}px">
+          <div class="work-panel-accent" style="inset:-${rim}px"></div>
+          <div class="work-panel-photo"><img alt=""></div>
+        </div>
+        <div class="heart-zoom-full" style="width:${fullW}px;height:${fullH}px">
+          <img alt="">
+          <figcaption class="heart-zoom-caption"></figcaption>
+        </div>
+      </figure>`;
+    const [heartImg, fullImg] = overlay.querySelectorAll('img');
+    heartImg.src = srcImg.src;
+    heartImg.style.objectPosition = srcImg.style.objectPosition;
+    fullImg.src = srcImg.src;
+    fullImg.alt = srcImg.alt;
+    overlay.querySelector('.heart-zoom-caption').textContent = srcImg.dataset.caption || srcImg.alt;
+    document.body.appendChild(overlay);
+
+    const heart = overlay.querySelector('.heart-zoom-heart');
+    const timing = { duration: reduceMotion ? 1 : 750, easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fill: 'both' };
+
+    // Two beats: the heart flies forward to the center, then — just
+    // before it settles — opens out into the full photo (CSS crossfade
+    // on .is-full: heart fades/swells away, full photo scales up into
+    // place).
+    panel.classList.add('is-zoomed');
+    heart.animate([{ transform: offset(rect) }, { transform: 'none' }], timing);
+    void overlay.offsetWidth; // commit the closed state so the fade runs
+    overlay.classList.add('is-open');
+    const fullTimer = setTimeout(() => overlay.classList.add('is-full'), reduceMotion ? 0 : 520);
+
+    let closing = false;
+    const holdTimer = setTimeout(close, HEART_HOLD_MS);
+    overlay.addEventListener('click', close);
+
+    function close() {
+      if (closing) return;
+      closing = true;
+      clearTimeout(holdTimer);
+      clearTimeout(fullTimer);
+      // Reverse the two beats: fold the full photo back into the heart,
+      // then fly the heart home.
+      const wasFull = overlay.classList.contains('is-full');
+      overlay.classList.remove('is-full');
+      setTimeout(flyHome, wasFull && !reduceMotion ? 380 : 0);
+    }
+
+    function flyHome() {
+      overlay.classList.remove('is-open');
+      // Re-measure: the heart's float animation (or a scroll) may have
+      // moved its slot while it was open.
+      const back = offset(frame.getBoundingClientRect());
+      const duration = reduceMotion ? 1 : 600;
+      const anim = heart.animate([{ transform: 'none' }, { transform: back }], { ...timing, duration });
+      // Belt and braces: if the animation never reports finishing (e.g.
+      // the tab was backgrounded mid-close), tidy up on a timer anyway
+      // so a heart can never get stuck hidden.
+      let done = false;
+      const finish = () => {
+        if (done) return;
+        done = true;
+        panel.classList.remove('is-zoomed');
+        overlay.remove();
+        open = null;
+      };
+      anim.onfinish = finish;
+      setTimeout(finish, duration + 250);
+    }
+
+    open = { close };
+  }
 }
 
 // Hero polaroid stack — rebuilds the card list from up to two photos per
