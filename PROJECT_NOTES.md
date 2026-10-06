@@ -1274,6 +1274,15 @@ from the current state.
 
 **Behavior.** Copy buttons use the clipboard. If the clipboard is blocked (some in-app browsers block it), the button shows the code itself so it can still be read. No tracking, sign-up, or per-visitor codes are involved.
 
+**Navigation, Offers entry.** Offers is a single menu item after
+Portfolio and a footer link on every page. An earlier footer insertion
+also matched the Portfolio link inside the menu, which duplicated Offers
+and collapsed the spacing; that stray link is removed. When adding a
+menu item, check the menu's list items and the footer separately, since
+the two lists use different markup. Spacing is the standard 2.25rem gap
+on desktop; with six items the 600–900px range is the tightest, so
+re-check there if another item is added.
+
 **Decision record.** Discount codes are issued and redeemed in Shopify, so the site only displays codes. Codes shown on the site are public by design. Video and image hosting stays with YouTube, Vimeo, Instagram, or TikTok, so no large media files are added to the repository.
 
 ## Known environment quirks (this dev machine / session)
