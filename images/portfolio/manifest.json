@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-06T05:33:19Z",
+  "generatedAt": "2026-10-06T05:38:42Z",
   "categoryOrder": [
     "fashion",
     "beauty",
@@ -362,6 +362,5 @@
         "wide": true
       }
     ]
-  },
-  "brands": {}
+  }
 }
