@@ -1,25 +1,70 @@
 {
-  "park-halter-trousers-01.jpg": {
-    "caption": "Fashion — halter top and camel trousers, city park.",
-    "alt": "Fashion look: white cutout halter top and camel trousers, shot in a city park.",
-    "wide": true,
-    "cropPosition": "82% 6%",
-    "order": 0
+  "fashion-01.jpg": {
+    "caption": "Fashion — grey top, black and white.",
+    "alt": "Black and white portrait in a grey top."
   },
-  "tree-road-profile-bw.jpg": {
-    "caption": "Fashion — profile, tree-lined avenue, black and white.",
-    "alt": "Black and white fashion portrait in profile on a tree-lined avenue, wearing a white halter top and braids."
+  "fashion-02.jpg": {
+    "caption": "Fashion — pink top, curls.",
+    "alt": "Portrait in a pink top with curled hair."
   },
-  "tree-road-front-bw.jpg": {
-    "caption": "Fashion — tree-lined avenue, black and white.",
-    "alt": "Black and white fashion portrait facing the camera on a tree-lined avenue."
+  "fashion-03.jpg": {
+    "caption": "Fashion — pink top, curls.",
+    "alt": "Portrait in a pink top with curled hair."
   },
-  "park-halter-trousers-02.jpg": {
-    "caption": "Fashion — halter top and camel trousers, city park.",
-    "alt": "Fashion look: white cutout halter top and camel trousers, full-length in a city park."
+  "fashion-04.jpg": {
+    "caption": "Fashion — grey top, black and white.",
+    "alt": "Black and white portrait in a grey top."
   },
-  "dirt-lot-bw.jpg": {
-    "caption": "Fashion — fitted dress, open lot at dusk, black and white.",
-    "alt": "Black and white fashion portrait in a fitted dress, standing in an open dirt lot at dusk."
+  "fashion-05.jpg": {
+    "caption": "Fashion — pink top, curls.",
+    "alt": "Portrait in a pink top with curled hair."
+  },
+  "fashion-06.jpg": {
+    "caption": "Fashion — pink top, curls.",
+    "alt": "Portrait in a pink top with curled hair."
+  },
+  "fashion-07.jpg": {
+    "caption": "Fashion — pink top, curls.",
+    "alt": "Portrait in a pink top with curled hair."
+  },
+  "fashion-08.jpg": {
+    "caption": "Fashion — pink top, curls.",
+    "alt": "Portrait in a pink top with curled hair."
+  },
+  "fashion-09.jpg": {
+    "caption": "Fashion — pink top, curls.",
+    "alt": "Portrait in a pink top with curled hair."
+  },
+  "fashion-10.jpg": {
+    "caption": "Fashion — pink top, curls.",
+    "alt": "Portrait in a pink top with curled hair."
+  },
+  "fashion-11.jpg": {
+    "caption": "Fashion — grey top, black and white.",
+    "alt": "Black and white portrait in a grey top."
+  },
+  "fashion-12.jpg": {
+    "caption": "Fashion — pink top, curls.",
+    "alt": "Portrait in a pink top with curled hair."
+  },
+  "fashion-13.jpg": {
+    "caption": "Fashion — pink top, curls.",
+    "alt": "Portrait in a pink top with curled hair."
+  },
+  "fashion-14.jpg": {
+    "caption": "Fashion — grey top, black and white.",
+    "alt": "Black and white portrait in a grey top."
+  },
+  "fashion-15.jpg": {
+    "caption": "Fashion — grey top, black and white.",
+    "alt": "Black and white portrait in a grey top."
+  },
+  "fashion-16.jpg": {
+    "caption": "Fashion — pink top, curls.",
+    "alt": "Portrait in a pink top with curled hair."
+  },
+  "fashion-17.jpg": {
+    "caption": "Fashion — pink top, curls.",
+    "alt": "Portrait in a pink top with curled hair."
   }
 }
