@@ -1259,6 +1259,23 @@ from the current state.
   mentions the image tag, and two runtime-built image templates whose
   source is set in code before use.
 
+## Offers, embeds, and the link-in-bio page (Oct 2026)
+
+**Where things live**
+- `offers.html`: the Offers page, also in the main navigation and footer on every page.
+- `link.html`: the link-in-bio page for the one link in the bio. It is not in the navigation.
+- Email: every contact link and the footer form go to `chioma@azhyre.co.za`. The footer form builds a `mailto:` link, and the address was checked by reproducing that step. The contact page also shows a separate personal iCloud address; it is left as is.
+
+**How to add an offer.** Copy one `<article class="focus-item offer-card">` block inside `.offer-list` on `offers.html`. Replace the brand, title, details, and both `CODE-HERE` placeholders. The `data-copy` attribute on the button must match the code exactly. Delete unused cards. The two cards currently in the file are placeholders: they show "CODE-HERE" until replaced.
+
+**How to add a video or image.** On `offers.html`, paste the embed code from YouTube, Vimeo, Instagram, or TikTok into one `.embed-frame` (or an `<img>` into a `.embed-frame--portrait`), then delete its `embed-frame-empty` label. Any `<iframe>` inside `.embed-frame` fills the frame automatically. Add more frames by copying one. The grid wraps them.
+
+**How to change the link-in-bio buttons.** Edit the `.links-stack` in `link.html`. Each `.link-button` is one link. To add a Shopify store, copy a button and set its `href` to the store URL. The first button is the filled primary button.
+
+**Behavior.** Copy buttons use the clipboard. If the clipboard is blocked (some in-app browsers block it), the button shows the code itself so it can still be read. No tracking, sign-up, or per-visitor codes are involved.
+
+**Decision record.** Discount codes are issued and redeemed in Shopify, so the site only displays codes. Codes shown on the site are public by design. Video and image hosting stays with YouTube, Vimeo, Instagram, or TikTok, so no large media files are added to the repository.
+
 ## Known environment quirks (this dev machine / session)
 
 - **Reassigning an existing `<iframe>`'s `src` to the same URL can serve

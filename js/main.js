@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   initTypewriter();
   initStickyNav();
   initFooterForm();
+  initOfferCopy();
 
   const manifest = await loadImageManifest();
   if (manifest) {
@@ -1104,4 +1105,23 @@ function initLightbox() {
     if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) step(dx < 0 ? 1 : -1);
   });
   panel.addEventListener('pointercancel', () => { startX = null; });
+}
+
+// Copy buttons on offers.html: copies the code from data-copy, then briefly
+// shows "Copied". Falls back to showing the code when clipboard access is
+// blocked (e.g. some in-app browsers), so the visitor can still read it.
+function initOfferCopy() {
+  document.querySelectorAll('.offer-copy').forEach((btn) => {
+    const label = btn.textContent;
+    btn.addEventListener('click', async () => {
+      const code = btn.dataset.copy || '';
+      try {
+        await navigator.clipboard.writeText(code);
+        btn.textContent = 'Copied';
+      } catch (err) {
+        btn.textContent = code;
+      }
+      window.setTimeout(() => { btn.textContent = label; }, 1600);
+    });
+  });
 }
