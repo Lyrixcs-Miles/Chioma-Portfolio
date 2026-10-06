@@ -3,3 +3,7 @@ Thumbs.db
 node_modules/
 *.log
 .impeccable/
+
+# Local tooling files, kept off the repository
+skills-lock.json
+.claude/
