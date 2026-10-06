@@ -155,7 +155,7 @@ function buildPortfolioGrid(manifest) {
 // Crops: `item.cropPosition` is tuned for the Portfolio grid's tiles,
 // not these near-square hearts, so it's deliberately not used here.
 // Heart-specific crops still live as inline object-position styles on
-// the static <img>s in index.html — collectHeartCrops() reads those
+// the static image elements in index.html — collectHeartCrops() reads those
 // once, keyed by photo, so a tuned crop follows its photo into
 // whichever heart it lands in rather than staying stuck to a slot.
 let heartPool = [];
