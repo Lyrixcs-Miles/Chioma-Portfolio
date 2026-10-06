@@ -1249,13 +1249,10 @@ from the current state.
   trailers and no credits other than the project owner.
 
 ### Open items
-- **Off-scale font sizes** (the design check flags them): the intro mark
-  (`.site-intro-mark`, up to 15rem), the ghost words (`.ghost-word`, up
-  to 18rem), the marquee (`.marquee-track span`, up to 4.75rem), the heart
-  zoom caption (`.heart-zoom-caption`, 1.3rem), and the lightbox arrows
-  (`.lightbox-nav`, 2.6rem and 2.2rem). These are either documented as
-  intentional display exceptions or moved onto existing type steps. Not
-  yet decided; no suppression has been added.
+- **Off-scale font sizes** (the design check flags them): documented as
+  display exceptions in DESIGN.md's Typography section (intro mark, ghost
+  words, marquee, heart zoom caption, lightbox arrows). Each is a single
+  decorative or interactive moment, not running text.
 - **Header padding transition** (`css/style.css`, the scroll-shrink
   rule) is the known, confirmed exception documented in DESIGN.md.
 - **Three script false positives** in `js/main.js`: a comment that
