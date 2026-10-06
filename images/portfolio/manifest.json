@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-06T03:12:08Z",
+  "generatedAt": "2026-10-06T05:33:19Z",
   "categoryOrder": [
     "fashion",
     "beauty",
@@ -8,116 +8,360 @@
   "categories": {
     "fashion": [
       {
-        "file": "park-halter-trousers-01.jpg",
-        "src": "images/portfolio/fashion/park-halter-trousers-01.jpg",
-        "caption": "Fashion — halter top and camel trousers, city park.",
-        "alt": "Fashion look: white cutout halter top and camel trousers, shot in a city park.",
-        "wide": true,
-        "cropPosition": "82% 6%"
+        "file": "fashion-01.jpg",
+        "src": "images/portfolio/fashion/fashion-01.jpg",
+        "caption": "Fashion — grey top, black and white.",
+        "alt": "Black and white portrait in a grey top.",
+        "wide": true
       },
       {
-        "file": "dirt-lot-bw.jpg",
-        "src": "images/portfolio/fashion/dirt-lot-bw.jpg",
-        "caption": "Fashion — fitted dress, open lot at dusk, black and white.",
-        "alt": "Black and white fashion portrait in a fitted dress, standing in an open dirt lot at dusk.",
+        "file": "fashion-02.jpg",
+        "src": "images/portfolio/fashion/fashion-02.jpg",
+        "caption": "Fashion — pink top, curls.",
+        "alt": "Portrait in a pink top with curled hair.",
         "wide": false
       },
       {
-        "file": "park-halter-trousers-02.jpg",
-        "src": "images/portfolio/fashion/park-halter-trousers-02.jpg",
-        "caption": "Fashion — halter top and camel trousers, city park.",
-        "alt": "Fashion look: white cutout halter top and camel trousers, full-length in a city park.",
+        "file": "fashion-03.jpg",
+        "src": "images/portfolio/fashion/fashion-03.jpg",
+        "caption": "Fashion — pink top, curls.",
+        "alt": "Portrait in a pink top with curled hair.",
         "wide": false
       },
       {
-        "file": "tree-road-front-bw.jpg",
-        "src": "images/portfolio/fashion/tree-road-front-bw.jpg",
-        "caption": "Fashion — tree-lined avenue, black and white.",
-        "alt": "Black and white fashion portrait facing the camera on a tree-lined avenue.",
+        "file": "fashion-04.jpg",
+        "src": "images/portfolio/fashion/fashion-04.jpg",
+        "caption": "Fashion — grey top, black and white.",
+        "alt": "Black and white portrait in a grey top.",
         "wide": false
       },
       {
-        "file": "tree-road-profile-bw.jpg",
-        "src": "images/portfolio/fashion/tree-road-profile-bw.jpg",
-        "caption": "Fashion — profile, tree-lined avenue, black and white.",
-        "alt": "Black and white fashion portrait in profile on a tree-lined avenue, wearing a white halter top and braids.",
+        "file": "fashion-05.jpg",
+        "src": "images/portfolio/fashion/fashion-05.jpg",
+        "caption": "Fashion — pink top, curls.",
+        "alt": "Portrait in a pink top with curled hair.",
+        "wide": false
+      },
+      {
+        "file": "fashion-06.jpg",
+        "src": "images/portfolio/fashion/fashion-06.jpg",
+        "caption": "Fashion — pink top, curls.",
+        "alt": "Portrait in a pink top with curled hair.",
+        "wide": true
+      },
+      {
+        "file": "fashion-07.jpg",
+        "src": "images/portfolio/fashion/fashion-07.jpg",
+        "caption": "Fashion — pink top, curls.",
+        "alt": "Portrait in a pink top with curled hair.",
+        "wide": false
+      },
+      {
+        "file": "fashion-08.jpg",
+        "src": "images/portfolio/fashion/fashion-08.jpg",
+        "caption": "Fashion — pink top, curls.",
+        "alt": "Portrait in a pink top with curled hair.",
+        "wide": false
+      },
+      {
+        "file": "fashion-09.jpg",
+        "src": "images/portfolio/fashion/fashion-09.jpg",
+        "caption": "Fashion — pink top, curls.",
+        "alt": "Portrait in a pink top with curled hair.",
+        "wide": false
+      },
+      {
+        "file": "fashion-10.jpg",
+        "src": "images/portfolio/fashion/fashion-10.jpg",
+        "caption": "Fashion — pink top, curls.",
+        "alt": "Portrait in a pink top with curled hair.",
+        "wide": false
+      },
+      {
+        "file": "fashion-11.jpg",
+        "src": "images/portfolio/fashion/fashion-11.jpg",
+        "caption": "Fashion — grey top, black and white.",
+        "alt": "Black and white portrait in a grey top.",
+        "wide": true
+      },
+      {
+        "file": "fashion-12.jpg",
+        "src": "images/portfolio/fashion/fashion-12.jpg",
+        "caption": "Fashion — pink top, curls.",
+        "alt": "Portrait in a pink top with curled hair.",
+        "wide": false
+      },
+      {
+        "file": "fashion-13.jpg",
+        "src": "images/portfolio/fashion/fashion-13.jpg",
+        "caption": "Fashion — pink top, curls.",
+        "alt": "Portrait in a pink top with curled hair.",
+        "wide": false
+      },
+      {
+        "file": "fashion-14.jpg",
+        "src": "images/portfolio/fashion/fashion-14.jpg",
+        "caption": "Fashion — grey top, black and white.",
+        "alt": "Black and white portrait in a grey top.",
+        "wide": false
+      },
+      {
+        "file": "fashion-15.jpg",
+        "src": "images/portfolio/fashion/fashion-15.jpg",
+        "caption": "Fashion — grey top, black and white.",
+        "alt": "Black and white portrait in a grey top.",
+        "wide": false
+      },
+      {
+        "file": "fashion-16.jpg",
+        "src": "images/portfolio/fashion/fashion-16.jpg",
+        "caption": "Fashion — pink top, curls.",
+        "alt": "Portrait in a pink top with curled hair.",
+        "wide": true
+      },
+      {
+        "file": "fashion-17.jpg",
+        "src": "images/portfolio/fashion/fashion-17.jpg",
+        "caption": "Fashion — pink top, curls.",
+        "alt": "Portrait in a pink top with curled hair.",
         "wide": false
       }
     ],
     "beauty": [
       {
-        "file": "balloon-portrait-01.jpg",
-        "src": "images/portfolio/beauty/balloon-portrait-01.jpg",
-        "caption": "Beauty — portrait, styled set with balloon backdrop.",
-        "alt": "Beauty portrait with braided hair, seated in front of a pink and white balloon backdrop.",
-        "wide": true
-      },
-      {
-        "file": "balloon-portrait-02.jpg",
-        "src": "images/portfolio/beauty/balloon-portrait-02.jpg",
-        "caption": "Beauty — portrait, styled set with balloon backdrop.",
-        "alt": "Beauty portrait, closer crop, braided hair, balloon backdrop.",
-        "wide": false
-      },
-      {
-        "file": "mirror-selfie-01.jpg",
-        "src": "images/portfolio/beauty/mirror-selfie-01.jpg",
-        "caption": "Beauty — mirror portrait, black and white.",
-        "alt": "Black and white mirror portrait in a hoodie, head tilted, looking down at the phone screen.",
-        "wide": false
-      },
-      {
-        "file": "mirror-selfie-02.jpg",
-        "src": "images/portfolio/beauty/mirror-selfie-02.jpg",
-        "caption": "Beauty — mirror portrait, black and white.",
-        "alt": "Black and white mirror portrait in a hoodie, closer crop, looking down at the phone screen.",
-        "wide": true
-      },
-      {
-        "file": "mirror-selfie-03.jpg",
-        "src": "images/portfolio/beauty/mirror-selfie-03.jpg",
-        "caption": "Beauty — mirror portrait, black and white.",
-        "alt": "Black and white mirror portrait in a hoodie, hand resting on top of head, looking down at the phone screen.",
-        "wide": false
-      },
-      {
-        "file": "mirror-selfie-04.jpg",
-        "src": "images/portfolio/beauty/mirror-selfie-04.jpg",
-        "caption": "Beauty — mirror portrait, black and white.",
-        "alt": "Black and white mirror portrait in a hoodie, seated, looking directly at the camera.",
-        "wide": false
-      },
-      {
-        "file": "striped-wall-bw.jpg",
-        "src": "images/portfolio/beauty/striped-wall-bw.jpg",
+        "file": "beauty-01.jpg",
+        "src": "images/portfolio/beauty/beauty-01.jpg",
         "caption": "Beauty — close portrait, black and white.",
-        "alt": "Black and white close beauty portrait against a corrugated wall, wearing glasses.",
+        "alt": "Black and white close portrait with braids.",
+        "wide": true
+      },
+      {
+        "file": "beauty-02.jpg",
+        "src": "images/portfolio/beauty/beauty-02.jpg",
+        "caption": "Beauty — close portrait, black and white.",
+        "alt": "Black and white close portrait with braids.",
+        "wide": false
+      },
+      {
+        "file": "beauty-03.jpg",
+        "src": "images/portfolio/beauty/beauty-03.jpg",
+        "caption": "Beauty — portrait in a navy top.",
+        "alt": "Close portrait with curled hair in a navy top.",
+        "wide": false
+      },
+      {
+        "file": "beauty-04.jpg",
+        "src": "images/portfolio/beauty/beauty-04.jpg",
+        "caption": "Beauty — portrait in a navy top.",
+        "alt": "Close portrait with curled hair in a navy top.",
+        "wide": false
+      },
+      {
+        "file": "beauty-05.jpg",
+        "src": "images/portfolio/beauty/beauty-05.jpg",
+        "caption": "Beauty — portrait in a navy top.",
+        "alt": "Close portrait with curled hair in a navy top.",
+        "wide": false
+      },
+      {
+        "file": "beauty-06.jpg",
+        "src": "images/portfolio/beauty/beauty-06.jpg",
+        "caption": "Beauty — close portrait, black and white.",
+        "alt": "Black and white close portrait with curled hair.",
+        "wide": true
+      },
+      {
+        "file": "beauty-07.jpg",
+        "src": "images/portfolio/beauty/beauty-07.jpg",
+        "caption": "Beauty — portrait in a navy top.",
+        "alt": "Close portrait with curled hair in a navy top.",
+        "wide": false
+      },
+      {
+        "file": "beauty-08.jpg",
+        "src": "images/portfolio/beauty/beauty-08.jpg",
+        "caption": "Beauty — close portrait.",
+        "alt": "Close portrait with hair up.",
+        "wide": false
+      },
+      {
+        "file": "beauty-09.jpg",
+        "src": "images/portfolio/beauty/beauty-09.jpg",
+        "caption": "Beauty — close portrait.",
+        "alt": "Close portrait with hair up.",
+        "wide": false
+      },
+      {
+        "file": "beauty-10.jpg",
+        "src": "images/portfolio/beauty/beauty-10.jpg",
+        "caption": "Beauty — close portrait.",
+        "alt": "Close portrait with hair up.",
+        "wide": false
+      },
+      {
+        "file": "beauty-11.jpg",
+        "src": "images/portfolio/beauty/beauty-11.jpg",
+        "caption": "Beauty — portrait in a navy top.",
+        "alt": "Portrait in a navy top.",
+        "wide": true
+      },
+      {
+        "file": "beauty-12.jpg",
+        "src": "images/portfolio/beauty/beauty-12.jpg",
+        "caption": "Beauty — portrait in a navy top.",
+        "alt": "Portrait in a navy top.",
+        "wide": false
+      },
+      {
+        "file": "beauty-13.jpg",
+        "src": "images/portfolio/beauty/beauty-13.jpg",
+        "caption": "Beauty — close portrait, black and white.",
+        "alt": "Black and white portrait with hair up.",
+        "wide": false
+      },
+      {
+        "file": "beauty-14.jpg",
+        "src": "images/portfolio/beauty/beauty-14.jpg",
+        "caption": "Beauty — close portrait, black and white.",
+        "alt": "Black and white portrait with hair up.",
+        "wide": false
+      },
+      {
+        "file": "beauty-15.jpg",
+        "src": "images/portfolio/beauty/beauty-15.jpg",
+        "caption": "Beauty — portrait in a navy top.",
+        "alt": "Portrait in a navy top.",
+        "wide": false
+      },
+      {
+        "file": "beauty-16.jpg",
+        "src": "images/portfolio/beauty/beauty-16.jpg",
+        "caption": "Beauty — close portrait, black and white.",
+        "alt": "Black and white portrait with hair up.",
+        "wide": true
+      },
+      {
+        "file": "beauty-17.jpg",
+        "src": "images/portfolio/beauty/beauty-17.jpg",
+        "caption": "Beauty — close portrait, black and white.",
+        "alt": "Black and white portrait with hair up.",
+        "wide": false
+      },
+      {
+        "file": "beauty-18.jpg",
+        "src": "images/portfolio/beauty/beauty-18.jpg",
+        "caption": "Beauty — portrait in a navy top.",
+        "alt": "Portrait in a navy top.",
+        "wide": false
+      },
+      {
+        "file": "beauty-19.jpg",
+        "src": "images/portfolio/beauty/beauty-19.jpg",
+        "caption": "Beauty — close portrait, black and white.",
+        "alt": "Black and white portrait with hair up.",
+        "wide": false
+      },
+      {
+        "file": "beauty-20.jpg",
+        "src": "images/portfolio/beauty/beauty-20.jpg",
+        "caption": "Beauty — close portrait, black and white.",
+        "alt": "Black and white portrait with hair up.",
+        "wide": false
+      },
+      {
+        "file": "beauty-21.jpg",
+        "src": "images/portfolio/beauty/beauty-21.jpg",
+        "caption": "Beauty — close portrait, black and white.",
+        "alt": "Black and white close-up portrait.",
+        "wide": true
+      },
+      {
+        "file": "beauty-22.jpg",
+        "src": "images/portfolio/beauty/beauty-22.jpg",
+        "caption": "Beauty — close portrait, black and white.",
+        "alt": "Black and white close-up portrait.",
         "wide": false
       }
     ],
     "lifestyle": [
       {
-        "file": "garden-cardigan-01.jpg",
-        "src": "images/portfolio/lifestyle/garden-cardigan-01.jpg",
-        "caption": "Lifestyle — garden, golden hour.",
-        "alt": "Lifestyle portrait smiling in a white cardigan, garden setting with mountains behind.",
+        "file": "lifestyle-01.jpg",
+        "src": "images/portfolio/lifestyle/lifestyle-01.jpg",
+        "caption": "Lifestyle — candid, indoors.",
+        "alt": "Candid lifestyle portrait indoors, party setting.",
+        "wide": true
+      },
+      {
+        "file": "lifestyle-02.jpg",
+        "src": "images/portfolio/lifestyle/lifestyle-02.jpg",
+        "caption": "Lifestyle — candid, indoors.",
+        "alt": "Candid lifestyle portrait indoors, party setting.",
         "wide": false
       },
       {
-        "file": "garden-cardigan-02.jpg",
-        "src": "images/portfolio/lifestyle/garden-cardigan-02.jpg",
-        "caption": "Lifestyle — garden, golden hour.",
-        "alt": "Lifestyle portrait in a white cardigan and jeans, garden setting with mountains behind.",
-        "wide": true,
-        "cropPosition": "50% 48%"
+        "file": "lifestyle-03.jpg",
+        "src": "images/portfolio/lifestyle/lifestyle-03.jpg",
+        "caption": "Lifestyle — candid, indoors.",
+        "alt": "Candid lifestyle portrait indoors, party setting.",
+        "wide": false
       },
       {
-        "file": "garden-casual.jpg",
-        "src": "images/portfolio/lifestyle/garden-casual.jpg",
-        "caption": "Lifestyle — garden, candid.",
-        "alt": "Candid lifestyle portrait laughing over the shoulder, oversized white top and jeans, garden setting.",
+        "file": "lifestyle-04.jpg",
+        "src": "images/portfolio/lifestyle/lifestyle-04.jpg",
+        "caption": "Lifestyle — window light, black and white.",
+        "alt": "Portrait by a window, studio setting.",
         "wide": false
+      },
+      {
+        "file": "lifestyle-05.jpg",
+        "src": "images/portfolio/lifestyle/lifestyle-05.jpg",
+        "caption": "Lifestyle — window light, black and white.",
+        "alt": "Portrait by a window, studio setting.",
+        "wide": false
+      },
+      {
+        "file": "lifestyle-06.jpg",
+        "src": "images/portfolio/lifestyle/lifestyle-06.jpg",
+        "caption": "Lifestyle — out at a cafe.",
+        "alt": "Portrait in a cafe booth with plants and a table.",
+        "wide": true
+      },
+      {
+        "file": "lifestyle-07.jpg",
+        "src": "images/portfolio/lifestyle/lifestyle-07.jpg",
+        "caption": "Lifestyle — out at a cafe.",
+        "alt": "Portrait in a cafe booth with plants and a table.",
+        "wide": false
+      },
+      {
+        "file": "lifestyle-08.jpg",
+        "src": "images/portfolio/lifestyle/lifestyle-08.jpg",
+        "caption": "Lifestyle — out at a cafe.",
+        "alt": "Portrait in a cafe booth with plants and a table.",
+        "wide": false
+      },
+      {
+        "file": "lifestyle-09.jpg",
+        "src": "images/portfolio/lifestyle/lifestyle-09.jpg",
+        "caption": "Lifestyle — out at a cafe.",
+        "alt": "Portrait in a cafe booth with plants and a table.",
+        "wide": false
+      },
+      {
+        "file": "lifestyle-10.jpg",
+        "src": "images/portfolio/lifestyle/lifestyle-10.jpg",
+        "caption": "Lifestyle — out at a cafe.",
+        "alt": "Portrait in a cafe booth with plants and a table.",
+        "wide": false
+      },
+      {
+        "file": "lifestyle-11.jpg",
+        "src": "images/portfolio/lifestyle/lifestyle-11.jpg",
+        "caption": "Lifestyle — out at a cafe.",
+        "alt": "Portrait in a cafe booth with plants and a table.",
+        "wide": true
       }
     ]
-  }
+  },
+  "brands": {}
 }

@@ -1,16 +1,46 @@
 {
-  "garden-cardigan-01.jpg": {
-    "caption": "Lifestyle — garden, golden hour.",
-    "alt": "Lifestyle portrait smiling in a white cardigan, garden setting with mountains behind."
+  "lifestyle-01.jpg": {
+    "caption": "Lifestyle — candid, indoors.",
+    "alt": "Candid lifestyle portrait indoors, party setting."
   },
-  "garden-cardigan-02.jpg": {
-    "caption": "Lifestyle — garden, golden hour.",
-    "alt": "Lifestyle portrait in a white cardigan and jeans, garden setting with mountains behind.",
-    "wide": true,
-    "cropPosition": "50% 48%"
+  "lifestyle-02.jpg": {
+    "caption": "Lifestyle — candid, indoors.",
+    "alt": "Candid lifestyle portrait indoors, party setting."
   },
-  "garden-casual.jpg": {
-    "caption": "Lifestyle — garden, candid.",
-    "alt": "Candid lifestyle portrait laughing over the shoulder, oversized white top and jeans, garden setting."
+  "lifestyle-03.jpg": {
+    "caption": "Lifestyle — candid, indoors.",
+    "alt": "Candid lifestyle portrait indoors, party setting."
+  },
+  "lifestyle-04.jpg": {
+    "caption": "Lifestyle — window light, black and white.",
+    "alt": "Portrait by a window, studio setting."
+  },
+  "lifestyle-05.jpg": {
+    "caption": "Lifestyle — window light, black and white.",
+    "alt": "Portrait by a window, studio setting."
+  },
+  "lifestyle-06.jpg": {
+    "caption": "Lifestyle — out at a cafe.",
+    "alt": "Portrait in a cafe booth with plants and a table."
+  },
+  "lifestyle-07.jpg": {
+    "caption": "Lifestyle — out at a cafe.",
+    "alt": "Portrait in a cafe booth with plants and a table."
+  },
+  "lifestyle-08.jpg": {
+    "caption": "Lifestyle — out at a cafe.",
+    "alt": "Portrait in a cafe booth with plants and a table."
+  },
+  "lifestyle-09.jpg": {
+    "caption": "Lifestyle — out at a cafe.",
+    "alt": "Portrait in a cafe booth with plants and a table."
+  },
+  "lifestyle-10.jpg": {
+    "caption": "Lifestyle — out at a cafe.",
+    "alt": "Portrait in a cafe booth with plants and a table."
+  },
+  "lifestyle-11.jpg": {
+    "caption": "Lifestyle — out at a cafe.",
+    "alt": "Portrait in a cafe booth with plants and a table."
   }
 }
