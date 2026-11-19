@@ -27,8 +27,8 @@ jobs:
 
       - name: Commit manifest if it changed
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "Lyrixcs-Miles"
+          git config user.email "285266241+Lyrixcs-Miles@users.noreply.github.com"
           git add images/portfolio/manifest.json
           if git diff --cached --quiet; then
             echo "Manifest unchanged, nothing to commit."
